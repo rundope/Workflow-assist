@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workflow assist 임베드 예제</title>
+<style>
+  body{margin:0;font-family:system-ui,sans-serif;background:#f3f4f6;color:#1b1f27}
+  .host{max-width:1200px;margin:0 auto;padding:20px}
+  h1{font-size:18px;margin:0 0 4px}
+  p{margin:0 0 12px;color:#5f6b7c;font-size:13.5px}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  button{height:32px;padding:0 12px;border:1px solid #d0d5dd;border-radius:6px;background:#fff;cursor:pointer;font-size:13px}
+  button:hover{background:#eef0f4}
+  iframe{width:100%;height:640px;border:1px solid #d0d5dd;border-radius:10px;background:#fff}
+  .out{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  textarea{width:100%;height:180px;font:12px/1.4 Consolas,monospace;border:1px solid #d0d5dd;border-radius:6px;padding:8px;box-sizing:border-box}
+  .svgbox{border:1px solid #d0d5dd;border-radius:6px;background:#fff;min-height:180px;padding:8px;overflow:auto}
+  .svgbox svg{max-width:100%;height:auto}
+  .status{font-size:12px;color:#5f6b7c;margin-top:6px}
+  @media (max-width:760px){.out{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="host">
+  <h1>호스트 사이트에 Workflow assist 붙이기 (iframe + postMessage)</h1>
+  <p>이 페이지가 "동업자의 웹사이트" 역할입니다. 아래 버튼은 모두 <code>iframe.contentWindow.postMessage</code>로 에디터와 통신합니다 — 에디터 코드를 고치지 않고 문서를 넣고, 꺼내고, SVG를 받습니다.</p>
+
+  <div class="bar">
+    <button id="b-tpl">예제 불러오기 (ML 파이프라인)</button>
+    <button id="b-new">새 문서</button>
+    <button id="b-get">문서 가져오기 → JSON</button>
+    <button id="b-set">JSON → 에디터에 넣기</button>
+    <button id="b-svg">SVG 받기</button>
+  </div>
+
+  <iframe id="editor" src="index.html" title="Workflow assist"></iframe>
+  <div class="status" id="status">변경 이벤트 수신: 0회</div>
+
+  <div class="out">
+    <div><textarea id="json" placeholder="문서 JSON — 서버 DB에 그대로 저장하면 됩니다"></textarea></div>
+    <div class="svgbox" id="svg"></div>
+  </div>
+</div>
+
+<script>
+  const frame = document.getElementById('editor');
+  const target = () => frame.contentWindow;
+  let seq = 0, changes = 0;
+  const pending = new Map();
+
+  // 요청-응답: requestId로 짝을 맞춥니다.
+  function ask(type, data) {
+    return new Promise((resolve, reject) => {
+      const requestId = 'r' + (++seq);
+      pending.set(requestId, { resolve, reject });
+      target().postMessage(Object.assign({ target: 'workflow-assist', type, requestId }, data || {}), '*');
+      setTimeout(() => { if (pending.delete(requestId)) reject(new Error('timeout')); }, 5000);
+    });
+  }
+
+  window.addEventListener('message', (ev) => {
+    const m = ev.data;
+    if (!m || m.source !== 'workflow-assist') return;
+    if (m.type === 'change') { changes++; document.getElementById('status').textContent = '변경 이벤트 수신: ' + changes + '회 (자동 저장 시점마다)'; return; }
+    const p = m.requestId && pending.get(m.requestId);
+    if (!p) return;
+    pending.delete(m.requestId);
+    if (m.type === 'error') p.reject(new Error(m.message)); else p.resolve(m);
+  });
+
+  document.getElementById('b-tpl').onclick = () => ask('loadTemplate', { id: 'ml' });
+  document.getElementById('b-new').onclick = () => ask('newDocument');
+  document.getElementById('b-get').onclick = async () => {
+    const r = await ask('getDoc');
+    document.getElementById('json').value = JSON.stringify(r.doc, null, 2);
+  };
+  document.getElementById('b-set').onclick = async () => {
+    try { await ask('load', { doc: JSON.parse(document.getElementById('json').value) }); }
+    catch (e) { alert('불러오기 실패: ' + e.message); }
+  };
+  document.getElementById('b-svg').onclick = async () => {
+    const r = await ask('exportSVG');
+    document.getElementById('svg').innerHTML = r.svg;   // 서버로 보내거나 파일로 저장해도 됩니다
+  };
+</script>
+</body>
+</html>

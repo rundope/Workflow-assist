@@ -1,0 +1,1133 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workflow assist</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#E6E9EE; --chrome:#F8F9FB; --chrome-2:#EEF0F4; --chrome-3:#E3E6EC;
+  --line:#D8DCE4; --line-strong:#C3C9D4;
+  --ink:#1B1F27; --muted:#5F6B7C; --faint:#98A2B3;
+  --accent:#2F5FA8; --accent-soft:#E2EBF9; --accent-ink:#1E4A82;
+  --guide:#E0338F; --danger:#C43C3C; --good:#2F8F6B;
+  --paper:#FFFFFF; --paper-shadow:rgba(20,24,32,.18);
+  --sketch:#8B4FB0;
+  --r-s:5px; --r-m:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15181D; --chrome:#1E2228; --chrome-2:#252A32; --chrome-3:#2D333C;
+    --line:#333944; --line-strong:#434B58;
+    --ink:#E6E8EC; --muted:#9AA3B2; --faint:#68717F;
+    --accent:#7BA3E3; --accent-soft:#26364F; --accent-ink:#BFD5F5;
+    --guide:#F05DAE; --danger:#E06B6B; --good:#5FCBA0;
+    --paper-shadow:rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15181D; --chrome:#1E2228; --chrome-2:#252A32; --chrome-3:#2D333C;
+  --line:#333944; --line-strong:#434B58;
+  --ink:#E6E8EC; --muted:#9AA3B2; --faint:#68717F;
+  --accent:#7BA3E3; --accent-soft:#26364F; --accent-ink:#BFD5F5;
+  --guide:#F05DAE; --danger:#E06B6B; --good:#5FCBA0;
+  --paper-shadow:rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans KR",system-ui,sans-serif;font-size:13px;overflow:hidden}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+.app{height:100vh;display:grid;grid-template-rows:46px 1fr 24px;grid-template-columns:100%}
+.topbar{display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--chrome);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:8px;margin-right:8px}
+.brand b{font-size:15px;letter-spacing:-.01em}
+.brand span{font-size:11px;color:var(--faint);font-family:"IBM Plex Mono",monospace}
+.tb{height:30px;padding:0 10px;border:1px solid transparent;border-radius:var(--r-s);background:transparent;color:var(--muted);display:inline-flex;align-items:center;gap:6px;font-weight:500;white-space:nowrap}
+.tb:hover{background:var(--chrome-2);color:var(--ink)}
+.tb.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb.primary:hover{filter:brightness(1.08);color:#fff}
+.tb svg{width:15px;height:15px}
+.tb:disabled{opacity:.4;cursor:default}
+.sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.grow{flex:1}
+.menu{position:relative}
+.menu .dd{position:absolute;top:34px;left:0;min-width:210px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 10px 30px -10px rgba(0,0,0,.35);padding:6px;z-index:30}
+.menu .dd.right{left:auto;right:0}
+.dd button{display:flex;width:100%;justify-content:space-between;align-items:center;gap:12px;text-align:left;padding:8px 10px;border:none;background:transparent;border-radius:var(--r-s);color:var(--ink)}
+.dd button:hover{background:var(--chrome-2)}
+.dd button small{color:var(--faint);font-family:"IBM Plex Mono",monospace;font-size:10.5px}
+.dd .dd-title{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);padding:6px 10px 4px}
+.zoom{display:flex;align-items:center;border:1px solid var(--line);border-radius:var(--r-s);height:30px;overflow:hidden}
+.zoom button{border:none;background:transparent;width:28px;height:100%;color:var(--muted)}
+.zoom button:hover{background:var(--chrome-2);color:var(--ink)}
+.zoom span{font-family:"IBM Plex Mono",monospace;font-size:11.5px;min-width:46px;text-align:center;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:56px 1fr 272px;min-height:0}
+.rail{background:var(--chrome);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:4px;overflow-y:auto}
+.rail .rgrp{display:flex;flex-direction:column;gap:2px;padding:4px 0;border-bottom:1px solid var(--line);width:100%;align-items:center}
+.rail .rgrp:last-child{border-bottom:none}
+.rb{width:38px;height:36px;border:1px solid transparent;border-radius:var(--r-s);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;position:relative}
+.rb svg{width:18px;height:18px}
+.rb:hover{background:var(--chrome-2);color:var(--ink)}
+.rb.active{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.rb .kbd{position:absolute;right:3px;bottom:2px;font-size:8.5px;font-family:"IBM Plex Mono",monospace;color:var(--faint)}
+.rb.active .kbd{color:var(--accent-ink)}
+
+.stage{position:relative;overflow:hidden;background:var(--bg);touch-action:none}
+.stage svg{display:block;width:100%;height:100%;user-select:none;-webkit-user-select:none}
+.stage.tool-hand{cursor:grab}
+.stage.tool-pen{cursor:crosshair}
+.stage.tool-text,.stage.tool-shape,.stage.tool-connect{cursor:crosshair}
+.stage.panning{cursor:grabbing}
+.edit-box{position:absolute;z-index:20;border:1.5px solid var(--accent);background:#fff;color:#1A1A1A;padding:2px 6px;resize:none;overflow:hidden;line-height:1.25;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.18);border-radius:3px;outline:none}
+.sketch-pop{position:absolute;z-index:22;display:flex;align-items:center;gap:3px;padding:5px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35)}
+.sketch-pop .lbl{font-size:10.5px;color:var(--faint);padding:0 6px 0 4px;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.sketch-pop button{width:32px;height:30px;border:1px solid transparent;border-radius:var(--r-s);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.sketch-pop button svg{width:17px;height:17px}
+.sketch-pop button:hover{background:var(--chrome-2);color:var(--ink)}
+.sketch-pop button.on{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.sketch-pop button.txt{width:auto;padding:0 8px;font-size:11.5px}
+
+.inspector{background:var(--chrome);border-left:1px solid var(--line);overflow-y:auto;padding:12px 14px 40px;display:flex;flex-direction:column;gap:14px}
+.sec{display:flex;flex-direction:column;gap:8px}
+.sec h4{margin:0;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.sec h4 .sub{text-transform:none;letter-spacing:0;font-weight:500;color:var(--faint);font-family:"IBM Plex Mono",monospace}
+.row{display:flex;gap:6px;align-items:center}
+.row.wrap{flex-wrap:wrap}
+.fld{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fld label{font-size:10px;color:var(--muted);font-family:"IBM Plex Mono",monospace;letter-spacing:.02em}
+.in{width:100%;height:28px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--chrome-2);padding:0 7px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink)}
+.in:focus{border-color:var(--accent);outline:none}
+select.in{font-family:"IBM Plex Sans KR",sans-serif;font-size:12px}
+.in.text{font-family:"IBM Plex Sans KR",sans-serif}
+.btn{height:28px;padding:0 9px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--chrome-2);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:12px;white-space:nowrap}
+.btn:hover{background:var(--chrome-3)}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{color:var(--danger)}
+.btn.danger:hover{background:rgba(196,60,60,.1)}
+.btn.grow{flex:1}
+.btn svg{width:14px;height:14px}
+.ibtn{width:30px;padding:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--r-s);overflow:hidden}
+.seg button{flex:1;height:28px;border:none;background:var(--chrome-2);color:var(--muted);display:flex;align-items:center;justify-content:center;gap:4px;font-size:11.5px;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button:hover{background:var(--chrome-3);color:var(--ink)}
+.seg button.on{background:var(--accent-soft);color:var(--accent-ink)}
+.seg button svg{width:15px;height:15px}
+.shapes{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.shapes button{height:32px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--chrome-2);color:var(--muted);display:flex;align-items:center;justify-content:center}
+.shapes button svg{width:18px;height:18px}
+.shapes button.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
+.sw{display:flex;gap:5px;flex-wrap:wrap}
+.sw button{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-strong);padding:0;position:relative}
+.sw button.on::after{content:"";position:absolute;inset:-4px;border:2px solid var(--accent);border-radius:50%}
+.sw button.none{background:transparent!important;border:1.5px dashed var(--line-strong)}
+.sw button.add{background:var(--chrome-2);color:var(--muted);font-size:15px;line-height:1;border-style:dashed}
+.sw button.add:hover{color:var(--ink);border-color:var(--accent)}
+.imglib{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.imglib button{aspect-ratio:1;border:1px solid var(--line);border-radius:var(--r-s);background:#fff;padding:4px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.imglib button:hover{border-color:var(--accent)}
+.imglib img{max-width:100%;max-height:100%}
+.color-pop{border:1px solid var(--line);border-radius:var(--r-m);background:var(--surface,var(--chrome-2));padding:10px;display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.cgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
+.cgrid button{aspect-ratio:1;border-radius:4px;border:1px solid var(--line-strong);padding:0;cursor:pointer}
+.cgrid button:hover{outline:2px solid var(--accent);outline-offset:1px}
+#color-in2{width:34px;height:28px;padding:2px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--chrome-2);cursor:pointer}
+.note{font-size:11.5px;color:var(--muted);line-height:1.55}
+.note b{color:var(--ink);font-weight:600}
+.presets{display:flex;gap:5px}
+.preset{flex:1;border:1px solid var(--line);border-radius:var(--r-s);background:var(--chrome-2);padding:7px 6px;text-align:left;display:flex;flex-direction:column;gap:2px}
+.preset b{font-size:12px}
+.preset small{font-size:10px;color:var(--faint);font-family:"IBM Plex Mono",monospace}
+.preset.on{border-color:var(--accent);background:var(--accent-soft)}
+.kv{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}
+.kv b{color:var(--ink);font-family:"IBM Plex Mono",monospace;font-weight:500}
+
+.status{display:flex;align-items:center;gap:14px;padding:0 12px;background:var(--chrome);border-top:1px solid var(--line);font-size:11px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+.status .grow{flex:1}
+.status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--good);margin-right:5px;vertical-align:middle}
+
+.toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:var(--ink);color:var(--chrome);padding:9px 14px;border-radius:var(--r-m);font-size:12.5px;z-index:50;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:90vw;text-align:center}
+.modal-bg{position:fixed;inset:0;background:rgba(10,12,16,.45);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--chrome);border:1px solid var(--line);border-radius:12px;padding:20px 22px;max-width:560px;width:100%;max-height:85vh;overflow:auto}
+.modal h3{margin:0 0 12px;font-size:15px}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12.5px}
+.keys kbd{font-family:"IBM Plex Mono",monospace;font-size:11px;background:var(--chrome-2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.keys span{color:var(--muted)}
+
+@media (max-width:860px){
+  .main{grid-template-columns:1fr;grid-template-rows:auto 1fr 40vh}
+  .rail{flex-direction:row;border-right:none;border-bottom:1px solid var(--line);padding:4px 8px;overflow-x:auto;overflow-y:hidden}
+  .rail .rgrp{flex-direction:row;border-bottom:none;border-right:1px solid var(--line);padding:0 4px;width:auto}
+  .inspector{border-left:none;border-top:1px solid var(--line)}
+  .topbar .hide-sm{display:none}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+</style>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><b>Workflow assist</b><span class="hide-sm">journal-grade workflow figures</span></div>
+    <div class="menu" id="menu-file">
+      <button class="tb" data-menu="file">파일 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd" hidden>
+        <div class="dd-title">문서</div>
+        <button data-act="new">새 문서 <small>빈 캔버스</small></button>
+        <button data-act="import">JSON 불러오기…</button>
+        <div class="dd-title">논문용 예제</div>
+        <button data-act="tpl:rnaseq">실험 워크플로우 (패널 a·b·c)</button>
+        <button data-act="tpl:consort">CONSORT 참가자 흐름도</button>
+        <button data-act="tpl:prisma">PRISMA 2020 문헌 선별 흐름도</button>
+        <button data-act="tpl:studydesign">연구 설계 (무작위 배정 · 추적)</button>
+        <button data-act="tpl:ml">ML 파이프라인 (판단 루프)</button>
+        <div class="dd-title">보고서용 예제</div>
+        <button data-act="tpl:approval">업무 승인 프로세스 (스윔레인)</button>
+        <button data-act="tpl:phases">프로젝트 단계 (Phase-gate)</button>
+        <button data-act="tpl:dataflow">시스템 데이터 흐름도</button>
+      </div>
+    </div>
+    <div class="menu" id="menu-export">
+      <button class="tb" data-menu="export">내보내기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="dd" hidden>
+        <button data-act="export:svg">SVG (벡터) <small>journal</small></button>
+        <button data-act="export:png">PNG <small>3× ≈ 300 dpi</small></button>
+        <button data-act="export:json">JSON (편집용)</button>
+        <button data-act="export:copysvg">SVG 코드 복사 <small>clipboard</small></button>
+      </div>
+    </div>
+    <div class="sep"></div>
+    <button class="tb" id="btn-undo" title="실행 취소 (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/></svg></button>
+    <button class="tb" id="btn-redo" title="다시 실행 (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h2"/></svg></button>
+    <div class="grow"></div>
+    <div class="zoom">
+      <button id="zoom-out" title="축소">−</button>
+      <span id="zoom-label">100%</span>
+      <button id="zoom-in" title="확대">+</button>
+      <button id="zoom-fit" title="페이지 맞춤" style="width:auto;padding:0 8px;font-size:11px">맞춤</button>
+    </div>
+    <button class="tb" id="btn-keys" title="단축키"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg><span class="hide-sm">단축키</span></button>
+  </header>
+
+  <div class="main">
+    <aside class="rail" id="rail">
+      <div class="rgrp">
+        <button class="rb active" data-tool="select" title="선택 · 이동 (V)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l6 16 2.5-6.5L20 10 5 3z"/></svg><span class="kbd">V</span></button>
+        <button class="rb" data-tool="hand" title="화면 이동 (H, Space)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13V6a1.5 1.5 0 0 1 3 0v5m0-6a1.5 1.5 0 0 1 3 0v6m0-4a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-3l-2-4a1.5 1.5 0 0 1 2.6-1.5L8 13"/></svg><span class="kbd">H</span></button>
+      </div>
+      <div class="rgrp">
+        <button class="rb" data-tool="shape:rounded" title="둥근 사각형 · 프로세스 (R)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="3"/></svg><span class="kbd">R</span></button>
+        <button class="rb" data-tool="shape:rect" title="사각형"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12"/></svg></button>
+        <button class="rb" data-tool="shape:pill" title="시작 · 종료"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="10" rx="5"/></svg></button>
+        <button class="rb" data-tool="shape:diamond" title="판단 · 분기 (D)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 9-9 9-9-9z"/></svg><span class="kbd">D</span></button>
+        <button class="rb" data-tool="shape:ellipse" title="타원"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg></button>
+        <button class="rb" data-tool="shape:parallelogram" title="입출력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 6h14l-4 12H3z"/></svg></button>
+        <button class="rb" data-tool="shape:cylinder" title="데이터 저장소"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></button>
+        <button class="rb" data-tool="shape:hexagon" title="육각형 · 준비/조건"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 5h10l4 7-4 7H7l-4-7z"/></svg></button>
+        <button class="rb" data-tool="shape:chevron" title="화살 블록 · 단계"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h12l6 6-6 6H3l5-6z"/></svg></button>
+        <button class="rb" data-tool="shape:star" title="별 · 강조"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z"/></svg></button>
+        <button class="rb" data-act="upload-image" title="이미지 · 아이콘 업로드 → 도형으로 사용"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg></button>
+        <button class="rb" data-tool="shape:band" title="단계 밴드 · 패널"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"><rect x="3" y="4" width="18" height="16" rx="2"/></svg></button>
+        <button class="rb" data-tool="text" title="텍스트 · 패널 라벨 (T)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 6h14M12 6v13"/></svg><span class="kbd">T</span></button>
+      </div>
+      <div class="rgrp">
+        <button class="rb" data-tool="connect" title="연결선 (C): 노드 → 노드 클릭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="6" r="2.2"/><path d="M6.8 16.4L17.2 7.6"/></svg><span class="kbd">C</span></button>
+        <button class="rb" data-tool="pen" title="손그림 → 도형 인식 (P)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1.2-4.2L16.6 4.4a1.8 1.8 0 0 1 2.5 0l.5.5a1.8 1.8 0 0 1 0 2.5L8.2 18.8 4 20z"/></svg><span class="kbd">P</span></button>
+      </div>
+    </aside>
+
+    <div class="stage" id="stage">
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx=".7" cy=".7" r=".7" fill="#C9CED8"/></pattern>
+          <clipPath id="pageclip"><rect id="pageclip-rect" x="0" y="0" width="1200" height="680"/></clipPath>
+        </defs>
+        <g id="back"></g>
+        <g id="figure"></g>
+        <g id="overlay"></g>
+      </svg>
+    </div>
+
+    <aside class="inspector" id="inspector"></aside>
+  </div>
+
+  <footer class="status">
+    <span id="st-hint">노드를 드래그해 이동 · 포트를 드래그해 연결 · 더블클릭으로 텍스트 편집</span>
+    <span class="grow"></span>
+    <span id="st-sel"></span>
+    <span id="st-saved"><span class="dot"></span>자동 저장</span>
+  </footer>
+</div>
+<input type="file" id="file-in" accept="application/json" hidden>
+<input type="file" id="img-in" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" multiple style="position:absolute;left:-9999px;width:1px;height:1px">
+
+<script>
+(function(){
+'use strict';
+const NS='http://www.w3.org/2000/svg';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const uid=()=>'i'+Math.random().toString(36).slice(2,8);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+const R=v=>Math.round(v*100)/100;
+
+function svgEl(tag,attrs={},children=[]){const e=document.createElementNS(NS,tag);for(const k in attrs){if(attrs[k]!=null)e.setAttribute(k,attrs[k]);}for(const c of children){if(c==null)continue;e.appendChild(typeof c==='string'?document.createTextNode(c):c);}return e;}
+
+/* ---------- constants ---------- */
+const FONTS=[
+  {id:'helvetica',label:'Helvetica / Arial (Nature·Science 기본)',family:'Helvetica, Arial, "Noto Sans KR", sans-serif'},
+  {id:'notosans',label:'Noto Sans KR',family:'"Noto Sans KR", Arial, sans-serif'},
+  {id:'plex',label:'IBM Plex Sans KR',family:'"IBM Plex Sans KR", Arial, sans-serif'},
+  {id:'times',label:'Times New Roman (세리프)',family:'"Times New Roman", "Noto Serif KR", serif'},
+];
+const HUES=[
+  {id:'grey',tint:'#EEF0F3',solid:'#5C6672'},
+  {id:'blue',tint:'#DCE8F6',solid:'#2F6DB5'},
+  {id:'teal',tint:'#D7EFEC',solid:'#1F8C82'},
+  {id:'green',tint:'#DCEFDF',solid:'#3A8C4E'},
+  {id:'yellow',tint:'#FBF0C8',solid:'#D9A400'},
+  {id:'orange',tint:'#FCE4D0',solid:'#DE7A1C'},
+  {id:'red',tint:'#F8DADA',solid:'#C43C3C'},
+  {id:'purple',tint:'#E7E0F3',solid:'#6F52A6'},
+  {id:'navy',tint:'#DDE2EC',solid:'#2F4B7C'},
+  {id:'pink',tint:'#F7DDE7',solid:'#C2477E'},
+];
+const STROKES=[{name:'black',hex:'#1A1A1A'},{name:'grey 70',hex:'#5C6672'},{name:'grey 40',hex:'#9AA3B2'},{name:'blue',hex:'#2F6DB5'},{name:'teal',hex:'#1F8C82'},{name:'green',hex:'#3A8C4E'},{name:'orange',hex:'#DE7A1C'},{name:'red',hex:'#C43C3C'},{name:'purple',hex:'#6F52A6'},{name:'navy',hex:'#2F4B7C'}];
+const SHAPES=[
+  {id:'rounded',label:'프로세스',icon:'<rect x="3" y="6" width="18" height="12" rx="3"/>'},
+  {id:'rect',label:'사각형',icon:'<rect x="3" y="6" width="18" height="12"/>'},
+  {id:'pill',label:'시작/종료',icon:'<rect x="3" y="7" width="18" height="10" rx="5"/>'},
+  {id:'diamond',label:'판단',icon:'<path d="M12 3l9 9-9 9-9-9z"/>'},
+  {id:'ellipse',label:'타원',icon:'<ellipse cx="12" cy="12" rx="9" ry="6"/>'},
+  {id:'parallelogram',label:'입출력',icon:'<path d="M7 6h14l-4 12H3z"/>'},
+  {id:'cylinder',label:'데이터',icon:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/>'},
+  {id:'hexagon',label:'육각형 · 준비',icon:'<path d="M7 5h10l4 7-4 7H7l-4-7z"/>'},
+  {id:'chevron',label:'화살 블록 · 단계',icon:'<path d="M3 6h12l6 6-6 6H3l5-6z"/>'},
+  {id:'triangle',label:'삼각형',icon:'<path d="M12 4l9 16H3z"/>'},
+  {id:'star',label:'별 · 강조',icon:'<path d="M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z"/>'},
+  {id:'document',label:'문서',icon:'<path d="M4 4h16v13c-2.5-2-5.5-2-8 0s-5.5 2-8 0z"/>'},
+  {id:'cloud',label:'클라우드 · 외부',icon:'<path d="M7 18a4 4 0 0 1-.5-8 5 5 0 0 1 9.6-1.2A3.5 3.5 0 0 1 17 18z"/>'},
+];
+function mixWhite(hex,t){const n=parseInt(hex.slice(1),16);const m=v=>Math.round(v+(255-v)*t);return '#'+[m((n>>16)&255),m((n>>8)&255),m(n&255)].map(v=>v.toString(16).padStart(2,'0')).join('').toUpperCase();}
+const FILLS=[{name:'white',hex:'#FFFFFF'},{name:'grey 5',hex:'#F4F5F7'},{name:'grey 15',hex:'#E1E4E8'},{name:'grey 30',hex:'#C9CED6'}]
+  .concat(HUES.map(h=>({name:h.id+' light',hex:h.tint})))
+  .concat(HUES.map(h=>({name:h.id+' mid',hex:mixWhite(h.solid,.5)})))
+  .concat(HUES.map(h=>({name:h.id,hex:h.solid})));
+let customColors={fill:[],stroke:[],text:[]};
+try{const c=JSON.parse(localStorage.getItem('figureassist.colors.v2'));if(c&&c.fill)customColors=c;else{const old=JSON.parse(localStorage.getItem('figureassist.colors'));if(Array.isArray(old))customColors={fill:old.slice(),stroke:old.slice(),text:old.slice()};}}catch(e){}
+function saveColors(){try{localStorage.setItem('figureassist.colors.v2',JSON.stringify(customColors));}catch(e){}}
+let imageLib=[];try{imageLib=JSON.parse(localStorage.getItem('figureassist.images'))||[];}catch(e){}
+function saveImages(){try{localStorage.setItem('figureassist.images',JSON.stringify(imageLib));}catch(e){toast('브라우저 저장 공간이 부족합니다. 이미지 몇 개를 삭제해 주세요 (Shift+클릭).');}}
+function importImageFile(f){return new Promise((res,rej)=>{const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{let w=img.naturalWidth||256,h=img.naturalHeight||256;let src;if(f.type==='image/svg+xml'){src=rd.result;}else{const max=640,sc=Math.min(1,max/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.round(w*sc);c.height=Math.round(h*sc);c.getContext('2d').drawImage(img,0,0,c.width,c.height);src=c.toDataURL('image/png');if(src.length>350000)src=c.toDataURL('image/jpeg',.85);}res({id:uid(),name:f.name.replace(/\.[^.]+$/,''),src,w,h});};img.onerror=()=>rej(new Error('decode'));img.src=rd.result;};rd.onerror=()=>rej(new Error('read'));rd.readAsDataURL(f);});}
+const PRESETS={
+  nature:{label:'Nature',hint:'Helvetica · 1 pt',font:'helvetica',fontSize:12,strokeWidth:1.2,radius:4,arrowSize:8,bandFill:'#F4F5F7'},
+  cell:{label:'Cell',hint:'Arial · 1.5 pt',font:'helvetica',fontSize:12,strokeWidth:1.6,radius:8,arrowSize:9,bandFill:'#EEF2F8'},
+  mono:{label:'Mono',hint:'각진 · 흑백',font:'helvetica',fontSize:12,strokeWidth:1,radius:0,arrowSize:7,bandFill:'#F2F2F2'},
+};
+const defaultStyle=()=>({font:'helvetica',fontSize:12,textColor:'#1A1A1A',stroke:'#1A1A1A',strokeWidth:1.2,radius:4,arrowSize:8,gap:48,grid:10,bandFill:'#F4F5F7',preset:'nature'});
+
+/* ---------- state ---------- */
+let state=null, history=[], future=[];
+let sel=new Set(), tool='select', view={x:0,y:0,zoom:1};
+let hoverId=null, connectSrc=null, editing=null, spaceDown=false, drag=null, guides=[], sketch=null, inputSession=null, lastClick=null;
+function nearBandEdge(b,p){const m=12/view.zoom;return p.y<b.y+34||p.x<b.x+m||p.x>b.x+b.w-m||p.y>b.y+b.h-m;}
+
+const stage=$('#stage'), svg=$('#svg'), gBack=$('#back'), gFig=$('#figure'), gOv=$('#overlay'), inspector=$('#inspector');
+
+const byId=id=>state.elements.find(e=>e.id===id);
+const edgeById=id=>state.edges.find(e=>e.id===id);
+const anyById=id=>byId(id)||edgeById(id);
+const st=()=>state.style;
+const snap=v=>{const g=st().grid||1;return Math.round(v/g)*g;};
+const center=n=>({x:n.x+n.w/2,y:n.y+n.h/2});
+const fontFamily=()=>(FONTS.find(f=>f.id===st().font)||FONTS[0]).family;
+
+function newDoc(){ return {page:{w:1200,h:680},style:defaultStyle(),elements:[],edges:[],groups:[]}; }
+
+/* ---------- templates ---------- */
+function N(shape,x,y,w,h,label,opts={}){return Object.assign({id:uid(),type:'node',shape,x,y,w,h,label,fill:'#FFFFFF'},opts);}
+function E(from,to,opts={}){return Object.assign({id:uid(),from:typeof from==='string'?{node:from,port:'auto'}:from,to:typeof to==='string'?{node:to,port:'auto'}:to,route:'ortho',startHead:'none',endHead:'arrow',dash:false,label:''},opts);}
+function band(x,y,w,h,label,opts={}){return Object.assign({id:uid(),type:'band',x,y,w,h,label,fill:null},opts);}
+function T(x,y,label,opts={}){return Object.assign({id:uid(),type:'text',x,y,label,fontSize:14,bold:true},opts);}
+
+const TEMPLATES={
+  rnaseq(){
+    const d=newDoc(); d.page={w:1200,h:640};
+    const W=168,G=36,H=52; const xs=[72,72+W+G,72+2*(W+G),72+3*(W+G),72+4*(W+G)];
+    const b1=band(40,40,1120,170,'a   Sample collection and RNA extraction');
+    const b2=band(40,230,1120,170,'b   Library preparation and sequencing');
+    const b3=band(40,420,1120,170,'c   Computational analysis and validation');
+    const a1=N('pill',xs[0],104,W,H,'Tissue biopsy\n(n = 48)',{fill:'#DCE8F6'});
+    const a2=N('rounded',xs[1],104,W,H,'RNA extraction\n(TRIzol)');
+    const a3=N('rounded',xs[2],104,W,H,'Quality control\n(Bioanalyzer)');
+    const a4=N('diamond',xs[3],98,W,64,'RIN ≥ 7?',{fill:'#FBF0C8'});
+    const a5=N('rounded',xs[4],104,W,H,'Excluded\n(n = 3)',{fill:'#EEF0F3'});
+    const b_1=N('rounded',xs[0],294,W,H,'Library preparation\n(TruSeq stranded)');
+    const b_2=N('rounded',xs[1],294,W,H,'Sequencing\n(NovaSeq 6000, 2 × 150 bp)');
+    const b_3=N('cylinder',xs[2],288,W,64,'Raw reads\n(FASTQ)',{fill:'#EEF0F3'});
+    const b_4=N('rounded',xs[3],294,W,H,'Adapter trimming\n(fastp)');
+    const b_5=N('rounded',xs[4],294,W,H,'Read alignment\n(STAR, GRCh38)');
+    const c1=N('rounded',xs[0],484,W,H,'Gene quantification\n(featureCounts)');
+    const c2=N('rounded',xs[1],484,W,H,'Differential expression\n(DESeq2, FDR < 0.05)');
+    const c3=N('rounded',xs[2],484,W,H,'Pathway enrichment\n(GSEA)');
+    const c4=N('rounded',xs[3],484,W,H,'Validation\n(qRT-PCR, n = 12)');
+    const c5=N('pill',xs[4],484,W,H,'Candidate targets',{fill:'#DCEFDF'});
+    d.elements.push(b1,b2,b3,a1,a2,a3,a4,a5,b_1,b_2,b_3,b_4,b_5,c1,c2,c3,c4,c5);
+    d.edges.push(E(a1.id,a2.id),E(a2.id,a3.id),E(a3.id,a4.id),E(a4.id,a5.id,{label:'No'}),
+      E({node:a4.id,port:'b'},{node:b_1.id,port:'t'},{label:'Yes',bend:58}),
+      E(b_1.id,b_2.id),E(b_2.id,b_3.id),E(b_3.id,b_4.id),E(b_4.id,b_5.id),
+      E({node:b_5.id,port:'b'},{node:c1.id,port:'t'},{bend:64}),
+      E(c1.id,c2.id),E(c2.id,c3.id),E(c3.id,c4.id),E(c4.id,c5.id));
+    d.style.fontSize=11; return d;
+  },
+  consort(){
+    const d=newDoc(); d.page={w:960,h:780}; d.style.fontSize=11;
+    const rows=[band(30,30,900,190,'Enrollment'),band(30,240,900,150,'Allocation'),band(30,410,900,150,'Follow-up'),band(30,580,900,150,'Analysis')];
+    const s1=N('rounded',370,70,220,44,'Assessed for eligibility\n(n = 320)');
+    const ex=N('rounded',640,120,260,72,'Excluded (n = 84)\n• Not meeting inclusion criteria (n = 61)\n• Declined to participate (n = 23)',{align:'left',fill:'#EEF0F3'});
+    const s2=N('rounded',370,160,220,44,'Randomized\n(n = 236)',{fill:'#DCE8F6'});
+    const l1=N('rounded',130,280,280,80,'Allocated to intervention (n = 118)\n• Received allocated intervention (n = 115)\n• Did not receive intervention (n = 3)',{align:'left',fill:'#DCE8F6'});
+    const r1=N('rounded',550,280,280,80,'Allocated to control (n = 118)\n• Received allocated control (n = 118)\n• Did not receive control (n = 0)',{align:'left',fill:'#EEF0F3'});
+    const l2=N('rounded',130,450,280,72,'Lost to follow-up (n = 9)\n• Withdrew consent (n = 5)\n• Relocated (n = 4)',{align:'left'});
+    const r2=N('rounded',550,450,280,72,'Lost to follow-up (n = 7)\n• Withdrew consent (n = 4)\n• Relocated (n = 3)',{align:'left'});
+    const l3=N('rounded',130,620,280,64,'Analysed (n = 109)\n• Excluded from analysis (n = 0)',{align:'left',fill:'#DCEFDF'});
+    const r3=N('rounded',550,620,280,64,'Analysed (n = 111)\n• Excluded from analysis (n = 0)',{align:'left',fill:'#DCEFDF'});
+    d.elements.push(...rows,s1,ex,s2,l1,r1,l2,r2,l3,r3);
+    d.edges.push(E({node:s1.id,port:'b'},{node:ex.id,port:'l'}),E({node:s1.id,port:'b'},{node:s2.id,port:'t'}),
+      E({node:s2.id,port:'b'},{node:l1.id,port:'t'}),E({node:s2.id,port:'b'},{node:r1.id,port:'t'}),
+      E({node:l1.id,port:'b'},{node:l2.id,port:'t'}),E({node:r1.id,port:'b'},{node:r2.id,port:'t'}),
+      E({node:l2.id,port:'b'},{node:l3.id,port:'t'}),E({node:r2.id,port:'b'},{node:r3.id,port:'t'}));
+    return d;
+  },
+  prisma(){
+    const d=newDoc();d.page={w:1000,h:860};d.style.fontSize=11;
+    const rows=[band(30,30,940,200,'Identification'),band(30,250,940,390,'Screening'),band(30,660,940,150,'Included')];
+    const id1=N('rounded',120,90,320,72,'Records identified from:\nDatabases (n = 1,240)\nRegisters (n = 86)',{align:'left'});
+    const rm=N('rounded',560,90,360,72,'Records removed before screening:\nDuplicate records (n = 312)\nRecords marked ineligible by automation (n = 40)',{align:'left',fill:'#EEF0F3'});
+    const sc=N('rounded',120,300,320,48,'Records screened\n(n = 974)');
+    const ex1=N('rounded',560,300,360,48,'Records excluded\n(n = 780)',{fill:'#EEF0F3'});
+    const rt=N('rounded',120,400,320,48,'Reports sought for retrieval\n(n = 194)');
+    const ex2=N('rounded',560,400,360,48,'Reports not retrieved\n(n = 11)',{fill:'#EEF0F3'});
+    const el=N('rounded',120,510,320,48,'Reports assessed for eligibility\n(n = 183)');
+    const ex3=N('rounded',560,494,360,80,'Reports excluded:\nWrong population (n = 61)\nWrong outcome measure (n = 48)\nNo full text available (n = 32)',{align:'left',fill:'#EEF0F3'});
+    const inc=N('rounded',120,700,320,64,'Studies included in review (n = 42)\nReports of included studies (n = 45)',{fill:'#DCEFDF'});
+    d.elements.push(...rows,id1,rm,sc,ex1,rt,ex2,el,ex3,inc);
+    d.edges.push(E({node:id1.id,port:'r'},{node:rm.id,port:'l'}),E({node:id1.id,port:'b'},{node:sc.id,port:'t'}),E({node:sc.id,port:'r'},{node:ex1.id,port:'l'}),E({node:sc.id,port:'b'},{node:rt.id,port:'t'}),E({node:rt.id,port:'r'},{node:ex2.id,port:'l'}),E({node:rt.id,port:'b'},{node:el.id,port:'t'}),E({node:el.id,port:'r'},{node:ex3.id,port:'l'}),E({node:el.id,port:'b'},{node:inc.id,port:'t'}));
+    return d;
+  },
+  studydesign(){
+    const d=newDoc();d.page={w:1200,h:520};d.style.fontSize=11;
+    const cols=[band(20,90,400,340,'Enrolment'),band(430,90,390,340,'Allocation'),band(830,90,350,340,'Follow-up and analysis')];
+    const rec=N('pill',50,236,150,48,'Eligible participants\n(n = 240)',{fill:'#DCE8F6'});
+    const base=N('rounded',240,236,150,48,'Baseline\nassessment');
+    const rand=N('diamond',460,228,150,64,'Randomization\n(1:1)',{fill:'#FBF0C8'});
+    const gA=N('rounded',650,150,150,48,'Group A: Drug X\n(n = 120)',{fill:'#DCE8F6'});
+    const gB=N('rounded',650,322,150,48,'Group B: Placebo\n(n = 120)',{fill:'#EEF0F3'});
+    const fu=N('rounded',860,236,150,48,'Follow-up\nweeks 4, 8, 12');
+    const out=N('pill',1030,236,130,48,'Primary outcome\n(HbA1c, week 12)',{fill:'#DCEFDF'});
+    const cap=T(20,60,'Study design',{fontSize:14});
+    d.elements.push(...cols,rec,base,rand,gA,gB,fu,out,cap);
+    d.edges.push(E(rec.id,base.id),E(base.id,rand.id),E({node:rand.id,port:'r'},{node:gA.id,port:'l'}),E({node:rand.id,port:'r'},{node:gB.id,port:'l'}),E({node:gA.id,port:'r'},{node:fu.id,port:'l'}),E({node:gB.id,port:'r'},{node:fu.id,port:'l'}),E(fu.id,out.id));
+    return d;
+  },
+  approval(){
+    const d=newDoc();d.page={w:1100,h:600};d.style.fontSize=12;
+    const lanes=[band(40,40,340,520,'신청자'),band(390,40,340,520,'팀장'),band(740,40,320,520,'재무팀')];
+    const s1=N('pill',140,110,140,44,'시작',{fill:'#DCE8F6'});
+    const s2=N('rounded',140,194,140,48,'지출 품의서\n작성');
+    const s3=N('rounded',140,290,140,48,'증빙 서류 첨부\n· 제출');
+    const t1=N('diamond',490,282,140,64,'검토 결과',{fill:'#FBF0C8'});
+    const t2=N('rounded',490,410,140,48,'반려 사유\n작성',{fill:'#F8DADA'});
+    const f1=N('rounded',830,290,140,48,'예산 확인');
+    const f2=N('rounded',830,390,140,48,'지급 처리');
+    const f3=N('pill',830,490,140,44,'완료',{fill:'#DCEFDF'});
+    d.elements.push(...lanes,s1,s2,s3,t1,t2,f1,f2,f3);
+    d.edges.push(E(s1.id,s2.id),E(s2.id,s3.id),E({node:s3.id,port:'r'},{node:t1.id,port:'l'}),E({node:t1.id,port:'r'},{node:f1.id,port:'l'},{label:'승인'}),E({node:t1.id,port:'b'},{node:t2.id,port:'t'},{label:'반려'}),E({node:t2.id,port:'l'},{node:s2.id,port:'r'},{label:'수정 후 재제출'}),E(f1.id,f2.id),E(f2.id,f3.id));
+    return d;
+  },
+  phases(){
+    const d=newDoc();d.page={w:1200,h:440};d.style.fontSize=12;
+    const names=['기획','설계','개발','검증','배포'];const fills=['#2F6DB5','#1F8C82','#3A8C4E','#DE7A1C','#6F52A6'];
+    const notes=['• 요구사항 정의\n• 범위 · 일정 · 예산 확정\n• 이해관계자 승인','• 아키텍처 설계\n• 화면 · 데이터 설계\n• 설계 검토(DR)','• 기능 구현\n• 단위 테스트\n• 코드 리뷰','• 통합 · 성능 테스트\n• 사용자 수용 테스트\n• 결함 수정','• 운영 이관\n• 사용자 교육\n• 안정화 모니터링'];
+    d.elements.push(T(60,70,'프로젝트 추진 단계 (Phase-gate)',{fontSize:15}));
+    names.forEach((nm,i)=>{const x=60+i*220;d.elements.push(N('chevron',x,120,210,64,nm,{fill:fills[i],fontSize:14,bold:true}));d.elements.push(N('rounded',x,210,196,84,notes[i],{align:'left',fontSize:11}));d.elements.push(T(x+8,332,`Gate ${i+1}`,{fontSize:11,bold:true,color:'#5C6672'}));});
+    d.elements.push(T(60,392,'각 단계 종료 시 Gate 심의를 통과해야 다음 단계로 진행합니다.',{fontSize:11,bold:false,color:'#5C6672'}));
+    return d;
+  },
+  dataflow(){
+    const d=newDoc();d.page={w:1100,h:560};d.style.fontSize=12;
+    const src=N('cylinder',60,236,150,60,'센서 · 로그\n(원천 데이터)',{fill:'#EEF0F3'});
+    const api=N('cloud',270,84,150,80,'외부 API\n(기상 · 환율)',{fill:'#EEF0F3'});
+    const etl=N('rounded',270,242,150,48,'수집 서버\n(ETL)');
+    const dw=N('cylinder',480,236,150,60,'데이터\n웨어하우스',{fill:'#DCE8F6'});
+    const an=N('rounded',690,242,150,48,'분석 엔진\n(집계 · 예측)',{fill:'#DCE8F6'});
+    const dash=N('rounded',900,242,150,48,'대시보드\n(사용자)',{fill:'#DCEFDF'});
+    const alert=N('rounded',690,390,150,48,'알림\n(이메일 · 메신저)',{fill:'#FCE4D0'});
+    d.elements.push(T(60,60,'시스템 데이터 흐름도',{fontSize:15}),src,api,etl,dw,an,dash,alert);
+    d.edges.push(E(src.id,etl.id,{label:'stream'}),E({node:api.id,port:'b'},{node:etl.id,port:'t'},{label:'batch (1 h)'}),E(etl.id,dw.id),E(dw.id,an.id,{label:'query'}),E(an.id,dash.id),E({node:an.id,port:'b'},{node:alert.id,port:'t'},{label:'threshold'}),E({node:dash.id,port:'b'},{node:dw.id,port:'b'},{label:'user feedback',dash:true}));
+    return d;
+  },
+  ml(){
+    const d=newDoc(); d.page={w:1100,h:520};
+    const W=140,G=36,H=48; const xs=[60,60+W+G,60+2*(W+G),60+3*(W+G),60+4*(W+G)];
+    const n1=N('cylinder',xs[0],114,W,60,'Raw data\n(n = 12,400)',{fill:'#EEF0F3'});
+    const n2=N('rounded',xs[1],120,W,H,'Preprocessing\n& cleaning');
+    const n3=N('rounded',xs[2],120,W,H,'Feature\nengineering');
+    const n4=N('rounded',xs[3],120,W,H,'Train / val / test\nsplit (70 / 15 / 15)');
+    const n5=N('rounded',xs[4],120,W,H,'Model training\n(gradient boosting)',{fill:'#DCE8F6'});
+    const n6=N('rounded',xs[4],250,W,H,'Evaluation\n(AUROC, F1)',{fill:'#FCE4D0'});
+    const n7=N('diamond',xs[4],370,W,64,'AUROC ≥ 0.90?',{fill:'#FBF0C8'});
+    const n8=N('pill',950,378,120,48,'Deployment',{fill:'#DCEFDF'});
+    const n9=N('rounded',xs[2],378,W,H,'Hyperparameter\ntuning');
+    const cap=T(60,60,'Model development pipeline',{fontSize:14});
+    d.elements.push(n1,n2,n3,n4,n5,n6,n7,n8,n9,cap);
+    d.edges.push(E(n1.id,n2.id),E(n2.id,n3.id),E(n3.id,n4.id),E(n4.id,n5.id),E(n5.id,n6.id),E(n6.id,n7.id),
+      E(n7.id,n8.id,{label:'Yes'}),E({node:n7.id,port:'l'},{node:n9.id,port:'r'},{label:'No'}),
+      E({node:n9.id,port:'t'},{node:n5.id,port:'b'},{bend:-158}));
+    return d;
+  }
+};
+
+/* ---------- history / persistence ---------- */
+function snapshot(){ history.push(JSON.stringify(state)); if(history.length>100) history.shift(); future=[]; updateUndoButtons(); }
+function undo(){ if(!history.length) return; future.push(JSON.stringify(state)); state=JSON.parse(history.pop()); pruneSel(); renderAll(); persist(); }
+function redo(){ if(!future.length) return; history.push(JSON.stringify(state)); state=JSON.parse(future.pop()); pruneSel(); renderAll(); persist(); }
+function updateUndoButtons(){ $('#btn-undo').disabled=!history.length; $('#btn-redo').disabled=!future.length; }
+function mutate(fn){ snapshot(); fn(); changed(); }
+function changed(){ renderCanvas(); persist(); }
+function persist(){ try{ localStorage.setItem('figureassist.doc.v3',JSON.stringify(state)); }catch(e){} emit('change'); }
+function pruneSel(){ for(const id of Array.from(sel)) if(!anyById(id)) sel.delete(id); }
+
+/* ---------- geometry ---------- */
+const DIR={t:{dx:0,dy:-1},r:{dx:1,dy:0},b:{dx:0,dy:1},l:{dx:-1,dy:0}};
+function portPoint(n,port){const c=center(n);const p={t:{x:c.x,y:n.y},r:{x:n.x+n.w,y:c.y},b:{x:c.x,y:n.y+n.h},l:{x:n.x,y:c.y}}[port];return Object.assign({},p,DIR[port],{port});}
+function nearestPort(n,p){let best='t',bd=1e9;for(const k of 'trbl'){const q=portPoint(n,k);const d=dist(q,p);if(d<bd){bd=d;best=k;}}return best;}
+function elBBox(e){ if(e.type==='text') return {x:e.x,y:e.y-(e._h||16),w:e._w||60,h:e._h||16}; if(e.type==='ink'){const xs=e.pts.map(p=>p.x),ys=e.pts.map(p=>p.y);const x=Math.min(...xs),y=Math.min(...ys);return {x,y,w:Math.max(...xs)-x,h:Math.max(...ys)-y};} return {x:e.x,y:e.y,w:e.w,h:e.h}; }
+function ptIn(bb,p,pad=0){return p.x>=bb.x-pad&&p.x<=bb.x+bb.w+pad&&p.y>=bb.y-pad&&p.y<=bb.y+bb.h+pad;}
+function intersects(a,b){return a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h;}
+function nodeAt(p,pad=0){ for(let i=state.elements.length-1;i>=0;i--){const e=state.elements[i]; if(e.type==='node'&&ptIn(elBBox(e),p,pad)) return e;} return null; }
+
+function resolveEnds(e){
+  const a=e.from.node?byId(e.from.node):null, b=e.to.node?byId(e.to.node):null;
+  if((e.from.node&&!a)||(e.to.node&&!b)) return null;
+  const ca=a?center(a):{x:e.from.x,y:e.from.y}, cb=b?center(b):{x:e.to.x,y:e.to.y};
+  const dx=cb.x-ca.x, dy=cb.y-ca.y, horiz=Math.abs(dx)>=Math.abs(dy);
+  let pa=e.from.port||'auto', pb=e.to.port||'auto';
+  if(pa==='auto') pa=horiz?(dx>=0?'r':'l'):(dy>=0?'b':'t');
+  if(pb==='auto') pb=horiz?(dx>=0?'l':'r'):(dy>=0?'t':'b');
+  const A=a?portPoint(a,pa):Object.assign({x:ca.x,y:ca.y},DIR[pa]);
+  const B=b?portPoint(b,pb):Object.assign({x:cb.x,y:cb.y},DIR[pb]);
+  return {A,B,a,b};
+}
+function detourY(a,b,A,B,ext){const ra=a?{t:a.y,b:a.y+a.h}:{t:A.y,b:A.y},rb=b?{t:b.y,b:b.y+b.h}:{t:B.y,b:B.y};const ov=ra.t<rb.b&&rb.t<ra.b;if(ov)return Math.max(ra.b,rb.b)+ext+8;return (Math.min(ra.b,rb.b)+Math.max(ra.t,rb.t))/2;}
+function detourX(a,b,A,B,ext){const ra=a?{l:a.x,r:a.x+a.w}:{l:A.x,r:A.x},rb=b?{l:b.x,r:b.x+b.w}:{l:B.x,r:B.x};const ov=ra.l<rb.r&&rb.l<ra.r;if(ov)return Math.max(ra.r,rb.r)+ext+8;return (Math.min(ra.r,rb.r)+Math.max(ra.l,rb.l))/2;}
+function simplifyPts(pts){const out=[];for(const p of pts){const q=out[out.length-1];if(q&&Math.abs(q.x-p.x)<.01&&Math.abs(q.y-p.y)<.01)continue;out.push({x:p.x,y:p.y});}for(let i=1;i<out.length-1;){const a=out[i-1],b=out[i],c=out[i+1];const col=(Math.abs(a.x-b.x)<.01&&Math.abs(b.x-c.x)<.01)||(Math.abs(a.y-b.y)<.01&&Math.abs(b.y-c.y)<.01);if(col)out.splice(i,1);else i++;}return out;}
+
+function routeEdge(e){
+  const r=resolveEnds(e); if(!r) return null;
+  const {A,B,a,b}=r; const ext=18;
+  if(e.route==='straight') return {pts:[A,B],A,B};
+  if(e.route==='curve'){const d=dist(A,B);const k=Math.max(30,d*.45);return {cubic:[A,{x:A.x+A.dx*k,y:A.y+A.dy*k},{x:B.x+B.dx*k,y:B.y+B.dy*k},B],A,B};}
+  const aH=A.dx!==0,bH=B.dx!==0; let pts,handle=null,axis=null;
+  if(aH&&bH){
+    if(A.dx===-B.dx){
+      if((B.x-A.x)*A.dx>0){
+        if(Math.abs(A.y-B.y)<.5) return {pts:[A,B],A,B};
+        const midX=e.bend!=null?A.x+e.bend:(A.x+B.x)/2;
+        pts=[A,{x:midX,y:A.y},{x:midX,y:B.y},B];handle={x:midX,y:(A.y+B.y)/2};axis='x';
+      }else{
+        const midY=e.bend!=null?A.y+e.bend:detourY(a,b,A,B,ext);const p1x=A.x+A.dx*ext,p2x=B.x+B.dx*ext;
+        pts=[A,{x:p1x,y:A.y},{x:p1x,y:midY},{x:p2x,y:midY},{x:p2x,y:B.y},B];handle={x:(p1x+p2x)/2,y:midY};axis='y';
+      }
+    }else{
+      const cx=e.bend!=null?A.x+e.bend:(A.dx>0?Math.max(A.x,B.x)+ext:Math.min(A.x,B.x)-ext);
+      pts=[A,{x:cx,y:A.y},{x:cx,y:B.y},B];handle={x:cx,y:(A.y+B.y)/2};axis='x';
+    }
+  }else if(!aH&&!bH){
+    if(A.dy===-B.dy){
+      if((B.y-A.y)*A.dy>0){
+        if(Math.abs(A.x-B.x)<.5) return {pts:[A,B],A,B};
+        const midY=e.bend!=null?A.y+e.bend:(A.y+B.y)/2;
+        pts=[A,{x:A.x,y:midY},{x:B.x,y:midY},B];handle={x:(A.x+B.x)/2,y:midY};axis='y';
+      }else{
+        const midX=e.bend!=null?A.x+e.bend:detourX(a,b,A,B,ext);const p1y=A.y+A.dy*ext,p2y=B.y+B.dy*ext;
+        pts=[A,{x:A.x,y:p1y},{x:midX,y:p1y},{x:midX,y:p2y},{x:B.x,y:p2y},B];handle={x:midX,y:(p1y+p2y)/2};axis='x';
+      }
+    }else{
+      const cy=e.bend!=null?A.y+e.bend:(A.dy>0?Math.max(A.y,B.y)+ext:Math.min(A.y,B.y)-ext);
+      pts=[A,{x:A.x,y:cy},{x:B.x,y:cy},B];handle={x:(A.x+B.x)/2,y:cy};axis='y';
+    }
+  }else if(aH){
+    const ahead=(B.x-A.x)*A.dx>ext&&(A.y-B.y)*B.dy>ext;
+    if(ahead)pts=[A,{x:B.x,y:A.y},B];else{const p1x=A.x+A.dx*ext,p2y=B.y+B.dy*ext;pts=[A,{x:p1x,y:A.y},{x:p1x,y:p2y},{x:B.x,y:p2y},B];}
+  }else{
+    const ahead=(B.y-A.y)*A.dy>ext&&(A.x-B.x)*B.dx>ext;
+    if(ahead)pts=[A,{x:A.x,y:B.y},B];else{const p1y=A.y+A.dy*ext,p2x=B.x+B.dx*ext;pts=[A,{x:A.x,y:p1y},{x:p2x,y:p1y},{x:p2x,y:B.y},B];}
+  }
+  return {pts:simplifyPts(pts),handle,axis,A,B};
+}
+function trimPoly(pts,startLen,endLen){const out=pts.map(p=>({x:p.x,y:p.y}));if(out.length<2)return out;if(endLen>0){const a=out[out.length-2],b=out[out.length-1];const L=dist(a,b);if(L>endLen+1){const u={x:(b.x-a.x)/L,y:(b.y-a.y)/L};out[out.length-1]={x:b.x-u.x*endLen,y:b.y-u.y*endLen};}}if(startLen>0){const a=out[0],b=out[1];const L=dist(a,b);if(L>startLen+1){const u={x:(b.x-a.x)/L,y:(b.y-a.y)/L};out[0]={x:a.x+u.x*startLen,y:a.y+u.y*startLen};}}return out;}
+function polyPath(pts,r){if(pts.length<2)return '';let d=`M${R(pts[0].x)} ${R(pts[0].y)}`;for(let i=1;i<pts.length-1;i++){const p=pts[i],a=pts[i-1],b=pts[i+1];const l1=dist(a,p),l2=dist(p,b);const rr=Math.min(r,l1/2,l2/2);const u1={x:(p.x-a.x)/l1,y:(p.y-a.y)/l1},u2={x:(b.x-p.x)/l2,y:(b.y-p.y)/l2};d+=` L${R(p.x-u1.x*rr)} ${R(p.y-u1.y*rr)} Q${R(p.x)} ${R(p.y)} ${R(p.x+u2.x*rr)} ${R(p.y+u2.y*rr)}`;}const l=pts[pts.length-1];d+=` L${R(l.x)} ${R(l.y)}`;return d;}
+function polyMid(pts){let L=0;for(let i=1;i<pts.length;i++)L+=dist(pts[i-1],pts[i]);let t=L/2;for(let i=1;i<pts.length;i++){const s=dist(pts[i-1],pts[i]);if(t<=s){const u=s?t/s:0;return {x:pts[i-1].x+(pts[i].x-pts[i-1].x)*u,y:pts[i-1].y+(pts[i].y-pts[i-1].y)*u,horiz:Math.abs(pts[i].x-pts[i-1].x)>Math.abs(pts[i].y-pts[i-1].y)};}t-=s;}return Object.assign({},pts[0],{horiz:true});}
+function cubicAt(c,t){const mt=1-t;return {x:mt*mt*mt*c[0].x+3*mt*mt*t*c[1].x+3*mt*t*t*c[2].x+t*t*t*c[3].x,y:mt*mt*mt*c[0].y+3*mt*mt*t*c[1].y+3*mt*t*t*c[2].y+t*t*t*c[3].y};}
+function edgeBBox(e){const r=routeEdge(e);if(!r)return null;const pts=r.pts||[r.cubic[0],r.cubic[3]];const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);const x=Math.min(...xs),y=Math.min(...ys);return {x:x-4,y:y-4,w:Math.max(...xs)-x+8,h:Math.max(...ys)-y+8};}
+
+/* ---------- rendering ---------- */
+function luminance(hex){if(!hex||hex[0]!=='#')return 1;const n=parseInt(hex.slice(1),16);const r=(n>>16)&255,g=(n>>8)&255,b=n&255;return (0.2126*r+0.7152*g+0.0722*b)/255;}
+function textLines(lines,x,cy,fs,attrs){const lh=fs*1.28;const t=svgEl('text',Object.assign({'font-size':fs},attrs));const n=lines.length;lines.forEach((ln,i)=>{const y=cy-((n-1)/2)*lh+i*lh+fs*.36;t.appendChild(svgEl('tspan',{x:R(x),y:R(y)},ln||' '));});return t;}
+
+function nodeShapeEl(n){
+  const s=st();const {x,y,w,h}=n;const fill=n.fill||'#FFFFFF',stroke=n.stroke||s.stroke,sw=n.strokeWidth||s.strokeWidth;
+  const base={fill,stroke,'stroke-width':sw,'stroke-linejoin':'round'};
+  switch(n.shape){
+    case 'rounded':return svgEl('rect',Object.assign({x,y,width:w,height:h,rx:s.radius},base));
+    case 'pill':return svgEl('rect',Object.assign({x,y,width:w,height:h,rx:h/2},base));
+    case 'diamond':return svgEl('polygon',Object.assign({points:`${x+w/2},${y} ${x+w},${y+h/2} ${x+w/2},${y+h} ${x},${y+h/2}`},base));
+    case 'ellipse':return svgEl('ellipse',Object.assign({cx:x+w/2,cy:y+h/2,rx:w/2,ry:h/2},base));
+    case 'parallelogram':{const k=Math.min(16,w*.15);return svgEl('polygon',Object.assign({points:`${x+k},${y} ${x+w},${y} ${x+w-k},${y+h} ${x},${y+h}`},base));}
+    case 'cylinder':{const ry=Math.min(9,h*.16);const d=`M${x} ${y+ry} A${w/2} ${ry} 0 0 1 ${x+w} ${y+ry} L${x+w} ${y+h-ry} A${w/2} ${ry} 0 0 1 ${x} ${y+h-ry} Z M${x} ${y+ry} A${w/2} ${ry} 0 0 0 ${x+w} ${y+ry}`;return svgEl('path',Object.assign({d},base));}
+    case 'hexagon':{const k=Math.min(w*.18,h*.5);return svgEl('polygon',Object.assign({points:`${x+k},${y} ${x+w-k},${y} ${x+w},${y+h/2} ${x+w-k},${y+h} ${x+k},${y+h} ${x},${y+h/2}`},base));}
+    case 'chevron':{const k=Math.min(h/2,w*.2);return svgEl('polygon',Object.assign({points:`${x},${y} ${x+w-k},${y} ${x+w},${y+h/2} ${x+w-k},${y+h} ${x},${y+h} ${x+k},${y+h/2}`},base));}
+    case 'triangle':return svgEl('polygon',Object.assign({points:`${x+w/2},${y} ${x+w},${y+h} ${x},${y+h}`},base));
+    case 'star':{const cx=x+w/2,cy=y+h/2,pts=[];for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,f=i%2?.42:1;pts.push(`${R(cx+Math.cos(a)*w/2*f)},${R(cy+Math.sin(a)*h/2*f)}`);}return svgEl('polygon',Object.assign({points:pts.join(' ')},base));}
+    case 'document':{const k=Math.min(12,h*.18);return svgEl('path',Object.assign({d:`M${x} ${y} L${x+w} ${y} L${x+w} ${y+h-k} Q${x+w*.75} ${y+h-k*2.2} ${x+w/2} ${y+h-k} T${x} ${y+h-k} Z`},base));}
+    case 'cloud':{const p=(px,py)=>`${R(x+w*px)} ${R(y+h*py)}`;return svgEl('path',Object.assign({d:`M${p(.2,.85)} A${R(w*.16)} ${R(h*.26)} 0 0 1 ${p(.12,.42)} A${R(w*.2)} ${R(h*.3)} 0 0 1 ${p(.4,.2)} A${R(w*.22)} ${R(h*.3)} 0 0 1 ${p(.7,.18)} A${R(w*.2)} ${R(h*.3)} 0 0 1 ${p(.9,.5)} A${R(w*.16)} ${R(h*.26)} 0 0 1 ${p(.8,.85)} Z`},base));}
+    case 'image':{const g=svgEl('g');const pad=n.frame?4:0;if(n.frame)g.appendChild(svgEl('rect',Object.assign({x,y,width:w,height:h,rx:s.radius},base)));else if(fill&&fill.toUpperCase()!=='#FFFFFF')g.appendChild(svgEl('rect',{x,y,width:w,height:h,rx:s.radius,fill,stroke:'none'}));const im=svgEl('image',{x:x+pad,y:y+pad,width:Math.max(1,w-pad*2),height:Math.max(1,h-pad*2),preserveAspectRatio:'xMidYMid meet'});im.setAttribute('href',n.src||'');im.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href',n.src||'');if(n.mono)im.setAttribute('filter','url(#fa-mono)');g.appendChild(im);return g;}
+    default:return svgEl('rect',Object.assign({x,y,width:w,height:h},base));
+  }
+}
+function renderNode(n){
+  const s=st();const g=svgEl('g',{'data-id':n.id,'data-kind':'node'});
+  g.appendChild(nodeShapeEl(n));
+  const fs=n.fontSize||s.fontSize;const dark=n.shape!=='image'&&luminance(n.fill||'#fff')<.55;
+  const lines=(n.label||'').split('\n');const c=center(n);
+  const left=n.align==='left';let tx=left?n.x+12:c.x,cy=c.y;
+  if(n.shape==='cylinder')cy+=Math.min(9,n.h*.16)/2;
+  else if(n.shape==='triangle')cy=n.y+n.h*.66;
+  else if(n.shape==='chevron'){const k=Math.min(n.h/2,n.w*.2);tx+=left?k:k/2;}
+  else if(n.shape==='document')cy-=Math.min(12,n.h*.18)/2;
+  else if(n.shape==='image')cy=n.y+n.h+6+fs*.7+(lines.length-1)*fs*.64;
+  if(lines.join('').trim())g.appendChild(textLines(lines,tx,cy,fs,{fill:n.textColor||(dark?'#FFFFFF':s.textColor),'text-anchor':left?'start':'middle','font-weight':n.bold?'bold':'normal'}));
+  return g;
+}
+function renderBand(b){
+  const s=st();const g=svgEl('g',{'data-id':b.id,'data-kind':'band'});
+  const rx=b.radius!=null?b.radius:(s.radius>0?6:0);
+  const border=b.border==='solid'?{stroke:s.stroke,'stroke-width':s.strokeWidth*.8}:b.border==='dashed'?{stroke:'#8B95A5','stroke-width':s.strokeWidth*.8,'stroke-dasharray':'4 3'}:{stroke:'none'};
+  g.appendChild(svgEl('rect',Object.assign({x:b.x,y:b.y,width:b.w,height:b.h,rx,fill:b.fill||s.bandFill},border)));
+  if(b.label){const fs=(b.fontSize||s.fontSize+1);const parts=b.label.match(/^(\S)\s{2,}(.*)$/);const t=svgEl('text',{x:b.x+14,y:b.y+fs+10,'font-size':fs,fill:s.textColor});
+    if(parts){t.appendChild(svgEl('tspan',{'font-weight':'bold','font-size':fs+3},parts[1]));t.appendChild(svgEl('tspan',{dx:8,'font-weight':'bold'},parts[2]));}
+    else t.appendChild(svgEl('tspan',{'font-weight':'bold'},b.label));
+    g.appendChild(t);}
+  return g;
+}
+function renderText(t){
+  const s=st();const g=svgEl('g',{'data-id':t.id,'data-kind':'text'});const fs=t.fontSize||s.fontSize;const lines=(t.label||'').split('\n');const lh=fs*1.28;
+  const el=svgEl('text',{'font-size':fs,fill:t.color||s.textColor,'font-weight':t.bold?'bold':'normal'});
+  lines.forEach((ln,i)=>el.appendChild(svgEl('tspan',{x:t.x,y:R(t.y+i*lh)},ln||' ')));
+  g.appendChild(el);return g;
+}
+function renderInk(k){
+  const s=st();const g=svgEl('g',{'data-id':k.id,'data-kind':'ink'});
+  g.appendChild(svgEl('path',{d:'M'+k.pts.map(p=>`${R(p.x)} ${R(p.y)}`).join(' L'),fill:'none',stroke:k.stroke||s.stroke,'stroke-width':k.strokeWidth||s.strokeWidth,'stroke-linecap':'round','stroke-linejoin':'round'}));
+  return g;
+}
+function headEl(kind,tip,u,size,color,sw){
+  if(kind==='none'||!kind)return null;
+  const perp={x:-u.y,y:u.x};const L=size,W=size*.8;
+  const b1={x:tip.x-u.x*L+perp.x*W/2,y:tip.y-u.y*L+perp.y*W/2},b2={x:tip.x-u.x*L-perp.x*W/2,y:tip.y-u.y*L-perp.y*W/2};
+  if(kind==='arrow')return svgEl('polygon',{points:`${R(tip.x)},${R(tip.y)} ${R(b1.x)},${R(b1.y)} ${R(b2.x)},${R(b2.y)}`,fill:color,stroke:'none'});
+  if(kind==='open')return svgEl('polyline',{points:`${R(b1.x)},${R(b1.y)} ${R(tip.x)},${R(tip.y)} ${R(b2.x)},${R(b2.y)}`,fill:'none',stroke:color,'stroke-width':sw,'stroke-linejoin':'round','stroke-linecap':'round'});
+  if(kind==='dot')return svgEl('circle',{cx:R(tip.x-u.x*size*.35),cy:R(tip.y-u.y*size*.35),r:size*.35,fill:color,stroke:'none'});
+  return null;
+}
+function renderEdge(e){
+  const s=st();const r=routeEdge(e);if(!r)return null;
+  const g=svgEl('g',{'data-id':e.id,'data-kind':'edge'});
+  const color=e.stroke||s.stroke,sw=e.strokeWidth||s.strokeWidth,size=s.arrowSize*(sw/1.2>1.3?1.15:1);
+  const headLen=k=>(k==='arrow'||k==='open')?size*.9:(k==='dot'?size*.7:0);
+  let d,tipEnd,uEnd,tipStart,uStart,mid;
+  if(r.cubic){
+    const c=r.cubic;const uE={x:c[3].x-c[2].x,y:c[3].y-c[2].y},lE=Math.hypot(uE.x,uE.y)||1;uEnd={x:uE.x/lE,y:uE.y/lE};tipEnd=c[3];
+    const uS={x:c[0].x-c[1].x,y:c[0].y-c[1].y},lS=Math.hypot(uS.x,uS.y)||1;uStart={x:uS.x/lS,y:uS.y/lS};tipStart=c[0];
+    const e3={x:c[3].x-uEnd.x*headLen(e.endHead),y:c[3].y-uEnd.y*headLen(e.endHead)},e0={x:c[0].x-uStart.x*headLen(e.startHead),y:c[0].y-uStart.y*headLen(e.startHead)};
+    d=`M${R(e0.x)} ${R(e0.y)} C${R(c[1].x)} ${R(c[1].y)} ${R(c[2].x)} ${R(c[2].y)} ${R(e3.x)} ${R(e3.y)}`;
+    const m=cubicAt(c,.5);mid={x:m.x,y:m.y,horiz:Math.abs(c[3].x-c[0].x)>Math.abs(c[3].y-c[0].y)};
+  }else{
+    const pts=r.pts;const a=pts[pts.length-2],b=pts[pts.length-1];const L=dist(a,b)||1;uEnd={x:(b.x-a.x)/L,y:(b.y-a.y)/L};tipEnd=b;
+    const a0=pts[0],b0=pts[1];const L0=dist(a0,b0)||1;uStart={x:(a0.x-b0.x)/L0,y:(a0.y-b0.y)/L0};tipStart=a0;
+    d=polyPath(trimPoly(pts,headLen(e.startHead),headLen(e.endHead)),Math.max(0,Math.min(6,s.radius+2)));
+    mid=polyMid(pts);
+  }
+  g.appendChild(svgEl('path',{d,fill:'none',stroke:color,'stroke-width':sw,'stroke-dasharray':e.dash?`${sw*4} ${sw*3}`:null,'stroke-linecap':'butt','stroke-linejoin':'round'}));
+  const hE=headEl(e.endHead,tipEnd,uEnd,size,color,sw);if(hE)g.appendChild(hE);
+  const hS=headEl(e.startHead,tipStart,uStart,size,color,sw);if(hS)g.appendChild(hS);
+  if(e.label){const fs=(e.fontSize||s.fontSize)-1;const off=mid.horiz?{x:0,y:-fs*.55}:{x:fs*.6,y:0};
+    g.appendChild(svgEl('text',{x:R(mid.x+off.x),y:R(mid.y+off.y+(mid.horiz?0:fs*.36)),'font-size':fs,fill:s.textColor,'text-anchor':mid.horiz?'middle':'start','paint-order':'stroke',stroke:'#FFFFFF','stroke-width':3,'stroke-linejoin':'round'},[e.label]));}
+  g.appendChild(svgEl('path',{d,fill:'none',stroke:'transparent','stroke-width':14,class:'hit'}));
+  return g;
+}
+function renderPage(){
+  gBack.innerHTML='';const {w,h}=state.page;
+  gBack.appendChild(svgEl('rect',{x:-1e5,y:-1e5,width:2e5,height:2e5,fill:'transparent','data-empty':'1'}));
+  gBack.appendChild(svgEl('rect',{x:w/2-w/2+2,y:4,width:w,height:h,fill:'rgba(0,0,0,.08)',rx:2}));
+  gBack.appendChild(svgEl('rect',{x:0,y:0,width:w,height:h,fill:'#FFFFFF','data-empty':'1'}));
+  $('#pageclip-rect').setAttribute('width',w);$('#pageclip-rect').setAttribute('height',h);
+  const pat=$('#grid');pat.setAttribute('width',st().grid);pat.setAttribute('height',st().grid);
+  gBack.appendChild(svgEl('rect',{x:0,y:0,width:w,height:h,fill:'url(#grid)','data-empty':'1'}));
+}
+function renderFigure(){
+  gFig.innerHTML='';gFig.setAttribute('font-family',fontFamily());
+  gFig.appendChild(svgEl('defs',{},[svgEl('filter',{id:'fa-mono'},[svgEl('feColorMatrix',{type:'saturate',values:'0'})])]));
+  const els=state.elements;
+  for(const b of els)if(b.type==='band')gFig.appendChild(renderBand(b));
+  for(const e of state.edges){const g=renderEdge(e);if(g)gFig.appendChild(g);}
+  for(const n of els)if(n.type==='node')gFig.appendChild(renderNode(n));
+  for(const t of els)if(t.type==='text'){const g=renderText(t);gFig.appendChild(g);const bb=g.querySelector('text').getBBox();t._w=bb.width;t._h=t.fontSize||st().fontSize;t._bb={x:bb.x,y:bb.y,w:bb.width,h:bb.height};g.insertBefore(svgEl('rect',{x:bb.x-3,y:bb.y-2,width:bb.width+6,height:bb.height+4,fill:'transparent'}),g.firstChild);}
+  for(const k of els)if(k.type==='ink')gFig.appendChild(renderInk(k));
+}
+function selBBox(ids){let x1=1e9,y1=1e9,x2=-1e9,y2=-1e9,any=false;for(const id of ids){const e=byId(id);let bb;if(e)bb=e.type==='text'&&e._bb?e._bb:elBBox(e);else{const ed=edgeById(id);if(!ed)continue;bb=edgeBBox(ed);if(!bb)continue;}any=true;x1=Math.min(x1,bb.x);y1=Math.min(y1,bb.y);x2=Math.max(x2,bb.x+bb.w);y2=Math.max(y2,bb.y+bb.h);}return any?{x:x1,y:y1,w:x2-x1,h:y2-y1}:null;}
+function renderOverlay(){
+  gOv.innerHTML='';const z=view.zoom;const acc='var(--accent)';
+  const hs=7/z;
+  // guides
+  for(const g of guides){if(g.axis==='x')gOv.appendChild(svgEl('line',{x1:g.pos,y1:-1e4,x2:g.pos,y2:1e4,stroke:'var(--guide)','stroke-width':1/z}));else gOv.appendChild(svgEl('line',{x1:-1e4,y1:g.pos,x2:1e4,y2:g.pos,stroke:'var(--guide)','stroke-width':1/z}));}
+  // selection
+  const selEls=[...sel].filter(id=>byId(id));
+  for(const id of sel){
+    const ed=edgeById(id);if(!ed)continue;const r=routeEdge(ed);if(!r)continue;
+    const d=r.cubic?`M${r.cubic[0].x} ${r.cubic[0].y} C${r.cubic[1].x} ${r.cubic[1].y} ${r.cubic[2].x} ${r.cubic[2].y} ${r.cubic[3].x} ${r.cubic[3].y}`:polyPath(r.pts,4);
+    gOv.appendChild(svgEl('path',{d,fill:'none',stroke:acc,'stroke-width':3/z,opacity:.35}));
+    if(r.handle){gOv.appendChild(svgEl('circle',{cx:r.handle.x,cy:r.handle.y,r:5/z,fill:'#fff',stroke:acc,'stroke-width':1.5/z,'data-handle':'bend','data-id':id,style:'cursor:'+(r.axis==='x'?'ew-resize':'ns-resize')}));}
+    for(const end of ['from','to']){const p=end==='from'?r.A:r.B;gOv.appendChild(svgEl('rect',{x:p.x-4.5/z,y:p.y-4.5/z,width:9/z,height:9/z,fill:'#fff',stroke:acc,'stroke-width':1.5/z,'data-handle':'end:'+end,'data-id':id,style:'cursor:move'}));}
+  }
+  for(const id of selEls){const e=byId(id);const bb=e.type==='text'&&e._bb?e._bb:elBBox(e);gOv.appendChild(svgEl('rect',{x:bb.x,y:bb.y,width:bb.w,height:bb.h,fill:'none',stroke:acc,'stroke-width':1/z,'pointer-events':'none'}));}
+  if(selEls.length===1){const e=byId(selEls[0]);if(e.type==='node'||e.type==='band'){const bb=elBBox(e);const H=[['nw',bb.x,bb.y],['n',bb.x+bb.w/2,bb.y],['ne',bb.x+bb.w,bb.y],['e',bb.x+bb.w,bb.y+bb.h/2],['se',bb.x+bb.w,bb.y+bb.h],['s',bb.x+bb.w/2,bb.y+bb.h],['sw',bb.x,bb.y+bb.h],['w',bb.x,bb.y+bb.h/2]];const cur={nw:'nwse-resize',se:'nwse-resize',ne:'nesw-resize',sw:'nesw-resize',n:'ns-resize',s:'ns-resize',e:'ew-resize',w:'ew-resize'};for(const [k,x,y] of H)gOv.appendChild(svgEl('rect',{x:x-hs/2,y:y-hs/2,width:hs,height:hs,fill:'#fff',stroke:acc,'stroke-width':1/z,'data-handle':k,'data-id':e.id,style:'cursor:'+cur[k]}));}}
+  else if(selEls.length>1){const bb=selBBox(selEls);if(bb)gOv.appendChild(svgEl('rect',{x:bb.x-4/z,y:bb.y-4/z,width:bb.w+8/z,height:bb.h+8/z,fill:'none',stroke:acc,'stroke-width':1/z,'stroke-dasharray':`${4/z} ${3/z}`,'pointer-events':'none'}));}
+  // ports
+  const portNode=(tool==='select'&&!drag)?(hoverId&&byId(hoverId)&&byId(hoverId).type==='node'?byId(hoverId):(selEls.length===1&&byId(selEls[0]).type==='node'?byId(selEls[0]):null)):null;
+  if(portNode){for(const k of 'trbl'){const p=portPoint(portNode,k);gOv.appendChild(svgEl('circle',{cx:p.x,cy:p.y,r:5/z,fill:'#fff',stroke:acc,'stroke-width':1.5/z,'data-handle':'port:'+k,'data-id':portNode.id,style:'cursor:crosshair'}));}}
+  if(connectSrc&&byId(connectSrc)){const bb=elBBox(byId(connectSrc));gOv.appendChild(svgEl('rect',{x:bb.x-3/z,y:bb.y-3/z,width:bb.w+6/z,height:bb.h+6/z,fill:'none',stroke:acc,'stroke-width':2/z,'stroke-dasharray':`${4/z} ${3/z}`,'pointer-events':'none'}));}
+  // drag temps
+  if(drag&&drag.mode==='marquee'){const x=Math.min(drag.sp.x,drag.cur.x),y=Math.min(drag.sp.y,drag.cur.y);gOv.appendChild(svgEl('rect',{x,y,width:Math.abs(drag.cur.x-drag.sp.x),height:Math.abs(drag.cur.y-drag.sp.y),fill:'var(--accent)','fill-opacity':.08,stroke:acc,'stroke-width':1/z,'pointer-events':'none'}));}
+  if(drag&&(drag.mode==='connect'||drag.mode==='reattach')){const a=drag.anchor;gOv.appendChild(svgEl('line',{x1:a.x,y1:a.y,x2:drag.cur.x,y2:drag.cur.y,stroke:acc,'stroke-width':1.5/z,'stroke-dasharray':`${5/z} ${4/z}`,'pointer-events':'none'}));if(drag.target){const bb=elBBox(drag.target);gOv.appendChild(svgEl('rect',{x:bb.x-3/z,y:bb.y-3/z,width:bb.w+6/z,height:bb.h+6/z,fill:'none',stroke:acc,'stroke-width':2/z,'pointer-events':'none'}));const pp=portPoint(drag.target,nearestPort(drag.target,drag.cur));gOv.appendChild(svgEl('circle',{cx:pp.x,cy:pp.y,r:6/z,fill:acc,'pointer-events':'none'}));}}
+  if(drag&&drag.mode==='ink'&&drag.pts.length>1){gOv.appendChild(svgEl('path',{d:'M'+drag.pts.map(p=>`${R(p.x)} ${R(p.y)}`).join(' L'),fill:'none',stroke:'var(--sketch)','stroke-width':2/z,'stroke-linecap':'round','stroke-linejoin':'round','pointer-events':'none'}));}
+  if(sketch&&sketch.pts){gOv.appendChild(svgEl('path',{d:'M'+sketch.pts.map(p=>`${R(p.x)} ${R(p.y)}`).join(' L'),fill:'none',stroke:'var(--sketch)','stroke-width':1.5/z,opacity:.45,'stroke-linecap':'round','stroke-linejoin':'round','pointer-events':'none'}));}
+}
+function renderCanvas(){renderPage();renderFigure();renderOverlay();updateStatus();}
+function renderAll(){renderCanvas();renderInspector();updateUndoButtons();}
+function updateStatus(){const n=sel.size;$('#st-sel').textContent=n?`${n}개 선택`:'';$('#zoom-label').textContent=Math.round(view.zoom*100)+'%';}
+
+/* ---------- view ---------- */
+function applyView(){const r=stage.getBoundingClientRect();if(r.width<1||r.height<1)return;svg.setAttribute('viewBox',`${view.x} ${view.y} ${r.width/view.zoom} ${r.height/view.zoom}`);renderOverlay();updateStatus();}
+function toCanvas(ev){const r=stage.getBoundingClientRect();return {x:view.x+(ev.clientX-r.left)/view.zoom,y:view.y+(ev.clientY-r.top)/view.zoom};}
+function toScreen(p){const r=stage.getBoundingClientRect();return {x:(p.x-view.x)*view.zoom,y:(p.y-view.y)*view.zoom,w:r.width,h:r.height};}
+function zoomAt(f,cx,cy){const nz=clamp(view.zoom*f,.15,5);const r=stage.getBoundingClientRect();const px=cx==null?r.width/2:cx,py=cy==null?r.height/2:cy;const wx=view.x+px/view.zoom,wy=view.y+py/view.zoom;view.zoom=nz;view.x=wx-px/nz;view.y=wy-py/nz;applyView();}
+function fitPage(){const r=stage.getBoundingClientRect();if(r.width<80||r.height<80){requestAnimationFrame(fitPage);return;}const z=clamp(Math.min((r.width-48)/state.page.w,(r.height-48)/state.page.h,2),.15,5);view.zoom=z;view.x=(state.page.w-r.width/z)/2;view.y=(state.page.h-r.height/z)/2;applyView();}
+new ResizeObserver(()=>applyView()).observe(stage);
+stage.addEventListener('wheel',ev=>{ev.preventDefault();if(ev.ctrlKey||ev.metaKey){const r=stage.getBoundingClientRect();zoomAt(Math.exp(-ev.deltaY*.0015),ev.clientX-r.left,ev.clientY-r.top);}else{view.x+=ev.deltaX/view.zoom;view.y+=ev.deltaY/view.zoom;applyView();}},{passive:false});
+$('#zoom-in').onclick=()=>zoomAt(1.2);$('#zoom-out').onclick=()=>zoomAt(1/1.2);$('#zoom-fit').onclick=fitPage;
+
+/* ---------- selection helpers ---------- */
+function groupOf(id){return state.groups.find(g=>g.members.includes(id));}
+function expandGroups(ids){const out=new Set(ids);for(const id of ids){const g=groupOf(id);if(g)g.members.forEach(m=>out.add(m));}return out;}
+function select(ids){sel=expandGroups(ids);}
+function toggleSelect(id){const g=groupOf(id);const ids=g?g.members:[id];if(sel.has(id))ids.forEach(i=>sel.delete(i));else ids.forEach(i=>sel.add(i));}
+function selectedNodes(){return [...sel].map(byId).filter(e=>e&&(e.type==='node'||e.type==='band'||e.type==='text'));}
+function selectedEdges(){return [...sel].map(edgeById).filter(Boolean);}
+
+/* ---------- tools ---------- */
+function setTool(t){tool=t;connectSrc=null;$$('.rb[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));stage.className='stage '+((t.startsWith('shape:')||t.startsWith('image:'))?'tool-shape':'tool-'+t);const hints={select:'노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Shift+클릭/영역 드래그로 다중 선택',hand:'드래그해서 화면 이동 · Ctrl+휠로 확대/축소',connect:'출발 노드를 클릭한 뒤 도착 노드를 클릭하세요',pen:'도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)',text:'캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)'};$('#st-hint').textContent=hints[t]||'캔버스를 클릭해 도형을 놓으세요';renderOverlay();}
+$$('.rb[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
+$$('[data-act="upload-image"]').forEach(b=>b.addEventListener('click',()=>$('#img-in').click()));
+$('#img-in').addEventListener('change',async ev=>{const files=Array.from(ev.target.files||[]);ev.target.value='';let last=null;for(const f of files){try{const it=await importImageFile(f);imageLib.push(it);last=it;}catch(e){toast(`${f.name}: 이미지를 읽을 수 없습니다`);}}if(last){saveImages();sel.clear();renderInspector();setTool('image:'+last.id);toast('캔버스를 클릭해 이미지를 배치하세요 (라이브러리에 저장됨)');}});
+function addCustomColor(hex,cat){const v=hex.toUpperCase();const list=customColors[cat]||(customColors[cat]=[]);if(!list.includes(v)){list.push(v);saveColors();}renderInspector();toast(`${v} 색을 ${CAT_LABEL[cat]} 팔레트에 추가했습니다`);}
+inspector.addEventListener('input',ev=>{if(ev.target.id==='color-in2'){const h=$('#hex-in');if(h)h.value=ev.target.value.toUpperCase();}});
+inspector.addEventListener('keydown',ev=>{if(ev.target.id==='hex-in'&&ev.key==='Enter'){ev.preventDefault();const btn=inspector.querySelector('[data-action="addhex"]');if(btn)btn.click();}});
+
+function defaultSize(shape){return {diamond:{w:140,h:64},pill:{w:140,h:44},cylinder:{w:140,h:60},band:{w:520,h:170},hexagon:{w:150,h:56},chevron:{w:160,h:56},triangle:{w:120,h:80},star:{w:90,h:90},document:{w:140,h:64},cloud:{w:160,h:80}}[shape]||{w:140,h:48};}
+function addNodeAt(shape,p,label){const sz=defaultSize(shape);const n=shape==='band'?band(snap(p.x-sz.w/2),snap(p.y-sz.h/2),sz.w,sz.h,'Phase'):N(shape,snap(p.x-sz.w/2),snap(p.y-sz.h/2),sz.w,sz.h,label||(shape==='diamond'?'Condition?':'Step'));if(shape==='band'){state.elements.unshift(n);}else state.elements.push(n);return n;}
+function createEdge(fromRef,toRef,opts){const e=E(fromRef,toRef,opts);state.edges.push(e);return e;}
+
+/* ---------- smart guides ---------- */
+function smartSnap(bb,excl){const th=6/view.zoom;const cand=state.elements.filter(e=>!excl.has(e.id)&&e.type!=='ink').map(e=>e.type==='text'&&e._bb?e._bb:elBBox(e));let bx=null,by=null;const mx=[[bb.x+bb.w/2,'c'],[bb.x,'e'],[bb.x+bb.w,'e']],my=[[bb.y+bb.h/2,'c'],[bb.y,'e'],[bb.y+bb.h,'e']];
+  for(const c of cand){const cx=[[c.x+c.w/2,'c'],[c.x,'e'],[c.x+c.w,'e']],cy=[[c.y+c.h/2,'c'],[c.y,'e'],[c.y+c.h,'e']];
+    for(const [m,mk] of mx)for(const [v,vk] of cx){const d=v-m;const score=Math.abs(d)+(mk==='c'&&vk==='c'?0:th*.4);if(Math.abs(d)<=th&&(!bx||score<bx.score))bx={d,pos:v,score};}
+    for(const [m,mk] of my)for(const [v,vk] of cy){const d=v-m;const score=Math.abs(d)+(mk==='c'&&vk==='c'?0:th*.4);if(Math.abs(d)<=th&&(!by||score<by.score))by={d,pos:v,score};}}
+  const gs=[];if(bx)gs.push({axis:'x',pos:bx.pos});if(by)gs.push({axis:'y',pos:by.pos});return {dx:bx?bx.d:0,dy:by?by.d:0,guides:gs};}
+
+/* ---------- pointer interaction ---------- */
+function movingSet(){const ids=new Set([...sel].filter(id=>byId(id)));for(const id of [...ids]){const b=byId(id);if(b.type==='band'){for(const n of state.elements)if(n.type!=='band'&&!ids.has(n.id)){const bb=n.type==='text'&&n._bb?n._bb:elBBox(n);const c={x:bb.x+bb.w/2,y:bb.y+bb.h/2};if(ptIn(elBBox(b),c))ids.add(n.id);}}}return ids;}
+function captureOrig(ids){const o={};for(const id of ids){const e=byId(id);if(e.type==='ink')o[id]={pts:e.pts.map(p=>({x:p.x,y:p.y}))};else o[id]={x:e.x,y:e.y};}for(const ed of selectedEdges()){o[ed.id]={from:!ed.from.node?{x:ed.from.x,y:ed.from.y}:null,to:!ed.to.node?{x:ed.to.x,y:ed.to.y}:null};}return o;}
+function applyDelta(o,dx,dy){for(const id in o){const e=byId(id);if(e){if(e.type==='ink')e.pts=o[id].pts.map(p=>({x:p.x+dx,y:p.y+dy}));else{e.x=o[id].x+dx;e.y=o[id].y+dy;}}else{const ed=edgeById(id);if(!ed)continue;if(o[id].from){ed.from.x=o[id].from.x+dx;ed.from.y=o[id].from.y+dy;}if(o[id].to){ed.to.x=o[id].to.x+dx;ed.to.y=o[id].to.y+dy;}}}}
+
+svg.addEventListener('pointerdown',ev=>{
+  if(editing)commitEdit();closeMenus();hideSketchPop();
+  ev.preventDefault();{const ae=document.activeElement;if(ae&&ae!==document.body&&typeof ae.blur==='function')ae.blur();}
+  const p=toCanvas(ev);const t=ev.target;const idEl=t.closest&&t.closest('[data-id]');const id=idEl?idEl.dataset.id:(t.dataset&&t.dataset.id)||null;const kind=idEl?idEl.dataset.kind:null;const handle=t.dataset?t.dataset.handle:null;
+  svg.setPointerCapture(ev.pointerId);
+  if(ev.button===1||spaceDown||tool==='hand'){drag={mode:'pan',sx:ev.clientX,sy:ev.clientY,vx:view.x,vy:view.y};stage.classList.add('panning');return;}
+  if(ev.button!==0)return;
+  if(tool==='pen'){sketch=null;drag={mode:'ink',pts:[p]};renderOverlay();return;}
+  if(tool==='text'){let nt;mutate(()=>{nt={id:uid(),type:'text',x:snap(p.x),y:snap(p.y),label:'Label',fontSize:st().fontSize+2,bold:true};state.elements.push(nt);});sel=new Set([nt.id]);setTool('select');renderAll();startEdit(nt.id);return;}
+  if(tool.startsWith('image:')){const it=imageLib.find(i=>i.id===tool.slice(6));if(!it){setTool('select');return;}let n;mutate(()=>{const w=120,h=Math.max(40,Math.round(120*(it.h/(it.w||1))/10)*10);n=N('image',snap(p.x-w/2),snap(p.y-h/2),w,h,'',{src:it.src,fill:'#FFFFFF'});state.elements.push(n);});sel=new Set([n.id]);setTool('select');renderAll();return;}
+  if(tool.startsWith('shape:')){let n;mutate(()=>{n=addNodeAt(tool.slice(6),p);});sel=new Set([n.id]);setTool('select');renderAll();if(n.type==='node')startEdit(n.id);return;}
+  if(tool==='connect'){if(kind==='node'){if(!connectSrc){connectSrc=id;renderOverlay();}else{if(id!==connectSrc){let e;mutate(()=>{e=createEdge(connectSrc,id);});sel=new Set([e.id]);}connectSrc=null;setTool('select');renderAll();}}return;}
+  // select tool
+  if(handle){
+    if(handle.startsWith('port:')){const n=byId(id);drag={mode:'connect',from:{node:id,port:handle.slice(5)},anchor:portPoint(n,handle.slice(5)),cur:p,target:null};renderOverlay();return;}
+    if(handle==='bend'){snapshot();drag={mode:'bend',edge:id,moved:false};return;}
+    if(handle.startsWith('end:')){const e=edgeById(id);const r=routeEdge(e);const end=handle.slice(4);snapshot();drag={mode:'reattach',edge:id,end,anchor:end==='from'?r.B:r.A,cur:p,target:null};return;}
+    const n=byId(id);snapshot();drag={mode:'resize',id,handle,orig:{x:n.x,y:n.y,w:n.w,h:n.h},sp:p};return;
+  }
+  if(id&&anyById(id)){
+    const now=performance.now();
+    if(lastClick&&lastClick.id===id&&now-lastClick.t<450&&dist(lastClick.p,p)*view.zoom<6){lastClick=null;sel=new Set([id]);renderAll();startEdit(id);return;}
+    lastClick={id,t:now,p};
+    if(ev.shiftKey){toggleSelect(id);renderOverlay();renderInspector();return;}
+    const it=byId(id);
+    if(it&&it.type==='band'&&!sel.has(id)&&!nearBandEdge(it,p)){sel.clear();drag={mode:'marquee',sp:p,cur:p,base:new Set(),bandCandidate:id};renderOverlay();renderInspector();return;}
+    if(!sel.has(id))select([id]);
+    const ids=movingSet();drag={mode:'move',sp:p,moved:false,ids,orig:captureOrig(ids),primary:byId(id)?id:null,obb:selBBox([...ids])};renderOverlay();renderInspector();return;
+  }
+  if(!ev.shiftKey)sel.clear();
+  drag={mode:'marquee',sp:p,cur:p,base:new Set(sel)};renderOverlay();renderInspector();
+});
+svg.addEventListener('pointermove',ev=>{
+  const p=toCanvas(ev);
+  if(!drag){const idEl=ev.target.closest&&ev.target.closest('[data-id]');const nid=idEl&&idEl.dataset.kind==='node'?idEl.dataset.id:(ev.target.dataset&&ev.target.dataset.handle&&ev.target.dataset.handle.startsWith('port:')?ev.target.dataset.id:null);if(nid!==hoverId){hoverId=nid;renderOverlay();}return;}
+  switch(drag.mode){
+    case 'pan':view.x=drag.vx-(ev.clientX-drag.sx)/view.zoom;view.y=drag.vy-(ev.clientY-drag.sy)/view.zoom;applyView();break;
+    case 'ink':drag.pts.push(p);renderOverlay();break;
+    case 'marquee':drag.cur=p;{const x=Math.min(drag.sp.x,p.x),y=Math.min(drag.sp.y,p.y),bb={x,y,w:Math.abs(p.x-drag.sp.x),h:Math.abs(p.y-drag.sp.y)};const ns=new Set(drag.base);for(const e of state.elements){const eb=e.type==='text'&&e._bb?e._bb:elBBox(e);if(e.type==='band'?(eb.x>=bb.x&&eb.y>=bb.y&&eb.x+eb.w<=bb.x+bb.w&&eb.y+eb.h<=bb.y+bb.h):intersects(eb,bb))ns.add(e.id);}for(const e of state.edges){const eb=edgeBBox(e);if(eb&&intersects(eb,bb))ns.add(e.id);}sel=expandGroups([...ns]);}renderOverlay();break;
+    case 'move':{const dx=p.x-drag.sp.x,dy=p.y-drag.sp.y;if(!drag.moved){if(Math.hypot(dx,dy)*view.zoom<3)return;drag.moved=true;snapshot();}
+      let ddx=dx,ddy=dy;if(drag.primary&&!ev.altKey){const o=drag.orig[drag.primary];if(o.x!=null){ddx=snap(o.x+dx)-o.x;ddy=snap(o.y+dy)-o.y;}}
+      guides=[];if(drag.obb&&!ev.altKey){const bb={x:drag.obb.x+ddx,y:drag.obb.y+ddy,w:drag.obb.w,h:drag.obb.h};const g=smartSnap(bb,drag.ids);ddx+=g.dx;ddy+=g.dy;guides=g.guides;}
+      applyDelta(drag.orig,ddx,ddy);renderCanvas();break;}
+    case 'resize':{const n=byId(drag.id);const o=drag.orig,h=drag.handle;const dx=p.x-drag.sp.x,dy=p.y-drag.sp.y;let x=o.x,y=o.y,w=o.w,hh=o.h;const min=20;
+      if(h.includes('e'))w=Math.max(min,snap(o.x+o.w+dx)-o.x);if(h.includes('s'))hh=Math.max(min,snap(o.y+o.h+dy)-o.y);
+      if(h.includes('w')){const nx=Math.min(snap(o.x+dx),o.x+o.w-min);w=o.x+o.w-nx;x=nx;}if(h.includes('n')){const ny=Math.min(snap(o.y+dy),o.y+o.h-min);hh=o.y+o.h-ny;y=ny;}
+      n.x=x;n.y=y;n.w=w;n.h=hh;renderCanvas();break;}
+    case 'bend':{const e=edgeById(drag.edge);const r=routeEdge(e);if(!r||!r.axis)break;drag.moved=true;e.bend=r.axis==='x'?snap(p.x)-r.A.x:snap(p.y)-r.A.y;renderCanvas();break;}
+    case 'connect':case 'reattach':{drag.cur=p;const n=nodeAt(p,6);drag.target=(n&&(drag.mode==='reattach'||n.id!==drag.from.node))?n:null;renderOverlay();break;}
+  }
+});
+svg.addEventListener('pointerup',ev=>{
+  if(!drag)return;const p=toCanvas(ev);const d=drag;drag=null;guides=[];stage.classList.remove('panning');
+  switch(d.mode){
+    case 'move':if(d.moved){renderAll();persist();}else{if(d.primary&&sel.size>1&&!ev.shiftKey&&!groupOf(d.primary)){}renderAll();}break;
+    case 'resize':renderAll();persist();break;
+    case 'bend':if(!d.moved){history.pop();updateUndoButtons();}renderAll();persist();break;
+    case 'marquee':if(d.bandCandidate&&dist(d.sp,p)*view.zoom<4)select([d.bandCandidate]);renderAll();break;
+    case 'ink':finishInk(d.pts);break;
+    case 'connect':{const src=byId(d.from.node);if(d.target){let e;mutate(()=>{e=createEdge({node:d.from.node,port:d.from.port},{node:d.target.id,port:nearestPort(d.target,p)});});sel=new Set([e.id]);renderAll();}
+      else if(dist(d.anchor,p)>30/view.zoom){let n,e;mutate(()=>{const g=st().gap;const dir=DIR[d.from.port];const w=src.w,h=src.h;let x=src.x,y=src.y;if(dir.dx>0)x=src.x+src.w+g;if(dir.dx<0)x=src.x-g-w;if(dir.dy>0)y=src.y+src.h+g;if(dir.dy<0)y=src.y-g-h;n=N(src.shape==='diamond'?'rounded':src.shape,x,y,w,src.shape==='diamond'?48:h,'Step',{fill:'#FFFFFF'});if(src.shape==='diamond')n.y=y+(src.h-48)/2;state.elements.push(n);const opp={t:'b',b:'t',l:'r',r:'l'}[d.from.port];e=createEdge({node:src.id,port:d.from.port},{node:n.id,port:opp});});sel=new Set([n.id]);renderAll();startEdit(n.id);}
+      else renderAll();break;}
+    case 'reattach':{const e=edgeById(d.edge);if(d.target){e[d.end]={node:d.target.id,port:nearestPort(d.target,p)};}else{e[d.end]={x:snap(p.x),y:snap(p.y)};}e.bend=null;renderAll();persist();break;}
+    default:renderAll();
+  }
+});
+document.addEventListener('pointerdown',ev=>{if(editing&&!editing.ta.contains(ev.target))commitEdit();},true);
+
+/* ---------- inline editing ---------- */
+function startEdit(id){
+  const it=anyById(id);if(!it)return;commitEdit();
+  let bb,align='center';
+  if(it.type==='node')bb=elBBox(it);else if(it.type==='band'){bb={x:it.x+8,y:it.y+6,w:Math.min(it.w-16,360),h:30};align='left';}
+  else if(it.type==='text'){bb={x:it.x-4,y:it.y-(it.fontSize||12)-2,w:Math.max(it._w||60,80)+8,h:Math.max(it._h||16,16)*((it.label||'').split('\n').length)+8};align='left';}
+  else{const r=routeEdge(it);if(!r)return;const m=r.pts?polyMid(r.pts):cubicAt(r.cubic,.5);bb={x:m.x-50,y:m.y-14,w:100,h:28};}
+  const s=toScreen({x:bb.x,y:bb.y});const fs=(it.fontSize||st().fontSize)*view.zoom;
+  const ta=document.createElement('textarea');ta.className='edit-box';ta.value=it.label||'';
+  Object.assign(ta.style,{left:s.x+'px',top:s.y+'px',width:Math.max(bb.w*view.zoom,60)+'px',height:Math.max(bb.h*view.zoom,fs*1.6)+'px',fontSize:fs+'px',fontFamily:fontFamily(),textAlign:it.align==='left'?'left':align,fontWeight:it.bold?'bold':'normal'});
+  stage.appendChild(ta);editing={id,ta};ta.focus();ta.select();
+  const refocus=()=>{if(editing&&editing.ta===ta&&document.activeElement!==ta){ta.focus();ta.select();}};
+  requestAnimationFrame(refocus);setTimeout(refocus,0);setTimeout(refocus,60);
+  ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();commitEdit();}else if(e.key==='Escape'){editing=null;ta.remove();}e.stopPropagation();});
+}
+function commitEdit(){if(!editing)return;const {id,ta}=editing;editing=null;const it=anyById(id);const v=ta.value.replace(/\s+$/,'');ta.remove();if(it&&v!==(it.label||'')){mutate(()=>{it.label=v;});renderInspector();}}
+
+/* ---------- sketch recognition ---------- */
+function rdp(pts,eps){if(pts.length<3)return pts.slice();let md=0,idx=0;const a=pts[0],b=pts[pts.length-1];for(let i=1;i<pts.length-1;i++){const d=perp(pts[i],a,b);if(d>md){md=d;idx=i;}}if(md>eps){const l=rdp(pts.slice(0,idx+1),eps),r=rdp(pts.slice(idx),eps);return l.slice(0,-1).concat(r);}return [a,b];}
+function perp(p,a,b){const dx=b.x-a.x,dy=b.y-a.y;const L=Math.hypot(dx,dy);if(L<1e-6)return dist(p,a);return Math.abs(dy*p.x-dx*p.y+b.x*a.y-b.y*a.x)/L;}
+function recognize(pts){
+  const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);const x=Math.min(...xs),y=Math.min(...ys),w=Math.max(...xs)-x,h=Math.max(...ys)-y;const diag=Math.hypot(w,h);
+  const first=pts[0],last=pts[pts.length-1];const closed=dist(first,last)<Math.max(.28*diag,14);
+  const simp=rdp(pts,Math.max(5,diag*.06));let corners=0,axis=0,dg=0;
+  for(let i=1;i<simp.length;i++){const a=simp[i-1],b=simp[i];const ang=Math.abs(Math.atan2(b.y-a.y,b.x-a.x));const L=dist(a,b);const ta=Math.min(ang,Math.abs(ang-Math.PI/2),Math.abs(ang-Math.PI)),td=Math.min(Math.abs(ang-Math.PI/4),Math.abs(ang-3*Math.PI/4));if(ta<td)axis+=L;else dg+=L;}
+  for(let i=1;i<simp.length-1;i++){const a=simp[i-1],b=simp[i],c=simp[i+1];const v1={x:b.x-a.x,y:b.y-a.y},v2={x:c.x-b.x,y:c.y-b.y};const ang=Math.acos(clamp((v1.x*v2.x+v1.y*v2.y)/((Math.hypot(v1.x,v1.y)||1)*(Math.hypot(v2.x,v2.y)||1)),-1,1));if(ang>Math.PI/3)corners++;}
+  let L=0;for(let i=1;i<pts.length;i++)L+=dist(pts[i-1],pts[i]);
+  let shape;
+  if(!closed||diag<24){const straight=dist(first,last)/(L||1);shape=(straight>.82||corners<=2)?'line':'ink';}
+  else{const c=corners+1;const aspect=Math.max(w,h)/Math.max(1,Math.min(w,h));if(c>=3&&c<=5)shape=dg>axis*1.1?'diamond':'rounded';else if(c<=2)shape=aspect>1.8?'pill':'ellipse';else shape='rounded';}
+  return {shape,bb:{x,y,w,h}};
+}
+function finishInk(pts){
+  let L=0;for(let i=1;i<pts.length;i++)L+=dist(pts[i-1],pts[i]);
+  if(pts.length<2||L<12/view.zoom){renderAll();return;}
+  const rec=recognize(pts);sketch={pts,bb:rec.bb,created:null};
+  applySketch(rec.shape);
+}
+function applySketch(shape){
+  if(!sketch)return;
+  mutate(()=>{
+    if(sketch.created){state.elements=state.elements.filter(e=>e.id!==sketch.created);state.edges=state.edges.filter(e=>e.id!==sketch.created);}
+    const {pts,bb}=sketch;let created;
+    if(shape==='ink'){created={id:uid(),type:'ink',pts:rdp(pts,1.2)};state.elements.push(created);}
+    else if(shape==='line'){const a=nodeAt(pts[0],10),b=nodeAt(pts[pts.length-1],10);const from=a?{node:a.id,port:nearestPort(a,pts[0])}:{x:snap(pts[0].x),y:snap(pts[0].y)};const to=b&&b!==a?{node:b.id,port:nearestPort(b,pts[pts.length-1])}:{x:snap(pts[pts.length-1].x),y:snap(pts[pts.length-1].y)};created=createEdge(from,to);}
+    else{const x=snap(bb.x),y=snap(bb.y),w=Math.max(60,snap(bb.w)),h=Math.max(36,snap(bb.h));created=N(shape,x,y,w,h,shape==='diamond'?'Condition?':'Step');state.elements.push(created);}
+    sketch.created=created.id;sketch.shape=shape;
+  });
+  sel=new Set([sketch.created]);renderAll();showSketchPop();
+}
+function showSketchPop(){
+  hideSketchPop();if(!sketch)return;
+  const pop=document.createElement('div');pop.className='sketch-pop';pop.id='sketch-pop';
+  const opts=[['rounded','프로세스','<rect x="3" y="6" width="18" height="12" rx="3"/>'],['rect','사각형','<rect x="3" y="6" width="18" height="12"/>'],['pill','시작/종료','<rect x="3" y="7" width="18" height="10" rx="5"/>'],['diamond','판단','<path d="M12 3l9 9-9 9-9-9z"/>'],['ellipse','타원','<ellipse cx="12" cy="12" rx="9" ry="6"/>'],['line','연결선','<path d="M4 12h14"/><path d="M14 8l4 4-4 4"/>'],['ink','스케치 유지','<path d="M4 16c3-6 5 4 8-2s4-6 8 0"/>']];
+  pop.innerHTML='<span class="lbl">인식됨 →</span>'+opts.map(([id,l,ic])=>`<button class="${id===sketch.shape?'on':''}" data-s="${id}" title="${l}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg></button>`).join('')+'<button class="txt" data-s="done">확인</button>';
+  const s=toScreen({x:sketch.bb.x,y:sketch.bb.y+sketch.bb.h});pop.style.left=clamp(s.x,8,s.w-380)+'px';pop.style.top=clamp(s.y+10,8,s.h-50)+'px';
+  pop.addEventListener('pointerdown',e=>e.stopPropagation());
+  pop.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.s==='done'){hideSketchPop();sketch=null;renderOverlay();}else applySketch(b.dataset.s);});
+  stage.appendChild(pop);
+}
+function hideSketchPop(){const p=$('#sketch-pop');if(p)p.remove();}
+
+/* ---------- actions ---------- */
+function deleteSel(){if(!sel.size)return;mutate(()=>{const ids=new Set(sel);state.elements=state.elements.filter(e=>!ids.has(e.id));state.edges=state.edges.filter(e=>!ids.has(e.id)&&!(e.from.node&&ids.has(e.from.node))&&!(e.to.node&&ids.has(e.to.node)));state.groups=state.groups.map(g=>({id:g.id,members:g.members.filter(m=>!ids.has(m))})).filter(g=>g.members.length>1);});sel.clear();sketch=null;hideSketchPop();renderAll();}
+function duplicateSel(){const els=selectedNodes();if(!els.length)return;const map={};mutate(()=>{const g=st().gap/2;for(const e of els){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.x+=g;c.y+=g;delete c._bb;map[e.id]=c.id;state.elements.push(c);}for(const ed of state.edges.slice()){if(ed.from.node&&ed.to.node&&map[ed.from.node]&&map[ed.to.node]){const c=JSON.parse(JSON.stringify(ed));c.id=uid();c.from.node=map[ed.from.node];c.to.node=map[ed.to.node];state.edges.push(c);}}});sel=new Set(Object.values(map));renderAll();}
+function selectAll(){sel=new Set([...state.elements.map(e=>e.id),...state.edges.map(e=>e.id)]);renderAll();}
+function groupSel(){if(sel.size<2)return;mutate(()=>{const ids=[...sel];state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));state.groups.push({id:uid(),members:ids});});renderInspector();toast('그룹으로 묶었습니다 (Ctrl+Shift+G로 해제)');}
+function ungroupSel(){mutate(()=>{state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));});renderInspector();}
+function nudge(dx,dy){const els=selectedNodes();if(!els.length)return;mutate(()=>{for(const e of els){e.x+=dx;e.y+=dy;}});}
+function alignSel(mode){const els=selectedNodes();if(els.length<2)return;const bbs=els.map(e=>e.type==='text'&&e._bb?e._bb:elBBox(e));const x1=Math.min(...bbs.map(b=>b.x)),x2=Math.max(...bbs.map(b=>b.x+b.w)),y1=Math.min(...bbs.map(b=>b.y)),y2=Math.max(...bbs.map(b=>b.y+b.h));
+  mutate(()=>{els.forEach((e,i)=>{const b=bbs[i];const offx=e.type==='text'?e.x-b.x:0,offy=e.type==='text'?e.y-b.y:0;switch(mode){case 'left':e.x=x1+offx;break;case 'right':e.x=x2-b.w+offx;break;case 'hcenter':e.x=(x1+x2)/2-b.w/2+offx;break;case 'top':e.y=y1+offy;break;case 'bottom':e.y=y2-b.h+offy;break;case 'vcenter':e.y=(y1+y2)/2-b.h/2+offy;break;}});});}
+function distribute(axis,gap){const els=selectedNodes().filter(e=>e.type!=='text');if(els.length<2)return;const key=axis==='x'?'x':'y',size=axis==='x'?'w':'h';els.sort((a,b)=>a[key]-b[key]);
+  mutate(()=>{if(gap==null){const total=els[els.length-1][key]+els[els.length-1][size]-els[0][key];const sum=els.reduce((s,e)=>s+e[size],0);const g=(total-sum)/(els.length-1);let pos=els[0][key];for(const e of els){e[key]=pos;pos+=e[size]+g;}}else{let pos=els[0][key];for(const e of els){e[key]=pos;pos+=e[size]+gap;}}});}
+function matchSize(what){const els=selectedNodes().filter(e=>e.type==='node');if(els.length<2)return;const ref=els[0];mutate(()=>{for(const e of els){if(what!=='h')e.w=ref.w;if(what!=='w')e.h=ref.h;}});}
+function equalizeEdges(gap,straighten){const eds=selectedEdges().filter(e=>e.from.node&&e.to.node);if(!eds.length)return;mutate(()=>{for(const e of eds){const r=resolveEnds(e);if(!r||!r.a||!r.b)continue;const {A,B,a,b}=r;if(A.dx!==0){b.x=A.dx>0?a.x+a.w+gap:a.x-gap-b.w;if(straighten)b.y=center(a).y-b.h/2;}else{b.y=A.dy>0?a.y+a.h+gap:a.y-gap-b.h;if(straighten)b.x=center(a).x-b.w/2;}e.bend=null;}});toast(`${eds.length}개 연결선의 길이를 ${gap}px로 맞췄습니다`);}
+function applyPreset(id){const p=PRESETS[id];mutate(()=>{Object.assign(state.style,{font:p.font,fontSize:state.style.fontSize,strokeWidth:p.strokeWidth,radius:p.radius,arrowSize:p.arrowSize,bandFill:p.bandFill,preset:id});if(id==='mono'){for(const e of state.elements){if(e.type==='node'&&e.fill&&e.fill!=='#FFFFFF'){const l=luminance(e.fill);e.fill=l>.8?'#EEEEEE':l>.5?'#D9D9D9':'#666666';}}}});renderInspector();}
+function loadTemplate(id){state=TEMPLATES[id]();sel.clear();history=[];future=[];renderAll();fitPage();persist();}
+
+/* ---------- inspector ---------- */
+const ICON={alignL:'<path d="M4 4v16M8 8h10v3H8zM8 13h6v3H8z"/>',alignC:'<path d="M12 4v16M7 8h10v3H7zM9 13h6v3H9z"/>',alignR:'<path d="M20 4v16M6 8h10v3H6zM10 13h6v3h-6z"/>',alignT:'<path d="M4 4h16M8 8v10h3V8zM13 8v6h3V8z"/>',alignM:'<path d="M4 12h16M8 7v10h3V7zM13 9v6h3V9z"/>',alignB:'<path d="M4 20h16M8 6v10h3V6zM13 10v6h3v-6z"/>',distH:'<path d="M3 4v16M21 4v16M8 9h3v6H8zM13 9h3v6h-3z"/>',distV:'<path d="M4 3h16M4 21h16M9 8v3h6V8zM9 13v3h6v-3z"/>'};
+const ic=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON[k]||k}</svg>`;
+const CAT_LABEL={fill:'채움색',stroke:'테두리·선 색',text:'글자색'};
+function swatchRow(action,current,cat,items){const list=items.concat((customColors[cat]||[]).map(h=>({name:'사용자 색',hex:h,custom:true})));
+  return `<div class="sw">${list.map(c=>`<button data-action="${action}" data-value="${c.hex}" ${c.custom?`data-custom="${cat}:${c.hex}"`:''} class="${current===c.hex?'on':''}${c.hex==='none'?' none':''}" style="background:${c.hex==='none'?'transparent':c.hex}" title="${c.name}${c.hex==='none'?'':' · '+c.hex}${c.custom?' · Shift+클릭: 삭제':''}"></button>`).join('')}<button class="add" data-action="addcolor" data-cat="${cat}" title="${CAT_LABEL[cat]} 추가 (이 브라우저에 저장)">+</button></div>`;}
+function fillSwatches(action,current){return swatchRow(action,current,'fill',FILLS);}
+function lineSwatches(action,current,cat,opts={}){const items=(opts.none?[{name:'없음',hex:'none'}]:[]).concat(opts.white?[{name:'white',hex:'#FFFFFF'}]:[]).concat(STROKES);return swatchRow(action,current,cat,items);}
+const EXTRA_COLORS=['#003F5C','#2F4B7C','#665191','#A05195','#D45087','#F95D6A','#FF7C43','#FFA600','#1B9E77','#D95F02','#7570B3','#E7298A','#66A61E','#E6AB02','#A6761D','#4D4D4D','#8DD3C7','#FB8072','#80B1D3','#FDB462','#B3DE69','#FCCDE5','#BC80BD','#CCEBC5'];
+function colorPopHTML(cat){return `<div class="color-pop" id="color-pop" data-cat="${cat}"><div class="kv"><span>${CAT_LABEL[cat]}에 추가</span></div><div class="cgrid">${EXTRA_COLORS.map(c=>`<button data-action="pickcolor" data-value="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div><div class="row"><input type="color" id="color-in2" value="#4A6FA5" title="색 고르기"><input class="in" id="hex-in" placeholder="#3366AA" maxlength="7" spellcheck="false"><button class="btn" data-action="addhex">추가</button><button class="btn" data-action="closepop">닫기</button></div><p class="note">고른 색은 이 팔레트(${CAT_LABEL[cat]})에만 추가되고 이 브라우저에 저장됩니다.</p></div>`;}
+function removeBackground(src,tol){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const W=img.naturalWidth||img.width,H=img.naturalHeight||img.height;if(!W||!H)return rej(new Error('size'));const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);let d;try{d=ctx.getImageData(0,0,W,H);}catch(e){return rej(e);}const px=d.data;
+  const samp=[];const sx=Math.max(1,W>>6),sy=Math.max(1,H>>6);for(let x=0;x<W;x+=sx){samp.push(x,(H-1)*W+x);}for(let y=0;y<H;y+=sy){samp.push(y*W,y*W+W-1);}
+  let r=0,g=0,b=0,n=0;for(const i of samp){if(px[i*4+3]<8)continue;r+=px[i*4];g+=px[i*4+1];b+=px[i*4+2];n++;}if(!n)return res(src);r/=n;g/=n;b/=n;
+  const seen=new Uint8Array(W*H);const stack=[];for(let x=0;x<W;x++){stack.push(x,(H-1)*W+x);}for(let y=0;y<H;y++){stack.push(y*W,y*W+W-1);}
+  const soft=Math.max(10,tol*.5);
+  while(stack.length){const i=stack.pop();if(seen[i])continue;seen[i]=1;const o=i*4;const dd=Math.hypot(px[o]-r,px[o+1]-g,px[o+2]-b);if(dd>tol+soft)continue;const a=dd<=tol?0:Math.round(255*(dd-tol)/soft);if(a<px[o+3])px[o+3]=a;if(dd>tol)continue;const x=i%W,y=(i-x)/W;if(x>0)stack.push(i-1);if(x<W-1)stack.push(i+1);if(y>0)stack.push(i-W);if(y<H-1)stack.push(i+W);}
+  ctx.putImageData(d,0,0);res(c.toDataURL('image/png'));};img.onerror=()=>rej(new Error('load'));img.src=src;});}
+function num(label,prop,val,target,step=1,min){return `<div class="fld"><label>${label}</label><input class="in" type="number" step="${step}" ${min!=null?`min="${min}"`:''} data-prop="${prop}" data-target="${target}" data-type="number" value="${val==null?'':R(val)}"></div>`;}
+
+function renderInspector(){
+  const s=st();const nodes=selectedNodes(),edges=selectedEdges();const onlyNodes=nodes.filter(n=>n.type==='node');
+  let html='';
+  if(!sel.size){
+    html+=`<div class="sec"><h4>그림 규격 <span class="sub">${state.page.w} × ${state.page.h}</span></h4>
+      <div class="presets">${Object.entries(PRESETS).map(([k,p])=>`<button class="preset ${s.preset===k?'on':''}" data-action="preset" data-value="${k}"><b>${p.label}</b><small>${p.hint}</small></button>`).join('')}</div>
+      <div class="fld"><label>글꼴</label><select class="in" data-prop="font" data-target="style">${FONTS.map(f=>`<option value="${f.id}" ${s.font===f.id?'selected':''}>${f.label}</option>`).join('')}</select></div>
+      <div class="row">${num('기본 글자 크기','fontSize',s.fontSize,'style',.5,6)}${num('선 굵기','strokeWidth',s.strokeWidth,'style',.1,.3)}</div>
+      <div class="row">${num('모서리 반경','radius',s.radius,'style',1,0)}${num('화살표 크기','arrowSize',s.arrowSize,'style',.5,3)}</div>
+      <div class="row">${num('기본 간격 (gap)','gap',s.gap,'style',2,4)}${num('그리드','grid',s.grid,'style',1,1)}</div>
+      <div class="fld"><label>기본 선 · 텍스트 색</label>${lineSwatches('style:stroke',s.stroke,'stroke')}</div>
+    </div>
+    <div class="sec"><h4>캔버스</h4><div class="row">${num('너비 (px)','w',state.page.w,'page',10,200)}${num('높이 (px)','h',state.page.h,'page',10,200)}</div>
+      <p class="note">SVG는 벡터라 크기와 무관하게 선명합니다. PNG는 3배(1200px 너비 기준 ≈ 300 dpi, 폭 약 30 cm)로 내보냅니다.</p></div>
+    <div class="sec"><h4>내 이미지 도형 <span class="sub">${imageLib.length}</span></h4>${imageLib.length?`<div class="imglib">${imageLib.map(i=>`<button data-action="placeimg" data-value="${i.id}" data-custom="img" title="${i.name.replace(/"/g,'&quot;')} · 클릭: 배치, Shift+클릭: 삭제"><img src="${i.src}" alt=""></button>`).join('')}</div>`:''}<button class="btn" data-action="uploadimg">이미지 · 아이콘 업로드 (PNG / JPG / SVG)</button><p class="note">올린 이미지는 이 브라우저에 저장되어 언제든 도형처럼 배치할 수 있습니다. 배치 후 "단색화"를 켜면 그림 스타일에 맞게 회색조로 바뀝니다.</p></div>
+    <div class="sec"><h4>규격의 원칙</h4><p class="note"><b>기본값은 통일, 예외는 자유.</b> 새 노드는 그리드·기본 간격·대칭 연결선으로 배치되고, 드래그하면 다른 노드의 중심선에 자석처럼 맞춰집니다(분홍 가이드). 직접 옮기거나 수치를 입력하면 그 값이 우선합니다.</p></div>`;
+  }else{
+    // mixed summary
+    html+=`<div class="sec"><h4>선택 <span class="sub">${nodes.length?nodes.length+' 요소':''}${nodes.length&&edges.length?' · ':''}${edges.length?edges.length+' 연결선':''}</span></h4>
+      <div class="row"><button class="btn grow" data-action="duplicate" ${nodes.length?'':'disabled'}>복제 <small>Ctrl+D</small></button><button class="btn grow danger" data-action="delete">삭제 <small>Del</small></button></div>
+      ${sel.size>1?`<div class="row"><button class="btn grow" data-action="group">그룹 만들기 <small>Ctrl+G</small></button><button class="btn grow" data-action="ungroup">그룹 해제</button></div>`:(groupOf([...sel][0])?`<div class="row"><button class="btn grow" data-action="ungroup">그룹 해제</button></div>`:'')}
+    </div>`;
+    if(nodes.length>=2){
+      html+=`<div class="sec"><h4>정렬 · 분배</h4>
+        <div class="seg"><button data-action="align" data-value="left" title="왼쪽">${ic('alignL')}</button><button data-action="align" data-value="hcenter" title="가로 중앙">${ic('alignC')}</button><button data-action="align" data-value="right" title="오른쪽">${ic('alignR')}</button><button data-action="align" data-value="top" title="위">${ic('alignT')}</button><button data-action="align" data-value="vcenter" title="세로 중앙">${ic('alignM')}</button><button data-action="align" data-value="bottom" title="아래">${ic('alignB')}</button></div>
+        <div class="row"><button class="btn grow" data-action="dist" data-value="x" title="현재 범위 안에서 가로 균등">${ic('distH')} 가로 균등</button><button class="btn grow" data-action="dist" data-value="y">${ic('distV')} 세로 균등</button></div>
+        <div class="row"><div class="fld"><label>간격 고정 (px)</label><input class="in" type="number" id="gap-in" value="${s.gap}" step="2" min="0"></div><button class="btn" data-action="gapx" style="align-self:flex-end">가로 적용</button><button class="btn" data-action="gapy" style="align-self:flex-end">세로 적용</button></div>
+        <div class="row"><button class="btn grow" data-action="match" data-value="w">너비 길이 맞춤</button><button class="btn grow" data-action="match" data-value="h">높이 길이 맞춤</button></div>
+        <p class="note">"간격 고정"은 선택한 노드들을 순서대로 같은 간격으로 재배치해 사이의 연결선 길이를 통일합니다. "길이 맞춤"은 <b>첫 번째로 선택한 도형</b>의 너비 또는 높이로 나머지를 맞춥니다.</p></div>`;
+    }
+    if(onlyNodes.length){
+      const n=onlyNodes[0];const same=k=>onlyNodes.every(x=>x[k]===n[k]);
+      html+=`<div class="sec"><h4>도형 ${onlyNodes.length>1?`<span class="sub">${onlyNodes.length}개에 적용</span>`:''}</h4>
+        <div class="shapes">${SHAPES.map(sh=>`<button data-action="shape" data-value="${sh.id}" class="${same('shape')&&n.shape===sh.id?'on':''}" title="${sh.label}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${sh.icon}</svg></button>`).join('')}</div>
+        ${n.shape==='image'?`<div class="row"><button class="btn grow ${n.mono?'on':''}" data-action="imgmono">단색화 (회색조)</button><button class="btn grow ${n.frame?'on':''}" data-action="imgframe">테두리 상자</button></div>
+        <div class="fld"><label>배경 제거 (누끼) · 강도</label><div class="row"><div class="seg" style="flex:1"><button data-action="rmbg" data-value="26">약</button><button data-action="rmbg" data-value="46">중</button><button data-action="rmbg" data-value="72">강</button></div>${n.srcOriginal?`<button class="btn" data-action="restoreimg">원본</button>`:''}</div></div>
+        ${n.srcOriginal?`<div class="row"><button class="btn grow" data-action="libimg">이 버전을 라이브러리에 추가</button></div>`:''}
+        <p class="note">가장자리와 이어진 단색 배경(흰색 등)을 투명하게 만듭니다. 사진처럼 배경이 고르지 않으면 "강"을 쓰거나 원본을 배경이 단순한 것으로 준비하세요. 투명해진 자리에는 아래의 채움색이 비칩니다. 캡션은 더블클릭으로 입력합니다.</p>`:''}
+        <div class="fld"><label>채움 <span style="color:var(--faint)">(진한 색은 글자가 자동으로 흰색)</span></label>${fillSwatches('fill',same('fill')?n.fill:null)}</div>
+        <div class="fld"><label>테두리</label>${lineSwatches('stroke',same('stroke')?(n.stroke||s.stroke):null,'stroke',{none:true})}</div>
+        <div class="fld"><label>글자 색</label>${lineSwatches('ntext',same('textColor')?(n.textColor||null):null,'text',{white:true})}</div>
+        <div class="row">${num('글자 크기','fontSize',n.fontSize||s.fontSize,'nodes',.5,6)}<div class="fld"><label>스타일</label><div class="row"><button class="btn grow ${n.bold?'on':''}" data-action="bold"><b>B</b></button><button class="btn grow ${n.align==='left'?'on':''}" data-action="alignText" title="왼쪽 정렬 (목록형 텍스트)">≡</button></div></div></div>
+        ${onlyNodes.length===1?`<div class="row">${num('X','x',n.x,'nodes',s.grid)}${num('Y','y',n.y,'nodes',s.grid)}${num('W','w',n.w,'nodes',s.grid,20)}${num('H','h',n.h,'nodes',s.grid,20)}</div>`:''}
+      </div>`;
+    }
+    const bands=nodes.filter(n=>n.type==='band');
+    if(bands.length){const b=bands[0];html+=`<div class="sec"><h4>단계 밴드</h4><div class="fld"><label>라벨 (패널 문자 뒤에 공백 2칸: "a  Title")</label><input class="in text" data-prop="label" data-target="bands" value="${(b.label||'').replace(/"/g,'&quot;')}"></div><div class="fld"><label>배경</label>${fillSwatches('bandfill',b.fill||s.bandFill)}</div><div class="row"><div class="fld"><label>모서리</label><div class="seg">${[[0,'각'],[8,'8'],[16,'16'],[28,'28']].map(([v,l])=>`<button data-action="bradius" data-value="${v}" class="${(b.radius!=null?b.radius:(s.radius>0?6:0))===v?'on':''}">${l}</button>`).join('')}</div></div><div class="fld"><label>테두리</label><div class="seg">${[['none','없음'],['solid','실선'],['dashed','점선']].map(([v,l])=>`<button data-action="bborder" data-value="${v}" class="${(b.border||'none')===v?'on':''}">${l}</button>`).join('')}</div></div></div>${bands.length===1?`<div class="row">${num('X','x',b.x,'bands',s.grid)}${num('Y','y',b.y,'bands',s.grid)}${num('W','w',b.w,'bands',s.grid,40)}${num('H','h',b.h,'bands',s.grid,40)}</div>`:''}<p class="note">밴드를 옮기면 안에 있는 노드가 함께 이동합니다.</p></div>`;}
+    const texts=nodes.filter(n=>n.type==='text');
+    if(texts.length){const t=texts[0];html+=`<div class="sec"><h4>텍스트</h4><div class="row">${num('글자 크기','fontSize',t.fontSize||s.fontSize,'texts',.5,6)}<div class="fld"><label>굵게</label><button class="btn ${t.bold?'on':''}" data-action="tbold"><b>B</b></button></div></div><div class="fld"><label>색</label>${lineSwatches('tcolor',t.color||s.textColor,'text',{white:true})}</div></div>`;}
+    if(edges.length){
+      const e=edges[0];const same=k=>edges.every(x=>x[k]===e[k]);
+      html+=`<div class="sec"><h4>연결선 ${edges.length>1?`<span class="sub">${edges.length}개에 적용</span>`:''}</h4>
+        <div class="fld"><label>경로</label><div class="seg">${[['ortho','직각'],['straight','직선'],['curve','곡선']].map(([v,l])=>`<button data-action="route" data-value="${v}" class="${same('route')&&e.route===v?'on':''}">${l}</button>`).join('')}</div></div>
+        <div class="row"><div class="fld"><label>시작</label><div class="seg">${[['none','—'],['arrow','◀'],['open','〈'],['dot','●']].map(([v,l])=>`<button data-action="startHead" data-value="${v}" class="${same('startHead')&&e.startHead===v?'on':''}">${l}</button>`).join('')}</div></div>
+        <div class="fld"><label>끝</label><div class="seg">${[['none','—'],['arrow','▶'],['open','〉'],['dot','●']].map(([v,l])=>`<button data-action="endHead" data-value="${v}" class="${same('endHead')&&e.endHead===v?'on':''}">${l}</button>`).join('')}</div></div></div>
+        <div class="row"><div class="fld"><label>라벨</label><input class="in text" data-prop="label" data-target="edges" value="${(e.label||'').replace(/"/g,'&quot;')}" placeholder="예: Yes / No"></div>${num('굵기','strokeWidth',e.strokeWidth||s.strokeWidth,'edges',.1,.3)}</div>
+        <div class="fld"><label>색</label>${lineSwatches('estroke',same('stroke')?(e.stroke||s.stroke):null,'stroke')}</div>
+        <div class="row"><button class="btn grow ${e.dash?'on':''}" data-action="dash">점선</button><button class="btn grow" data-action="reverse">방향 반전</button><button class="btn grow" data-action="resetBend" title="꺾임 위치와 포트를 자동으로">자동 경로</button></div>
+        <div class="row"><div class="fld"><label>길이 통일 (px)</label><input class="in" type="number" id="elen-in" value="${s.gap}" step="2" min="0"></div><label class="row" style="gap:4px;font-size:11.5px;color:var(--muted);align-self:flex-end;height:28px"><input type="checkbox" id="elen-straight" checked>직선화</label><button class="btn" data-action="equalize" style="align-self:flex-end">적용</button></div>
+        <p class="note">"길이 통일"은 각 연결선의 도착 노드를 출발 노드로부터 지정 거리에 다시 놓습니다. 직선화를 켜면 중심선도 맞춰 꺾임이 사라집니다.</p>
+      </div>`;
+    }
+  }
+  inspector.innerHTML=html;
+}
+inspector.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-action]');if(!b)return;const a=b.dataset.action,v=b.dataset.value;const nodes=selectedNodes(),onlyNodes=nodes.filter(n=>n.type==='node'),edges=selectedEdges();
+  const setAll=(list,fn)=>{mutate(()=>list.forEach(fn));renderInspector();};
+  if(b.dataset.custom&&ev.shiftKey){if(b.dataset.custom==='img'){imageLib=imageLib.filter(i=>i.id!==v);saveImages();}else{const [cat,hex]=b.dataset.custom.split(':');customColors[cat]=(customColors[cat]||[]).filter(c=>c!==hex);saveColors();}renderInspector();return;}
+  const popCat=()=>{const p=$('#color-pop');return p?p.dataset.cat:'fill';};
+  switch(a){
+    case 'addcolor':{const old=$('#color-pop');if(old)old.remove();b.closest('.sw').insertAdjacentHTML('afterend',colorPopHTML(b.dataset.cat||'fill'));$('#hex-in').focus();break;}
+    case 'closepop':{const old=$('#color-pop');if(old)old.remove();break;}
+    case 'pickcolor':addCustomColor(v,popCat());break;
+    case 'addhex':{const hex=($('#hex-in').value||$('#color-in2').value).trim();if(/^#?[0-9a-f]{6}$/i.test(hex))addCustomColor(hex.startsWith('#')?hex:'#'+hex,popCat());else toast('#RRGGBB 형식으로 입력하세요');break;}
+    case 'ntext':setAll(onlyNodes,n=>{n.textColor=v;});break;
+    case 'rmbg':{const targets=onlyNodes.filter(n=>n.shape==='image');if(!targets.length)break;toast('배경을 제거하는 중…');Promise.all(targets.map(n=>removeBackground(n.srcOriginal||n.src,+v).then(out=>({n,out})))).then(list=>{mutate(()=>{for(const {n,out} of list){if(!n.srcOriginal)n.srcOriginal=n.src;n.src=out;}});renderInspector();toast('배경을 제거했습니다. 결과가 마음에 들지 않으면 다른 강도를 누르거나 "원본"으로 되돌리세요.');}).catch(()=>toast('이 이미지는 처리할 수 없습니다 (SVG는 먼저 PNG로 변환해 주세요)'));break;}
+    case 'restoreimg':setAll(onlyNodes.filter(n=>n.srcOriginal),n=>{n.src=n.srcOriginal;delete n.srcOriginal;});break;
+    case 'libimg':{const n=onlyNodes.find(x=>x.shape==='image');if(!n)break;const img=new Image();img.onload=()=>{imageLib.push({id:uid(),name:(n.label||'image').split('\n')[0]+' (배경 제거)',src:n.src,w:img.naturalWidth||n.w,h:img.naturalHeight||n.h});saveImages();toast('라이브러리에 추가했습니다');};img.src=n.src;break;}
+    case 'uploadimg':$('#img-in').click();break;
+    case 'placeimg':setTool('image:'+v);toast('캔버스를 클릭해 이미지를 배치하세요');break;
+    case 'imgmono':setAll(onlyNodes,n=>{n.mono=!onlyNodes[0].mono;});break;
+    case 'imgframe':setAll(onlyNodes,n=>{n.frame=!onlyNodes[0].frame;});break;
+    case 'bradius':setAll(nodes.filter(n=>n.type==='band'),n=>{n.radius=+v;});break;
+    case 'bborder':setAll(nodes.filter(n=>n.type==='band'),n=>{n.border=v;});break;
+    case 'preset':applyPreset(v);break;
+    case 'style:stroke':mutate(()=>{state.style.stroke=v;state.style.textColor=v;});renderInspector();break;
+    case 'delete':deleteSel();break;case 'duplicate':duplicateSel();break;case 'group':groupSel();break;case 'ungroup':ungroupSel();break;
+    case 'align':alignSel(v);break;case 'dist':distribute(v,null);break;
+    case 'gapx':distribute('x',+$('#gap-in').value||0);break;case 'gapy':distribute('y',+$('#gap-in').value||0);break;
+    case 'match':matchSize(v);break;
+    case 'shape':setAll(onlyNodes,n=>{n.shape=v;if(v==='diamond'&&n.h<56)n.h=64;});break;
+    case 'fill':setAll(onlyNodes,n=>{n.fill=v;});break;
+    case 'stroke':setAll(onlyNodes,n=>{n.stroke=v;});break;
+    case 'bold':setAll(onlyNodes,n=>{n.bold=!onlyNodes[0].bold;});break;
+    case 'alignText':setAll(onlyNodes,n=>{n.align=onlyNodes[0].align==='left'?'center':'left';});break;
+    case 'bandfill':setAll(nodes.filter(n=>n.type==='band'),n=>{n.fill=v;});break;
+    case 'tbold':setAll(nodes.filter(n=>n.type==='text'),n=>{n.bold=!n.bold;});break;
+    case 'tcolor':setAll(nodes.filter(n=>n.type==='text'),n=>{n.color=v;});break;
+    case 'route':setAll(edges,e=>{e.route=v;e.bend=null;});break;
+    case 'startHead':setAll(edges,e=>{e.startHead=v;});break;case 'endHead':setAll(edges,e=>{e.endHead=v;});break;
+    case 'estroke':setAll(edges,e=>{e.stroke=v;});break;
+    case 'dash':setAll(edges,e=>{e.dash=!edges[0].dash;});break;
+    case 'reverse':setAll(edges,e=>{const f=e.from;e.from=e.to;e.to=f;e.bend=null;});break;
+    case 'resetBend':setAll(edges,e=>{e.bend=null;if(e.from.node)e.from.port='auto';if(e.to.node)e.to.port='auto';});break;
+    case 'equalize':equalizeEdges(+$('#elen-in').value||0,$('#elen-straight').checked);break;
+  }
+});
+inspector.addEventListener('input',ev=>{
+  const i=ev.target;if(!i.dataset.prop)return;const prop=i.dataset.prop,tgt=i.dataset.target;let v=i.value;if(i.dataset.type==='number'){if(v==='')return;v=+v;if(Number.isNaN(v))return;}
+  const key=tgt+':'+prop;if(inputSession!==key){snapshot();inputSession=key;}
+  if(tgt==='style')state.style[prop]=v;else if(tgt==='page')state.page[prop]=Math.max(200,v);
+  else{const list=tgt==='nodes'?selectedNodes().filter(n=>n.type==='node'):tgt==='bands'?selectedNodes().filter(n=>n.type==='band'):tgt==='texts'?selectedNodes().filter(n=>n.type==='text'):selectedEdges();list.forEach(e=>{e[prop]=v;});}
+  renderCanvas();
+});
+inspector.addEventListener('change',ev=>{if(ev.target.dataset.prop){inputSession=null;persist();if(ev.target.tagName==='SELECT')renderInspector();}});
+
+/* ---------- menus / export ---------- */
+function closeMenus(){$$('.menu .dd').forEach(d=>d.hidden=true);}
+$$('[data-menu]').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();const dd=b.nextElementSibling;const open=!dd.hidden;closeMenus();dd.hidden=open;}));
+document.addEventListener('click',ev=>{if(!ev.target.closest('.menu'))closeMenus();});
+$$('.dd [data-act]').forEach(b=>b.addEventListener('click',()=>{closeMenus();const a=b.dataset.act;
+  if(a==='new'){if(state.elements.length&&!confirm('현재 문서를 지우고 새로 시작할까요? (실행 취소 불가)'))return;state=newDoc();sel.clear();history=[];future=[];renderAll();fitPage();persist();}
+  else if(a==='import')$('#file-in').click();
+  else if(a.startsWith('tpl:')){if(state.elements.length&&!confirm('현재 문서를 예제로 바꿀까요?'))return;loadTemplate(a.slice(4));}
+  else if(a==='export:svg')download(new Blob([buildExportSVG()],{type:'image/svg+xml'}),'figure.svg');
+  else if(a==='export:png')exportPNG();
+  else if(a==='export:json')download(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),'figure.json');
+  else if(a==='export:copysvg'){navigator.clipboard.writeText(buildExportSVG()).then(()=>toast('SVG 코드를 클립보드에 복사했습니다. Illustrator/Inkscape/PowerPoint에 붙여넣거나 .svg로 저장하세요.')).catch(()=>toast('클립보드 접근이 차단되었습니다.'));}
+}));
+$('#file-in').addEventListener('change',ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!d.elements||!d.edges)throw 0;snapshot();state=Object.assign(newDoc(),d);state.style=Object.assign(defaultStyle(),d.style||{});sel.clear();renderAll();fitPage();persist();toast('불러왔습니다');}catch(e){toast('JSON 파일을 읽을 수 없습니다');}ev.target.value='';};rd.readAsText(f);});
+function buildExportSVG(){const {w,h}=state.page;const out=svgEl('svg',{xmlns:NS,viewBox:`0 0 ${w} ${h}`,width:w,height:h});out.appendChild(svgEl('rect',{x:0,y:0,width:w,height:h,fill:'#FFFFFF'}));const fig=gFig.cloneNode(true);fig.removeAttribute('id');fig.querySelectorAll('.hit,[fill="transparent"]').forEach(x=>x.remove());fig.querySelectorAll('[data-id]').forEach(x=>{x.removeAttribute('data-id');x.removeAttribute('data-kind');});out.appendChild(fig);return '<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(out);}
+let dlCap=null;(async()=>{try{if(window.claude&&typeof window.claude.use==='function')dlCap=await window.claude.use('downloads');}catch(e){}})();
+async function download(blob,name){
+  if(dlCap){try{await dlCap.save({filename:name,data:blob});toast(`${name} 저장했습니다`);}catch(e){if(!e||e.code!=='declined')toast('저장하지 못했습니다: '+((e&&e.message)||'알 수 없는 오류'));}return;}
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);toast(`${name} 다운로드를 시작했습니다. 다운로드가 차단된 환경이면 "SVG 코드 복사"를 사용하세요.`);}
+function exportPNG(){const s=buildExportSVG();const url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml;charset=utf-8'}));const img=new Image();img.onload=()=>{const sc=3;const c=document.createElement('canvas');c.width=state.page.w*sc;c.height=state.page.h*sc;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);c.toBlob(b=>{download(b,'figure.png');URL.revokeObjectURL(url);},'image/png');};img.onerror=()=>toast('PNG 변환에 실패했습니다');img.src=url;}
+let toastT=null;function toast(msg){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t);}t.textContent=msg;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),3200);}
+
+$('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;
+$('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>단축키</h3><div class="keys">
+<kbd>V</kbd><span>선택 · 이동</span><kbd>H</kbd><span>화면 이동 (Space 누른 채 드래그도 가능)</span><kbd>R</kbd><span>프로세스 노드</span><kbd>D</kbd><span>판단(마름모) 노드</span><kbd>T</kbd><span>텍스트</span><kbd>C</kbd><span>연결선 (노드 → 노드 클릭)</span><kbd>P</kbd><span>손그림 인식</span>
+<kbd>Shift+클릭</kbd><span>다중 선택 추가/해제</span><kbd>드래그</kbd><span>빈 곳에서 영역 선택</span><kbd>Alt+드래그</kbd><span>스냅 없이 자유 이동</span><kbd>더블클릭</kbd><span>텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)</span>
+<kbd>Ctrl+Z / Y</kbd><span>실행 취소 / 다시 실행</span><kbd>Ctrl+D</kbd><span>복제</span><kbd>Ctrl+G</kbd><span>그룹 (Shift로 해제)</span><kbd>Ctrl+A</kbd><span>전체 선택</span><kbd>방향키</kbd><span>그리드 단위 이동 (Shift: 10배)</span><kbd>Delete</kbd><span>삭제</span><kbd>Ctrl+휠</kbd><span>확대/축소</span>
+</div><p class="note" style="margin-top:14px">포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.</p><div class="row" style="justify-content:space-between;margin-top:10px"><a class="btn" href="manual.html" target="_blank" rel="noopener">사용 설명서 열기</a><button class="btn" id="close-keys">닫기</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});};
+
+/* ---------- keyboard ---------- */
+window.addEventListener('keydown',ev=>{
+  if(editing){if(ev.target!==editing.ta){editing.ta.focus();if(ev.key==='Escape'){editing.ta.remove();editing=null;}else if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();commitEdit();}}return;}
+  const tag=(ev.target.tagName||'').toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select')return;
+  const k=ev.key.toLowerCase();const mod=ev.ctrlKey||ev.metaKey;
+  if(k===' '){if(!spaceDown){spaceDown=true;stage.classList.add('tool-hand');}ev.preventDefault();return;}
+  if(mod&&k==='z'){ev.preventDefault();ev.shiftKey?redo():undo();return;}
+  if(mod&&k==='y'){ev.preventDefault();redo();return;}
+  if(mod&&k==='a'){ev.preventDefault();selectAll();return;}
+  if(mod&&k==='d'){ev.preventDefault();duplicateSel();return;}
+  if(mod&&k==='g'){ev.preventDefault();ev.shiftKey?ungroupSel():groupSel();return;}
+  if(mod)return;
+  if(k==='delete'||k==='backspace'){ev.preventDefault();deleteSel();return;}
+  if(k==='escape'){sel.clear();connectSrc=null;sketch=null;hideSketchPop();setTool('select');renderAll();return;}
+  if(k==='enter'&&sel.size===1){ev.preventDefault();startEdit([...sel][0]);return;}
+  if(k.startsWith('arrow')){ev.preventDefault();const g=(ev.shiftKey?10:1)*st().grid;nudge(k==='arrowleft'?-g:k==='arrowright'?g:0,k==='arrowup'?-g:k==='arrowdown'?g:0);return;}
+  const map={v:'select',h:'hand',r:'shape:rounded',d:'shape:diamond',t:'text',c:'connect',p:'pen'};if(map[k])setTool(map[k]);
+});
+window.addEventListener('keyup',ev=>{if(ev.key===' '){spaceDown=false;if(tool!=='hand')stage.classList.remove('tool-hand');}});
+
+/* ---------- embed API (window.WorkflowAssist + postMessage) ---------- */
+const listeners={};
+function emit(ev,data){(listeners[ev]||[]).forEach(f=>{try{f(data);}catch(e){}});if(window.parent!==window){try{window.parent.postMessage(Object.assign({source:'workflow-assist',type:ev},data||{}),'*');}catch(e){}}}
+function loadDoc(doc){if(!doc||!Array.isArray(doc.elements)||!Array.isArray(doc.edges))throw new Error('invalid document: elements[] and edges[] are required');snapshot();state=Object.assign(newDoc(),JSON.parse(JSON.stringify(doc)));state.style=Object.assign(defaultStyle(),doc.style||{});sel.clear();renderAll();fitPage();persist();}
+window.WorkflowAssist={
+  version:'1.0.0',
+  load:loadDoc,
+  getDoc(){return JSON.parse(JSON.stringify(state));},
+  exportSVG(){return buildExportSVG();},
+  loadTemplate(id){if(!TEMPLATES[id])throw new Error('unknown template: '+id);loadTemplate(id);},
+  templates(){return Object.keys(TEMPLATES);},
+  newDocument(){state=newDoc();sel.clear();history=[];future=[];renderAll();fitPage();persist();},
+  on(ev,fn){(listeners[ev]=listeners[ev]||[]).push(fn);return ()=>{listeners[ev]=(listeners[ev]||[]).filter(f=>f!==fn);};}
+};
+window.addEventListener('message',ev=>{
+  const m=ev.data;if(!m||m.target!=='workflow-assist')return;
+  const reply=(type,data)=>{try{ev.source.postMessage(Object.assign({source:'workflow-assist',type,requestId:m.requestId},data||{}),ev.origin||'*');}catch(e){}};
+  try{
+    switch(m.type){
+      case 'load':loadDoc(m.doc);reply('loaded');break;
+      case 'getDoc':reply('doc',{doc:window.WorkflowAssist.getDoc()});break;
+      case 'exportSVG':reply('svg',{svg:buildExportSVG()});break;
+      case 'loadTemplate':window.WorkflowAssist.loadTemplate(m.id);reply('loaded');break;
+      case 'newDocument':window.WorkflowAssist.newDocument();reply('loaded');break;
+      case 'templates':reply('templates',{templates:Object.keys(TEMPLATES)});break;
+      default:reply('error',{message:'unknown message type: '+m.type});
+    }
+  }catch(e){reply('error',{message:String((e&&e.message)||e)});}
+});
+
+/* ---------- boot ---------- */
+(function boot(){
+  let saved=null;try{saved=JSON.parse(localStorage.getItem('figureassist.doc.v3')||localStorage.getItem('figuregrid.doc.v2'));}catch(e){}
+  if(saved&&saved.elements){state=Object.assign(newDoc(),saved);state.style=Object.assign(defaultStyle(),saved.style||{});}else state=TEMPLATES.rnaseq();
+  renderAll();requestAnimationFrame(fitPage);setTool('select');
+})();
+})();
+</script>

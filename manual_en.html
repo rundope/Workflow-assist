@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workflow-assist User Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+:root{--bg:#F5F6F8;--surface:#FFFFFF;--line:#D8DCE4;--ink:#1B1F27;--muted:#5F6B7C;--faint:#98A2B3;--accent:#2F5FA8;--accent-soft:#E2EBF9;--code:#EEF0F4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181D;--surface:#1E2228;--line:#333944;--ink:#E6E8EC;--muted:#9AA3B2;--faint:#68717F;--accent:#7BA3E3;--accent-soft:#26364F;--code:#252A32}}
+:root[data-theme="dark"]{--bg:#15181D;--surface:#1E2228;--line:#333944;--ink:#E6E8EC;--muted:#9AA3B2;--faint:#68717F;--accent:#7BA3E3;--accent-soft:#26364F;--code:#252A32}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans","IBM Plex Sans KR",system-ui,sans-serif;font-size:14.5px;line-height:1.7;padding:32px 20px 80px}
+.doc{max-width:820px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:36px}
+.toc{position:sticky;top:24px;align-self:start;font-size:13px}
+@media (max-width:760px){.doc{grid-template-columns:1fr}.toc{position:static}}
+.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+.toc a:hover{color:var(--accent)}
+.toc .t{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin:14px 0 4px}
+main{min-width:0}
+h1{font-size:28px;margin:0 0 6px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 28px;max-width:60ch}
+h2{font-size:19px;margin:44px 0 10px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:15px;margin:22px 0 6px}
+p{margin:0 0 10px;max-width:68ch}
+ul,ol{padding-left:22px;margin:0 0 10px}
+li{margin:3px 0}
+kbd{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12px;background:var(--code);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+code{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12.5px;background:var(--code);padding:1px 5px;border-radius:4px}
+.ko{color:var(--muted);font-size:.92em;white-space:nowrap}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;max-width:68ch}
+.tip b{color:var(--accent)}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0 14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);font-weight:600}
+.topline{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;margin-bottom:18px}
+.back{color:var(--accent);text-decoration:none;font-size:13px}
+.langs{display:flex;flex-wrap:wrap;gap:4px;font-size:12.5px}
+.langs a{color:var(--muted);text-decoration:none;padding:2px 8px;border:1px solid var(--line);border-radius:999px}
+.langs a:hover{color:var(--accent);border-color:var(--accent)}
+.langs a[aria-current]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+</style>
+</head>
+<body>
+<div class="doc">
+<nav class="toc">
+  <div class="t">Getting started</div>
+  <a href="#intro">What is Workflow-assist</a><a href="#screen">Screen layout</a><a href="#first">Your first figure in 5 minutes</a>
+  <div class="t">Drawing</div>
+  <a href="#shapes">Shapes and text</a><a href="#connect">Connectors</a><a href="#align">Align · spacing · groups</a><a href="#band">Phase bands · panel labels</a><a href="#pen">Sketch recognition</a><a href="#image">Image &amp; icon library</a><a href="#color">Color palettes</a>
+  <div class="t">Finishing</div>
+  <a href="#style">Figure style (presets)</a><a href="#templates">Templates</a><a href="#export">Export · saving</a><a href="#embed">Embedding in other sites</a><a href="#keys">Keyboard shortcuts</a><a href="#faq">FAQ</a>
+</nav>
+<main>
+<div class="topline">
+  <a class="back" href="index.html">← Back to the editor</a>
+  <nav class="langs" aria-label="Language"><a href="manual_en.html" hreflang="en" aria-current="page">English</a><a href="manual_kr.html" hreflang="ko">한국어</a><a href="manual_jp.html" hreflang="ja">日本語</a><a href="manual_cn.html" hreflang="zh-CN">中文</a></nav>
+</div>
+<h1>Workflow-assist User Guide</h1>
+<p class="lead">A tool for drawing workflows and flowcharts that are ready to drop into papers and reports. It keeps the "rules" — grid, spacing, connector shape — automatically, while letting you change position, size, color and font however you like.</p>
+<div class="tip"><b>Note on the interface language</b> The editor's buttons and menus are currently in Korean only. In this guide, the Korean label is shown in grey after the English name, e.g. <b>Export</b> <span class="ko">(내보내기)</span>, so you can find it on screen.</div>
+
+<h2 id="intro">What is Workflow-assist</h2>
+<p>Its defaults follow the conventions of figures in journals such as Nature, Cell and Science: Helvetica/Arial type, thin lines of about 1 pt, small filled arrowheads, restrained light tints, and phase bands with panel letters (<b>a</b>, <b>b</b>, <b>c</b>). You can edit freely on top of these defaults, but every new element snaps to the grid and the standard spacing, so the result never gets messy.</p>
+
+<h2 id="screen">Screen layout</h2>
+<div class="table-wrap"><table>
+<tr><th>Area</th><th>What it does</th></tr>
+<tr><td>Top bar</td><td><b>File</b> <span class="ko">(파일)</span>: new document, templates, open JSON · <b>Export</b> <span class="ko">(내보내기)</span>: SVG, PNG, JSON, copy SVG code · undo/redo · zoom · keyboard shortcut help <span class="ko">(단축키)</span></td></tr>
+<tr><td>Left toolbar</td><td>Select/move, pan, 10 shapes, image upload, phase band, text, connector, sketch. Triangle, document and cloud are available from the right panel after selecting a shape.</td></tr>
+<tr><td>Canvas</td><td>The white sheet is the actual figure area (what gets exported). The dot grid is shown on screen only and is not exported.</td></tr>
+<tr><td>Right panel</td><td>With nothing selected: <b>Figure style</b> <span class="ko">(그림 규격)</span> — preset, font, line width, spacing, default line color — plus <b>Canvas</b> <span class="ko">(캔버스)</span> size and <b>My image shapes</b> <span class="ko">(내 이미지 도형)</span>. With something selected: that element's properties.</td></tr>
+<tr><td>Status bar</td><td>Hint for the current tool, number of selected items, auto-save status</td></tr>
+</table></div>
+
+<h2 id="first">Your first figure in 5 minutes</h2>
+<ol>
+<li>Click <b>Rounded rectangle</b> (<kbd>R</kbd>) in the left toolbar, then click on the canvas. Type the text right away and press <kbd>Enter</kbd> to confirm (<kbd>Shift</kbd>+<kbd>Enter</kbd> for a new line).</li>
+<li>Hover over a node and small circles (ports) appear on its four sides. Grab the right port and <b>drag it to an empty spot</b>: a new node is created at the standard distance and connected. Repeat to build a neatly aligned flow.</li>
+<li>For a branch, place a <b>Diamond</b> (<kbd>D</kbd>), drag its port to another node, then double-click the connector to type a <code>Yes</code>/<code>No</code> label.</li>
+<li>Pick a fill color in the right panel and, if needed, group a section with a <b>Phase band</b>.</li>
+<li>Save with <b>Export → SVG</b> <span class="ko">(내보내기 → SVG)</span> and use it as-is in your manuscript editor, Illustrator or PowerPoint.</li>
+</ol>
+
+<h2 id="shapes">Shapes and text</h2>
+<p>13 shapes: rounded rectangle (process), rectangle, start/end (pill), diamond (decision), ellipse, parallelogram (input/output), cylinder (data), hexagon (preparation), chevron (phase), triangle, star (emphasis), document, cloud (external system). After selecting a shape you can switch it to another at any time from the shape grid in the right panel.</p>
+<ul>
+<li><b>Move</b>: drag. When it lines up with another node's center line or edge, a pink guide appears and it snaps like a magnet. Hold <kbd>Alt</kbd> while dragging to place it freely.</li>
+<li><b>Resize</b>: drag one of the 8 handles, or type numbers into W/H in the panel.</li>
+<li><b>Text</b>: double-click (or <kbd>Enter</kbd>) to edit. In the panel, set font size, bold, left alignment (useful for bullet-style text) and <b>text color</b> <span class="ko">(글자 색)</span>.</li>
+<li><b>Text tool</b> (<kbd>T</kbd>): places text without a shape — for panel letters <b>a</b>, <b>b</b> or a figure title.</li>
+<li><b>Duplicate</b> <kbd>Ctrl</kbd>+<kbd>D</kbd>, <b>delete</b> <kbd>Delete</kbd>, <b>nudge</b> with the arrow keys (<kbd>Shift</kbd> for 10×).</li>
+</ul>
+
+<h2 id="connect">Connectors</h2>
+<p>There are three ways to create one: ① drag a node's port onto another node, ② use the <kbd>C</kbd> tool and click the start node, then the end node, ③ draw a line between two nodes with the sketch tool (<kbd>P</kbd>).</p>
+<ul>
+<li><b>Route</b> <span class="ko">(경로)</span>: orthogonal (default) <span class="ko">(직각)</span>, straight <span class="ko">(직선)</span>, curved <span class="ko">(곡선)</span>. Orthogonal routes bend in the middle so both sides are symmetric; select the line and drag the round handle to move the bend. <b>Auto route</b> <span class="ko">(자동 경로)</span> restores the automatic layout.</li>
+<li><b>Arrowheads</b>: for the start and the end separately — none / filled / open / dot. <b>Reverse</b> <span class="ko">(방향 반전)</span> swaps start and end.</li>
+<li><b>Reconnect</b>: a selected line shows square handles at both ends. Drop one onto another node, or onto empty space to make a free endpoint.</li>
+<li><b>Label, dashed, color, width</b>: set in the panel. Select several lines to apply to all at once.</li>
+<li><b>Equalize length</b> <span class="ko">(길이 통일)</span>: select several connectors, enter a value in px and apply — each end node moves to the same distance from its start node. With <b>Straighten</b> <span class="ko">(직선화)</span> on, center lines are aligned too, removing the bends.</li>
+</ul>
+<div class="tip"><b>When a line has a tiny kink</b> the two nodes' centers differ by a few px. Drag one slightly until it snaps to the pink guide, or select both and click the <b>vertical center</b> alignment.</div>
+
+<h2 id="align">Align · spacing · groups</h2>
+<p>Select several elements with <kbd>Shift</kbd>+click or by dragging on empty space (marquee selection). With two or more selected, alignment tools appear in the panel.</p>
+<ul>
+<li><b>Align</b> left / horizontal center / right / top / vertical center / bottom</li>
+<li><b>Distribute horizontally · vertically</b> <span class="ko">(가로 균등 · 세로 균등)</span> — keeps the two outer items and equalizes the gaps between them</li>
+<li><b>Fixed gap</b> <span class="ko">(간격 고정)</span> — rearranges items in order with the gap you enter ("apply horizontally" <span class="ko">(가로 적용)</span> / "apply vertically" <span class="ko">(세로 적용)</span>); all connectors between the nodes end up the same length</li>
+<li><b>Match width · Match height</b> <span class="ko">(너비 길이 맞춤 · 높이 길이 맞춤)</span> — sets the others to the width or height of the <b>first selected shape</b></li>
+<li><b>Group</b> <kbd>Ctrl</kbd>+<kbd>G</kbd> — afterwards, clicking one member selects the whole group so it moves and deletes together. Connectors can be grouped too. Ungroup with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd>.</li>
+</ul>
+
+<h2 id="band">Phase bands · panel labels</h2>
+<p>A band is a light background that groups several nodes into one section. Place it with the dashed-rectangle icon in the toolbar and resize it. Moving a band moves the nodes inside it. Dragging on empty space inside a band selects the elements inside rather than the band (to move the band itself, grab it near its border or its label).</p>
+<ul>
+<li><b>Label</b>: put two spaces after the first character (<code>a  Sample collection</code>) and that character is shown large and bold as a panel letter.</li>
+<li><b>Background</b>: choose from the fill palette. <b>Corners</b>: square / 8 / 16 / 28 px. <b>Border</b>: none / solid / dashed.</li>
+<li><b>Swimlanes</b>: tall bands placed side by side make a process diagram by person or department (see the report template "Approval process").</li>
+</ul>
+
+<h2 id="pen">Sketch recognition</h2>
+<p>Press <kbd>P</kbd> and draw roughly with a mouse or pen; the stroke turns into a standard shape. Closed shapes are recognized as rectangle, diamond, ellipse or pill depending on the number of corners and their angles; open strokes become connectors. A line drawn between two nodes becomes a connector joining them.</p>
+<p>In the small popup that appears right after recognition, you can switch to another shape (process, rectangle, start/end, decision, ellipse, connector) or keep the original sketch with the last icon. Recognition is rule-based, so complex drawings may not be recognized accurately, and shapes like hexagons or stars are not recognized.</p>
+
+<h2 id="image">Image &amp; icon library</h2>
+<p>Upload a PNG / JPG / SVG with the image icon in the toolbar (or "Upload image · icon" <span class="ko">(이미지 · 아이콘 업로드)</span> in the panel). It is saved to <b>My image shapes</b> <span class="ko">(내 이미지 도형)</span> and can be placed any time: click it, then click on the canvas. A placed image behaves like a normal node — connect it with ports, resize it, and double-click to add a caption below it.</p>
+<ul>
+<li><b>Remove background</b> <span class="ko">(배경 제거)</span>: select the image and click a strength — <b>low / medium / high</b> <span class="ko">(약 / 중 / 강)</span>. A solid background (such as white) connected to the edges becomes transparent. If you don't like the result, try another strength or go back with <b>Original</b> <span class="ko">(원본)</span>. The background-free version can be saved separately with "Add this version to the library" <span class="ko">(이 버전을 라이브러리에 추가)</span>. Uneven backgrounds such as photos are not removed well.</li>
+<li><b>Monochrome</b> <span class="ko">(단색화)</span>: converts to grayscale to match the tone of a paper figure. <b>Border box</b> <span class="ko">(테두리 상자)</span>: wraps the image in the same border as other nodes.</li>
+<li>Large photos are automatically downscaled to 640 px or less. <kbd>Shift</kbd>+click removes an item from the library.</li>
+<li>The library is stored in this browser only. Figures themselves embed their images when exported to JSON/SVG, so they open on other computers too.</li>
+</ul>
+
+<h2 id="color">Color palettes</h2>
+<p>When a shape is selected, the panel shows separate palettes for <b>Fill</b> <span class="ko">(채움)</span>, <b>Border</b> <span class="ko">(테두리)</span> and <b>Text color</b> <span class="ko">(글자 색)</span>. The default colors are adapted from the Okabe–Ito palette, which stays distinguishable for color-blind readers and in black-and-white print. Hover over a color to see its name and HEX code (e.g. <code>#2F6DB5</code>).</p>
+<ul>
+<li><b>Fill</b>: 34 colors in one row — white, 3 greys, and light / medium / dark versions of 10 hues (grey, blue, teal, green, yellow, orange, red, purple, navy, pink). <b>Choosing a dark fill turns the text white automatically.</b></li>
+<li><b>Border</b>: <b>None</b> (shown as a dashed empty swatch) plus 10 colors. "None" works for every shape.</li>
+<li><b>Text color</b>: white plus 10 colors. A text color you pick yourself takes priority over the automatic white.</li>
+<li><b>Adding colors</b>: click <b>+</b> at the end of any palette to get 24 suggested colors, a color picker and a HEX field (<code>#RRGGBB</code>). An added color goes <b>into that palette only</b> and is saved in this browser. <kbd>Shift</kbd>+click removes it.</li>
+<li>To change the default line and text color for the whole figure, select nothing and use <b>Figure style → Default line · text color</b> <span class="ko">(그림 규격 → 기본 선 · 텍스트 색)</span>.</li>
+</ul>
+<div class="tip"><b>Recommendation</b> Use at most 2–3 accent colors per figure and keep the rest white or grey. Figures are easiest to read when colors map only to meaning (data / processing / decision / result).</div>
+
+<h2 id="style">Figure style (presets)</h2>
+<p>With nothing selected, the values in the right panel apply to the whole figure.</p>
+<div class="table-wrap"><table>
+<tr><th>Preset</th><th>Character</th></tr>
+<tr><td>Nature</td><td>Helvetica · 1.2 px lines · 4 px corners · light bands. Safe for most journals</td></tr>
+<tr><td>Cell</td><td>Slightly heavier lines (1.6 px) and rounder corners (8 px). For figures that use color boldly</td></tr>
+<tr><td>Mono</td><td>Square corners, thin lines, greys only. For black-and-white print and report body text</td></tr>
+</table></div>
+<p>You can adjust the font (Helvetica/Arial, Noto Sans KR, IBM Plex Sans KR, Times New Roman), default font size, line width, corner radius, arrowhead size, default gap, grid spacing and canvas size individually. Colors or font sizes given to individual elements take priority over the figure style.</p>
+
+<h2 id="templates">Templates</h2>
+<p>Open one from <b>File → Templates</b> <span class="ko">(파일 → 예제)</span> and just replace the content. The template texts are partly in Korean and partly in English.</p>
+<div class="table-wrap"><table>
+<tr><th>Type</th><th>Template</th><th>Use</th></tr>
+<tr><td rowspan="5">Papers</td><td>Experimental workflow (a·b·c)</td><td>Methods figures split into panels, e.g. sample collection → sequencing → analysis</td></tr>
+<tr><td>CONSORT flow diagram</td><td>Enrollment, allocation, follow-up and analysis counts in clinical trials</td></tr>
+<tr><td>PRISMA 2020</td><td>Identification, screening and inclusion in systematic reviews</td></tr>
+<tr><td>Study design</td><td>Study design schematic showing randomization and follow-up time points</td></tr>
+<tr><td>ML pipeline</td><td>Model development flow: data → training → evaluation → decision loop</td></tr>
+<tr><td rowspan="3">Reports</td><td>Approval process</td><td>Swimlanes by role, approve/reject branches</td></tr>
+<tr><td>Project phases</td><td>Phase-gate chevrons with activities per phase</td></tr>
+<tr><td>System data flow</td><td>Source data → ingestion → storage → analysis → users</td></tr>
+</table></div>
+
+<h2 id="export">Export · saving</h2>
+<ul>
+<li><b>SVG</b>: vector. Best for journal submission, editing in Illustrator/Inkscape, and inserting into Word or PowerPoint. The grid and selection marks are not included.</li>
+<li><b>PNG</b>: 3× the canvas resolution (a 1200 px canvas → 3600 px, about 300 dpi at 30 cm wide). Rendered with system fonts (Arial etc.).</li>
+<li><b>JSON</b>: the editable source. Use it to move work to another computer or share it with colleagues; open it with <b>File → Open JSON</b> <span class="ko">(파일 → JSON 불러오기)</span>.</li>
+<li><b>Copy SVG code</b> <span class="ko">(SVG 코드 복사)</span>: where downloads are blocked, copy to the clipboard and save as an <code>.svg</code> file.</li>
+<li><b>Auto-save</b>: your work is saved in the browser automatically and restored next time. Clearing browser data erases it, so keep important figures as JSON.</li>
+</ul>
+
+<h2 id="embed">Embedding in other sites</h2>
+<p>Workflow-assist runs from a single <code>index.html</code> with no build step, so you can put it into another website with an <b>iframe</b> and use the JavaScript API (<code>postMessage</code>) to load and retrieve documents or get SVG output. It works regardless of the site's technology (React, Vue, etc.).</p>
+<ul>
+<li>Working example: <code>embed-example.html</code> (works when opened from the same folder)</li>
+<li>API reference and document (JSON) format: <code>DEVELOPER.md</code> (in Korean)</li>
+</ul>
+
+<h2 id="keys">Keyboard shortcuts</h2>
+<div class="table-wrap"><table>
+<tr><th>Key</th><th>Action</th><th>Key</th><th>Action</th></tr>
+<tr><td><kbd>V</kbd></td><td>Select / move</td><td><kbd>H</kbd> / <kbd>Space</kbd>+drag</td><td>Pan</td></tr>
+<tr><td><kbd>R</kbd> / <kbd>D</kbd></td><td>Process / decision node</td><td><kbd>T</kbd></td><td>Text</td></tr>
+<tr><td><kbd>C</kbd></td><td>Connector tool</td><td><kbd>P</kbd></td><td>Sketch</td></tr>
+<tr><td><kbd>Enter</kbd> / double-click</td><td>Edit text</td><td><kbd>Esc</kbd></td><td>Deselect / cancel</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></td><td>Undo / redo</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Duplicate</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td><td>Group (with <kbd>Shift</kbd>: ungroup)</td><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>Select all</td></tr>
+<tr><td>Arrow keys</td><td>Move by grid step (<kbd>Shift</kbd>: 10×)</td><td><kbd>Delete</kbd></td><td>Delete</td></tr>
+<tr><td><kbd>Ctrl</kbd>+wheel</td><td>Zoom</td><td>Wheel</td><td>Scroll</td></tr>
+<tr><td><kbd>Shift</kbd>+click</td><td>Multi-select</td><td><kbd>Alt</kbd>+drag</td><td>Move without snapping</td></tr>
+</table></div>
+
+<h2 id="faq">FAQ</h2>
+<h3>What settings do you recommend for journal figures?</h3>
+<p>Draw with the Nature preset, 11–12 px text and a 1200 px canvas width (for a double-column figure), then export to SVG. Most journals prefer vector formats (SVG/PDF/EPS); if a raster image is required, 3× PNG is enough.</p>
+<h3>The font looks different when I export to PNG.</h3>
+<p>PNG is drawn inside the browser with system fonts. To keep the exact font, export to SVG and convert it to PNG/PDF in Illustrator, Inkscape or similar.</p>
+<h3>A connector crosses another node.</h3>
+<p>Select the line and drag the round handle to move the bend, change the route to "curved", or reconnect the start/end to a different side (drop the end handle near the side you want and it attaches to that side's port).</p>
+<h3>How do I manage several figures?</h3>
+<p>Save each figure as JSON and open it when needed. Auto-save keeps only the most recent work.</p>
+<h3>How do I move my work to another computer or browser?</h3>
+<p>Save the figure with <b>Export → JSON</b> and open it in the new environment with <b>File → Open JSON</b>. Added colors and the image library are stored per browser and do not move with it (images placed in a figure are included in its JSON).</p>
+</main>
+</div>
+<script>try{localStorage.setItem('workflow-assist.manual-lang','en');}catch(e){}</script>
+</body>
+</html>

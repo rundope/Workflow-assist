@@ -1,4 +1,4 @@
-# Workflow assist — 개발자 인수인계 문서
+# Workflow-assist — 개발자 인수인계 문서
 
 다른 개발자가 이 도구를 자기 웹사이트에 붙이거나 수정할 때 필요한 모든 정보입니다.
 
@@ -14,7 +14,7 @@
 | 브라우저 | Chrome / Edge / Safari / Firefox 최신 버전 |
 | 라이선스 | MIT |
 
-**전달할 파일**: `index.html`, `manual.html`, `embed-example.html`, `README.md`, `DEVELOPER.md`, `LICENSE`.
+**전달할 파일**: `index.html`, `manual.html`(언어 선택) + `manual_en/kr/jp/cn.html`, `embed-example.html`, `README.md`, `DEVELOPER.md`, `LICENSE`.
 `.claude/` 폴더는 개발 중 미리보기 서버 설정일 뿐이므로 전달·배포 대상이 아닙니다.
 
 ## 2. "React + TypeScript + Vite가 필요한가?" — 아니오
@@ -55,7 +55,7 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 
 ### B. 정적 경로
 
-`index.html`, `manual.html`을 사이트의 정적 폴더(`public/`, `static/`, `wwwroot/` 등)에 복사하고 링크를 겁니다. 끝.
+`index.html`, `manual*.html`을 사이트의 정적 폴더(`public/`, `static/`, `wwwroot/` 등)에 복사하고 링크를 겁니다. 끝.
 
 ### C. React 포팅 시 참고
 

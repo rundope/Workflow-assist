@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Workflow assist 임베드 예제</title>
+<title>Workflow-assist 임베드 예제</title>
 <style>
   body{margin:0;font-family:system-ui,sans-serif;background:#f3f4f6;color:#1b1f27}
   .host{max-width:1200px;margin:0 auto;padding:20px}
@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="host">
-  <h1>호스트 사이트에 Workflow assist 붙이기 (iframe + postMessage)</h1>
+  <h1>호스트 사이트에 Workflow-assist 붙이기 (iframe + postMessage)</h1>
   <p>이 페이지가 "동업자의 웹사이트" 역할입니다. 아래 버튼은 모두 <code>iframe.contentWindow.postMessage</code>로 에디터와 통신합니다 — 에디터 코드를 고치지 않고 문서를 넣고, 꺼내고, SVG를 받습니다.</p>
 
   <div class="bar">
@@ -34,7 +34,7 @@
     <button id="b-svg">SVG 받기</button>
   </div>
 
-  <iframe id="editor" src="index.html" title="Workflow assist"></iframe>
+  <iframe id="editor" src="index.html" title="Workflow-assist"></iframe>
   <div class="status" id="status">변경 이벤트 수신: 0회</div>
 
   <div class="out">

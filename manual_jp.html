@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workflow-assist ユーザーガイド</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+:root{--bg:#F5F6F8;--surface:#FFFFFF;--line:#D8DCE4;--ink:#1B1F27;--muted:#5F6B7C;--faint:#98A2B3;--accent:#2F5FA8;--accent-soft:#E2EBF9;--code:#EEF0F4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181D;--surface:#1E2228;--line:#333944;--ink:#E6E8EC;--muted:#9AA3B2;--faint:#68717F;--accent:#7BA3E3;--accent-soft:#26364F;--code:#252A32}}
+:root[data-theme="dark"]{--bg:#15181D;--surface:#1E2228;--line:#333944;--ink:#E6E8EC;--muted:#9AA3B2;--faint:#68717F;--accent:#7BA3E3;--accent-soft:#26364F;--code:#252A32}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","IBM Plex Sans KR",system-ui,sans-serif;font-size:14.5px;line-height:1.8;padding:32px 20px 80px}
+.doc{max-width:820px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:36px}
+.toc{position:sticky;top:24px;align-self:start;font-size:13px}
+@media (max-width:760px){.doc{grid-template-columns:1fr}.toc{position:static}}
+.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+.toc a:hover{color:var(--accent)}
+.toc .t{font-size:11px;letter-spacing:.08em;color:var(--faint);margin:14px 0 4px}
+main{min-width:0}
+h1{font-size:28px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 28px;max-width:60ch}
+h2{font-size:19px;margin:44px 0 10px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:15px;margin:22px 0 6px}
+p{margin:0 0 10px;max-width:68ch}
+ul,ol{padding-left:22px;margin:0 0 10px}
+li{margin:3px 0}
+kbd{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12px;background:var(--code);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+code{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12.5px;background:var(--code);padding:1px 5px;border-radius:4px}
+.ko{color:var(--muted);font-size:.92em;white-space:nowrap}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;max-width:68ch}
+.tip b{color:var(--accent)}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0 14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
+.topline{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;margin-bottom:18px}
+.back{color:var(--accent);text-decoration:none;font-size:13px}
+.langs{display:flex;flex-wrap:wrap;gap:4px;font-size:12.5px}
+.langs a{color:var(--muted);text-decoration:none;padding:2px 8px;border:1px solid var(--line);border-radius:999px}
+.langs a:hover{color:var(--accent);border-color:var(--accent)}
+.langs a[aria-current]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+</style>
+</head>
+<body>
+<div class="doc">
+<nav class="toc">
+  <div class="t">はじめに</div>
+  <a href="#intro">Workflow-assist とは</a><a href="#screen">画面構成</a><a href="#first">5分で最初の図</a>
+  <div class="t">描く</div>
+  <a href="#shapes">図形とテキスト</a><a href="#connect">コネクタ</a><a href="#align">整列・間隔・グループ</a><a href="#band">フェーズバンド・パネルラベル</a><a href="#pen">手描き認識</a><a href="#image">画像・アイコンライブラリ</a><a href="#color">カラーパレット</a>
+  <div class="t">仕上げ</div>
+  <a href="#style">図の規格（プリセット）</a><a href="#templates">テンプレート</a><a href="#export">書き出し・保存</a><a href="#embed">他のサイトへの埋め込み</a><a href="#keys">ショートカット</a><a href="#faq">よくある質問</a>
+</nav>
+<main>
+<div class="topline">
+  <a class="back" href="index.html">← エディタに戻る</a>
+  <nav class="langs" aria-label="Language"><a href="manual_en.html" hreflang="en">English</a><a href="manual_kr.html" hreflang="ko">한국어</a><a href="manual_jp.html" hreflang="ja" aria-current="page">日本語</a><a href="manual_cn.html" hreflang="zh-CN">中文</a></nav>
+</div>
+<h1>Workflow-assist ユーザーガイド</h1>
+<p class="lead">論文やレポートにそのまま載せられるワークフロー図・フローチャートを描くツールです。グリッド、間隔、コネクタの形といった「規格」は自動で守り、位置・サイズ・色・フォントは自由に変えられます。</p>
+<div class="tip"><b>画面の言語について</b> エディタのボタンやメニューは現在、韓国語のみです。このガイドでは、画面上で見つけやすいように日本語名の後に韓国語の表記を灰色で添えています（例：<b>書き出し</b> <span class="ko">(내보내기)</span>）。</div>
+
+<h2 id="intro">Workflow-assist とは</h2>
+<p>Nature、Cell、Science などの学術誌の図の慣例を初期値にしています：Helvetica/Arial フォント、約 1 pt の細い線、小さな塗りつぶし矢印、控えめな淡い色、パネル文字（<b>a</b>、<b>b</b>、<b>c</b>）付きのフェーズバンド。この初期値の上で自由に編集できますが、新しく置く要素は常にグリッドと標準間隔に揃うので、仕上がりが乱れません。</p>
+
+<h2 id="screen">画面構成</h2>
+<div class="table-wrap"><table>
+<tr><th>領域</th><th>役割</th></tr>
+<tr><td>上部バー</td><td><b>ファイル</b> <span class="ko">(파일)</span>：新規文書・テンプレート・JSON を開く ／ <b>書き出し</b> <span class="ko">(내보내기)</span>：SVG・PNG・JSON・SVG コードのコピー ／ 元に戻す・やり直し ／ ズーム ／ ショートカット一覧 <span class="ko">(단축키)</span></td></tr>
+<tr><td>左ツールバー</td><td>選択・移動、画面移動、図形 10 種、画像アップロード、フェーズバンド、テキスト、コネクタ、手描き。三角形・文書・クラウドは、図形を選択した後に右パネルで切り替えられます。</td></tr>
+<tr><td>キャンバス</td><td>白い用紙が実際の図の範囲（書き出し範囲）です。点のグリッドは画面上だけに表示され、書き出しには含まれません。</td></tr>
+<tr><td>右パネル</td><td>何も選択していないときは <b>図の規格</b> <span class="ko">(그림 규격)</span>（プリセット・フォント・線の太さ・間隔・既定の線の色）、<b>キャンバス</b> <span class="ko">(캔버스)</span> サイズ、<b>マイ画像図形</b> <span class="ko">(내 이미지 도형)</span> が表示されます。要素を選択すると、その要素のプロパティが表示されます。</td></tr>
+<tr><td>下部ステータスバー</td><td>現在のツールの案内、選択数、自動保存の状態</td></tr>
+</table></div>
+
+<h2 id="first">5分で最初の図</h2>
+<ol>
+<li>左ツールバーの <b>角丸長方形</b>（<kbd>R</kbd>）を押し、キャンバスをクリックします。そのまま文字を入力し、<kbd>Enter</kbd> で確定します（改行は <kbd>Shift</kbd>+<kbd>Enter</kbd>）。</li>
+<li>ノードにマウスを乗せると、四辺に小さな円（ポート）が現れます。右のポートをつかんで <b>何もない場所へドラッグ</b>すると、標準間隔だけ離れた新しいノードが作られ、接続されます。これを繰り返せば、整列したフローが完成します。</li>
+<li>分岐が必要なら <b>ひし形</b>（<kbd>D</kbd>）を置き、ポートを別のノードへドラッグして接続したあと、コネクタをダブルクリックして <code>Yes</code>/<code>No</code> のラベルを入力します。</li>
+<li>右パネルで塗りの色を選び、必要に応じて <b>フェーズバンド</b> で区間をまとめます。</li>
+<li><b>書き出し → SVG</b> <span class="ko">(내보내기 → SVG)</span> で保存すれば、原稿エディタや Illustrator、PowerPoint でそのまま使えます。</li>
+</ol>
+
+<h2 id="shapes">図形とテキスト</h2>
+<p>図形 13 種：角丸長方形（処理）、長方形、開始/終了（カプセル形）、ひし形（判断）、楕円、平行四辺形（入出力）、円柱（データ）、六角形（準備）、矢印ブロック（段階）、三角形、星（強調）、文書、クラウド（外部システム）。選択した後、右パネルの図形グリッドでいつでも別の形に変えられます。</p>
+<ul>
+<li><b>移動</b>：ドラッグ。他のノードの中心線・端と揃うとピンクのガイドが現れ、磁石のように吸着します。自由に置くには <kbd>Alt</kbd> を押しながらドラッグします。</li>
+<li><b>サイズ</b>：選択後に 8 つのハンドルをドラッグするか、パネルの W/H に数値を入力します。</li>
+<li><b>文字</b>：ダブルクリック（または <kbd>Enter</kbd>）で編集。パネルで文字サイズ・太字・左揃え（箇条書きに便利）・<b>文字色</b> <span class="ko">(글자 색)</span> を設定します。</li>
+<li><b>テキスト</b>（<kbd>T</kbd>）：図形なしで文字だけを置きます。パネル文字 <b>a</b>、<b>b</b> や図のタイトルに使います。</li>
+<li><b>複製</b> <kbd>Ctrl</kbd>+<kbd>D</kbd>、<b>削除</b> <kbd>Delete</kbd>、<b>微調整</b> は矢印キー（<kbd>Shift</kbd> で 10 倍）。</li>
+</ul>
+
+<h2 id="connect">コネクタ</h2>
+<p>作り方は 3 通りです。① ノードのポートを別のノードへドラッグ、② <kbd>C</kbd> ツールで始点ノード → 終点ノードをクリック、③ 手描き（<kbd>P</kbd>）で 2 つのノードの間に線を引く。</p>
+<ul>
+<li><b>経路</b> <span class="ko">(경로)</span>：直角（既定）<span class="ko">(직각)</span>・直線 <span class="ko">(직선)</span>・曲線 <span class="ko">(곡선)</span>。直角の経路は両側が対称になるよう中央で折れ、線を選択すると現れる丸いハンドルをドラッグして折れる位置を動かせます。<b>自動経路</b> <span class="ko">(자동 경로)</span> で自動に戻ります。</li>
+<li><b>矢印</b>：始点・終点それぞれに なし / 塗り / 開き / 点 から選択。<b>方向反転</b> <span class="ko">(방향 반전)</span> で始点と終点を入れ替えます。</li>
+<li><b>再接続</b>：線を選択すると両端に四角いハンドルが現れます。別のノードへドラッグするか、何もない場所に置いて自由端点にできます。</li>
+<li><b>ラベル・破線・色・太さ</b>：パネルで設定。複数の線を同時に選択すると一度に適用されます。</li>
+<li><b>長さの統一</b> <span class="ko">(길이 통일)</span>：複数のコネクタを選択し、px の値を入れて適用すると、各終点ノードが始点ノードから同じ距離に移動します。<b>直線化</b> <span class="ko">(직선화)</span> をオンにすると中心線まで揃い、折れがなくなります。</li>
+</ul>
+<div class="tip"><b>線がわずかに折れるとき</b> 2 つのノードの中心の高さが数 px ずれているためです。片方を少しドラッグしてピンクのガイドに吸着させるか、2 つを選択して「上下中央」揃えを押してください。</div>
+
+<h2 id="align">整列・間隔・グループ</h2>
+<p><kbd>Shift</kbd>+クリック、または何もない場所からのドラッグ（範囲選択）で複数の要素を選びます。2 つ以上選択すると、パネルに整列ツールが表示されます。</p>
+<ul>
+<li><b>整列</b> 左 / 左右中央 / 右 / 上 / 上下中央 / 下</li>
+<li><b>左右に均等 · 上下に均等</b> <span class="ko">(가로 균등 · 세로 균등)</span> — 両端はそのままで、間の間隔だけを揃えます</li>
+<li><b>間隔の固定</b> <span class="ko">(간격 고정)</span> — 入力した px 間隔で順番に並べ直します（「横に適用」<span class="ko">(가로 적용)</span> / 「縦に適用」<span class="ko">(세로 적용)</span>）。ノード間のコネクタの長さがすべて同じになります</li>
+<li><b>幅を揃える · 高さを揃える</b> <span class="ko">(너비 길이 맞춤 · 높이 길이 맞춤)</span> — <b>最初に選択した図形</b>の幅または高さに、他の図形を合わせます</li>
+<li><b>グループ</b> <kbd>Ctrl</kbd>+<kbd>G</kbd> — 以後、1 つをクリックするとグループ全体が選択され、一緒に移動・削除されます。コネクタもグループに入れられます。解除は <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd>。</li>
+</ul>
+
+<h2 id="band">フェーズバンド・パネルラベル</h2>
+<p>バンドは、複数のノードを 1 つの区間にまとめる淡い背景です。ツールバーの点線の四角アイコンで置き、サイズを調整してください。バンドを動かすと、中のノードも一緒に動きます。バンド内の何もない場所からドラッグすると、バンドではなく内側の要素が範囲選択されます（バンド自体は枠の近くやラベル部分をつかんで動かします）。</p>
+<ul>
+<li><b>ラベル</b>：先頭の 1 文字の後に半角スペースを 2 つ入れると（<code>a  Sample collection</code>）、先頭の文字がパネル文字として太く大きく表示されます。</li>
+<li><b>背景</b>：塗りのパレットから選択。<b>角</b>：角張り / 8 / 16 / 28 px。<b>枠線</b>：なし / 実線 / 破線。</li>
+<li><b>スイムレーン</b>：縦長のバンドを並べると、担当者・部署ごとのプロセス図になります（レポート用テンプレート「承認プロセス」参照）。</li>
+</ul>
+
+<h2 id="pen">手描き認識</h2>
+<p><kbd>P</kbd> を押してマウスやペンでざっと描くと、規格の図形に変わります。閉じた形は角の数と傾きによって長方形・ひし形・楕円・カプセル形として、開いた線はコネクタとして認識されます。2 つのノードの間に線を引くと、その 2 つをつなぐコネクタになります。</p>
+<p>認識直後に現れる小さなポップアップで別の図形（処理・長方形・開始/終了・判断・楕円・コネクタ）に切り替えるか、最後のアイコンで手描きの原形をそのまま残せます。認識はルールベースのため複雑な絵は正確でない場合があり、六角形や星などの図形は認識しません。</p>
+
+<h2 id="image">画像・アイコンライブラリ</h2>
+<p>ツールバーの画像アイコン（またはパネルの「画像・アイコンのアップロード」<span class="ko">(이미지 · 아이콘 업로드)</span>）で PNG / JPG / SVG をアップロードすると <b>マイ画像図形</b> <span class="ko">(내 이미지 도형)</span> に保存され、以後はクリック → キャンバスをクリックでいつでも配置できます。配置した画像は通常のノードと同じようにポートで接続し、サイズを変え、ダブルクリックで下にキャプションを付けられます。</p>
+<ul>
+<li><b>背景の除去</b> <span class="ko">(배경 제거)</span>：画像を選択し、強さ <b>弱 / 中 / 強</b> <span class="ko">(약 / 중 / 강)</span> のいずれかを押すと、端とつながった単色の背景（白など）が透明になります。結果が気に入らなければ別の強さを押すか、<b>元画像</b> <span class="ko">(원본)</span> に戻します。背景を消した版は「この版をライブラリに追加」<span class="ko">(이 버전을 라이브러리에 추가)</span> で別に保存できます。写真のように背景が均一でない場合はうまく消えません。</li>
+<li><b>単色化</b> <span class="ko">(단색화)</span>：グレースケールにして論文の図のトーンに合わせます。<b>枠ボックス</b> <span class="ko">(테두리 상자)</span>：他のノードと同じ枠線で囲みます。</li>
+<li>大きな写真は自動的に 640 px 以下に縮小して保存します。ライブラリから削除するには <kbd>Shift</kbd>+クリック。</li>
+<li>ライブラリはこのブラウザにのみ保存されます。図そのものは JSON/SVG に画像が含まれて書き出されるので、他の PC でも開けます。</li>
+</ul>
+
+<h2 id="color">カラーパレット</h2>
+<p>図形を選択すると、パネルに <b>塗り</b> <span class="ko">(채움)</span>・<b>枠線</b> <span class="ko">(테두리)</span>・<b>文字色</b> <span class="ko">(글자 색)</span> のパレットが別々に表示されます。既定の色は、色覚多様性や白黒印刷でも区別しやすい Okabe–Ito 系を調整したものです。色にマウスを乗せると名前と HEX コード（例：<code>#2F6DB5</code>）が表示されます。</p>
+<ul>
+<li><b>塗り</b>：1 行に 34 色 — 白、グレー 3 段階、そして 10 色相（グレー・青・青緑・緑・黄・橙・赤・紫・紺・ピンク）の淡い / 中間 / 濃い段階。<b>濃い塗りを選ぶと文字が自動的に白</b>になります。</li>
+<li><b>枠線</b>：<b>なし</b>（点線の空欄で表示）と 10 色。「なし」はすべての図形に使えます。</li>
+<li><b>文字色</b>：白と 10 色。自分で選んだ文字色は、自動の白より優先されます。</li>
+<li><b>色の追加</b>：各パレットの末尾の <b>+</b> を押すと、おすすめの 24 色、カラーピッカー、HEX 入力欄（<code>#RRGGBB</code>）が現れます。追加した色は <b>そのパレットにだけ</b> 入り、このブラウザに保存されます。削除するには <kbd>Shift</kbd>+クリック。</li>
+<li>図全体の既定の線・文字の色は、何も選択していない状態で <b>図の規格 → 既定の線・テキストの色</b> <span class="ko">(그림 규격 → 기본 선 · 텍스트 색)</span> から変更します。</li>
+</ul>
+<div class="tip"><b>おすすめ</b> 1 つの図で使う強調色は 2〜3 色までにし、残りは白・グレーに。色を意味（データ / 処理 / 判断 / 結果）にだけ対応させると読みやすくなります。</div>
+
+<h2 id="style">図の規格（プリセット）</h2>
+<p>何も選択していない状態では、右パネルの値が図全体に適用されます。</p>
+<div class="table-wrap"><table>
+<tr><th>プリセット</th><th>特徴</th></tr>
+<tr><td>Nature</td><td>Helvetica・1.2 px の線・角 4 px・淡いバンド。ほとんどの学術誌で無難</td></tr>
+<tr><td>Cell</td><td>やや太い線（1.6 px）と丸い角（8 px）。色を積極的に使う図に</td></tr>
+<tr><td>Mono</td><td>角張った角、細い線、グレーのみ。白黒印刷・レポート本文向け</td></tr>
+</table></div>
+<p>フォント（Helvetica/Arial、Noto Sans KR、IBM Plex Sans KR、Times New Roman）、既定の文字サイズ、線の太さ、角の半径、矢印のサイズ、既定の間隔（gap）、グリッド間隔、キャンバスサイズを個別に調整できます。個々の要素に指定した色や文字サイズは規格より優先されます。</p>
+
+<h2 id="templates">テンプレート</h2>
+<p><b>ファイル → テンプレート</b> <span class="ko">(파일 → 예제)</span> から開き、内容だけを書き換えて使ってください。テンプレートの文字は一部が韓国語、一部が英語です。</p>
+<div class="table-wrap"><table>
+<tr><th>区分</th><th>テンプレート</th><th>用途</th></tr>
+<tr><td rowspan="5">論文用</td><td>実験ワークフロー（a·b·c）</td><td>試料採取 → シーケンシング → 解析のように、段階がパネルに分かれる方法の図</td></tr>
+<tr><td>CONSORT フロー図</td><td>臨床試験の参加者の登録・割付・追跡・解析人数の報告</td></tr>
+<tr><td>PRISMA 2020</td><td>システマティックレビューの検索・選別・採用の過程</td></tr>
+<tr><td>研究デザイン</td><td>無作為割付と追跡時点を示す study design schematic</td></tr>
+<tr><td>ML パイプライン</td><td>データ → 学習 → 評価 → 判断ループのあるモデル開発の流れ</td></tr>
+<tr><td rowspan="3">レポート用</td><td>承認プロセス</td><td>担当者別のスイムレーン、承認/差し戻しの分岐</td></tr>
+<tr><td>プロジェクトの段階</td><td>Phase-gate の矢印ブロックと段階ごとの活動リスト</td></tr>
+<tr><td>システムのデータフロー図</td><td>元データ → 収集 → 保存 → 分析 → ユーザー</td></tr>
+</table></div>
+
+<h2 id="export">書き出し・保存</h2>
+<ul>
+<li><b>SVG</b>：ベクター。学術誌への投稿、Illustrator/Inkscape での編集、Word・PowerPoint への挿入に最適です。グリッドや選択表示は含まれません。</li>
+<li><b>PNG</b>：キャンバスの 3 倍の解像度（幅 1200 px のキャンバス → 3600 px、幅 30 cm で約 300 dpi）。システムフォント（Arial など）で描画されます。</li>
+<li><b>JSON</b>：編集可能な元データ。他の PC や同僚に渡すときに使い、<b>ファイル → JSON を開く</b> <span class="ko">(파일 → JSON 불러오기)</span> で開きます。</li>
+<li><b>SVG コードのコピー</b> <span class="ko">(SVG 코드 복사)</span>：ダウンロードが制限された環境で、クリップボードにコピーして <code>.svg</code> ファイルとして保存できます。</li>
+<li><b>自動保存</b>：作業はブラウザに自動保存され、次に開くと続きから始められます。ブラウザのデータを消すと失われるので、大切な図は JSON で保管してください。</li>
+</ul>
+
+<h2 id="embed">他のサイトへの埋め込み</h2>
+<p>Workflow-assist はビルド不要で <code>index.html</code> 1 ファイルで動作するため、他のウェブサイトに <b>iframe</b> で埋め込み、JavaScript API（<code>postMessage</code>）で文書を読み込んだり取り出したり、SVG を受け取ったりできます。サイトの技術（React、Vue など）は問いません。</p>
+<ul>
+<li>動作するサンプル：<code>embed-example.html</code>（同じフォルダで開けばすぐ動きます）</li>
+<li>API 仕様と文書（JSON）形式：<code>DEVELOPER.md</code>（韓国語）</li>
+</ul>
+
+<h2 id="keys">ショートカット</h2>
+<div class="table-wrap"><table>
+<tr><th>キー</th><th>動作</th><th>キー</th><th>動作</th></tr>
+<tr><td><kbd>V</kbd></td><td>選択・移動</td><td><kbd>H</kbd> / <kbd>Space</kbd>+ドラッグ</td><td>画面移動</td></tr>
+<tr><td><kbd>R</kbd> / <kbd>D</kbd></td><td>処理 / 判断ノード</td><td><kbd>T</kbd></td><td>テキスト</td></tr>
+<tr><td><kbd>C</kbd></td><td>コネクタツール</td><td><kbd>P</kbd></td><td>手描き</td></tr>
+<tr><td><kbd>Enter</kbd> / ダブルクリック</td><td>テキスト編集</td><td><kbd>Esc</kbd></td><td>選択解除・取り消し</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></td><td>元に戻す / やり直し</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>複製</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td><td>グループ（<kbd>Shift</kbd> で解除）</td><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>すべて選択</td></tr>
+<tr><td>矢印キー</td><td>グリッド単位で移動（<kbd>Shift</kbd>：10 倍）</td><td><kbd>Delete</kbd></td><td>削除</td></tr>
+<tr><td><kbd>Ctrl</kbd>+ホイール</td><td>拡大・縮小</td><td>ホイール</td><td>画面スクロール</td></tr>
+<tr><td><kbd>Shift</kbd>+クリック</td><td>複数選択</td><td><kbd>Alt</kbd>+ドラッグ</td><td>スナップなしで移動</td></tr>
+</table></div>
+
+<h2 id="faq">よくある質問</h2>
+<h3>学術誌に投稿するときのおすすめ設定は？</h3>
+<p>Nature プリセット、文字サイズ 11〜12 px、キャンバス幅 1200 px（2 段幅の図の場合）で描き、SVG で書き出してください。ほとんどの学術誌はベクター（SVG/PDF/EPS）を好み、ラスターが必要なら 3 倍の PNG で十分です。</p>
+<h3>PNG で書き出すとフォントが変わります。</h3>
+<p>PNG はブラウザ内部でシステムフォントを使って描画します。フォントを正確に保つには、SVG で書き出してから Illustrator・Inkscape などで PNG/PDF に変換してください。</p>
+<h3>コネクタが他のノードを横切ります。</h3>
+<p>線を選択して丸いハンドルをドラッグし折れる位置を動かすか、経路を「曲線」に変えるか、始点・終点のポートを別の辺に再接続してください（端のハンドルをノードの希望する辺の近くに置くと、その辺のポートに吸着します）。</p>
+<h3>複数の図を管理したいです。</h3>
+<p>図ごとに JSON で保存しておき、必要なときに開いてください。自動保存は最後の作業 1 つだけを保持します。</p>
+<h3>別の PC やブラウザに移したいです。</h3>
+<p>図は <b>書き出し → JSON</b> で保存し、新しい環境で <b>ファイル → JSON を開く</b> で開きます。追加した色と画像ライブラリはブラウザごとに保存されるため移せません（図の中に配置した画像は JSON に含まれます）。</p>
+</main>
+</div>
+<script>try{localStorage.setItem('workflow-assist.manual-lang','jp');}catch(e){}</script>
+</body>
+</html>

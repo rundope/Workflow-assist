@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workflow-assist 使用指南</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+:root{--bg:#F5F6F8;--surface:#FFFFFF;--line:#D8DCE4;--ink:#1B1F27;--muted:#5F6B7C;--faint:#98A2B3;--accent:#2F5FA8;--accent-soft:#E2EBF9;--code:#EEF0F4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181D;--surface:#1E2228;--line:#333944;--ink:#E6E8EC;--muted:#9AA3B2;--faint:#68717F;--accent:#7BA3E3;--accent-soft:#26364F;--code:#252A32}}
+:root[data-theme="dark"]{--bg:#15181D;--surface:#1E2228;--line:#333944;--ink:#E6E8EC;--muted:#9AA3B2;--faint:#68717F;--accent:#7BA3E3;--accent-soft:#26364F;--code:#252A32}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans SC","IBM Plex Sans KR",system-ui,sans-serif;font-size:14.5px;line-height:1.8;padding:32px 20px 80px}
+.doc{max-width:820px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:36px}
+.toc{position:sticky;top:24px;align-self:start;font-size:13px}
+@media (max-width:760px){.doc{grid-template-columns:1fr}.toc{position:static}}
+.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+.toc a:hover{color:var(--accent)}
+.toc .t{font-size:11px;letter-spacing:.08em;color:var(--faint);margin:14px 0 4px}
+main{min-width:0}
+h1{font-size:28px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 28px;max-width:60ch}
+h2{font-size:19px;margin:44px 0 10px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:15px;margin:22px 0 6px}
+p{margin:0 0 10px;max-width:68ch}
+ul,ol{padding-left:22px;margin:0 0 10px}
+li{margin:3px 0}
+kbd{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12px;background:var(--code);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
+code{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12.5px;background:var(--code);padding:1px 5px;border-radius:4px}
+.ko{color:var(--muted);font-size:.92em;white-space:nowrap}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;max-width:68ch}
+.tip b{color:var(--accent)}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0 14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
+.topline{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;margin-bottom:18px}
+.back{color:var(--accent);text-decoration:none;font-size:13px}
+.langs{display:flex;flex-wrap:wrap;gap:4px;font-size:12.5px}
+.langs a{color:var(--muted);text-decoration:none;padding:2px 8px;border:1px solid var(--line);border-radius:999px}
+.langs a:hover{color:var(--accent);border-color:var(--accent)}
+.langs a[aria-current]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+</style>
+</head>
+<body>
+<div class="doc">
+<nav class="toc">
+  <div class="t">入门</div>
+  <a href="#intro">什么是 Workflow-assist</a><a href="#screen">界面布局</a><a href="#first">5 分钟画出第一张图</a>
+  <div class="t">绘制</div>
+  <a href="#shapes">图形与文字</a><a href="#connect">连接线</a><a href="#align">对齐 · 间距 · 编组</a><a href="#band">阶段带 · 面板标签</a><a href="#pen">手绘识别</a><a href="#image">图片 · 图标库</a><a href="#color">调色板</a>
+  <div class="t">完成</div>
+  <a href="#style">图形规范（预设）</a><a href="#templates">示例模板</a><a href="#export">导出 · 保存</a><a href="#embed">嵌入其他网站</a><a href="#keys">快捷键</a><a href="#faq">常见问题</a>
+</nav>
+<main>
+<div class="topline">
+  <a class="back" href="index.html">← 返回编辑器</a>
+  <nav class="langs" aria-label="Language"><a href="manual_en.html" hreflang="en">English</a><a href="manual_kr.html" hreflang="ko">한국어</a><a href="manual_jp.html" hreflang="ja">日本語</a><a href="manual_cn.html" hreflang="zh-CN" aria-current="page">中文</a></nav>
+</div>
+<h1>Workflow-assist 使用指南</h1>
+<p class="lead">一款用来绘制可直接放入论文和报告的工作流程图与流程图的工具。网格、间距、连接线形状等"规范"会自动保持，而位置、大小、颜色和字体都可以随意更改。</p>
+<div class="tip"><b>关于界面语言</b> 编辑器的按钮和菜单目前只有韩语。为了便于在界面上找到对应功能，本指南会在中文名称后用灰色标注韩语原文，例如 <b>导出</b> <span class="ko">(내보내기)</span>。</div>
+
+<h2 id="intro">什么是 Workflow-assist</h2>
+<p>它以 Nature、Cell、Science 等期刊插图的惯例作为默认值：Helvetica/Arial 字体、约 1 pt 的细线、小型实心箭头、克制的浅色，以及带面板字母（<b>a</b>、<b>b</b>、<b>c</b>）的阶段带。你可以在这些默认值之上自由编辑，而新放置的元素总会对齐网格和标准间距，因此成品不会显得凌乱。</p>
+
+<h2 id="screen">界面布局</h2>
+<div class="table-wrap"><table>
+<tr><th>区域</th><th>作用</th></tr>
+<tr><td>顶部栏</td><td><b>文件</b> <span class="ko">(파일)</span>：新建文档、示例模板、打开 JSON ／ <b>导出</b> <span class="ko">(내보내기)</span>：SVG、PNG、JSON、复制 SVG 代码 ／ 撤销·重做 ／ 缩放 ／ 快捷键说明 <span class="ko">(단축키)</span></td></tr>
+<tr><td>左侧工具栏</td><td>选择·移动、平移画面、10 种图形、上传图片、阶段带、文字、连接线、手绘。三角形、文档、云形可在选中图形后于右侧面板中切换。</td></tr>
+<tr><td>画布</td><td>白色纸面就是实际的图形区域（导出范围）。点状网格只在屏幕上显示，不会被导出。</td></tr>
+<tr><td>右侧面板</td><td>未选中任何内容时，显示 <b>图形规范</b> <span class="ko">(그림 규격)</span>（预设、字体、线宽、间距、默认线条颜色）、<b>画布</b> <span class="ko">(캔버스)</span> 尺寸和 <b>我的图片图形</b> <span class="ko">(내 이미지 도형)</span>；选中元素时显示该元素的属性。</td></tr>
+<tr><td>底部状态栏</td><td>当前工具提示、选中数量、自动保存状态</td></tr>
+</table></div>
+
+<h2 id="first">5 分钟画出第一张图</h2>
+<ol>
+<li>在左侧工具栏点击 <b>圆角矩形</b>（<kbd>R</kbd>），再点击画布。直接输入文字，按 <kbd>Enter</kbd> 确认（换行用 <kbd>Shift</kbd>+<kbd>Enter</kbd>）。</li>
+<li>把鼠标移到节点上，四条边上会出现小圆点（端口）。抓住右侧端口 <b>拖到空白处</b>，就会在标准间距处生成一个新节点并自动连接。重复此操作即可完成整齐的流程。</li>
+<li>需要分支时，放置一个 <b>菱形</b>（<kbd>D</kbd>），把它的端口拖到另一个节点上连接，然后双击连接线输入 <code>Yes</code>/<code>No</code> 标签。</li>
+<li>在右侧面板中选择填充颜色，需要时用 <b>阶段带</b> 把一段流程框在一起。</li>
+<li>用 <b>导出 → SVG</b> <span class="ko">(내보내기 → SVG)</span> 保存后，即可直接在稿件编辑器、Illustrator 或 PowerPoint 中使用。</li>
+</ol>
+
+<h2 id="shapes">图形与文字</h2>
+<p>13 种图形：圆角矩形（处理）、矩形、开始/结束（胶囊形）、菱形（判断）、椭圆、平行四边形（输入/输出）、圆柱（数据）、六边形（准备）、箭头块（阶段）、三角形、星形（强调）、文档、云形（外部系统）。选中后，可随时在右侧面板的图形网格中换成其他形状。</p>
+<ul>
+<li><b>移动</b>：拖动。与其他节点的中心线或边缘对齐时，会出现粉色参考线并像磁铁一样吸附。按住 <kbd>Alt</kbd> 拖动即可自由放置。</li>
+<li><b>大小</b>：选中后拖动 8 个控制点之一，或在面板的 W/H 中输入数值。</li>
+<li><b>文字</b>：双击（或按 <kbd>Enter</kbd>）编辑。在面板中设置字号、加粗、左对齐（适合列表式文字）和 <b>文字颜色</b> <span class="ko">(글자 색)</span>。</li>
+<li><b>文字工具</b>（<kbd>T</kbd>）：不带图形、只放置文字，用于面板字母 <b>a</b>、<b>b</b> 或图标题。</li>
+<li><b>复制</b> <kbd>Ctrl</kbd>+<kbd>D</kbd>，<b>删除</b> <kbd>Delete</kbd>，<b>微调</b> 用方向键（按住 <kbd>Shift</kbd> 为 10 倍）。</li>
+</ul>
+
+<h2 id="connect">连接线</h2>
+<p>创建方法有三种：① 把节点的端口拖到另一个节点上；② 用 <kbd>C</kbd> 工具依次点击起点节点和终点节点；③ 用手绘工具（<kbd>P</kbd>）在两个节点之间画一条线。</p>
+<ul>
+<li><b>路径</b> <span class="ko">(경로)</span>：直角（默认）<span class="ko">(직각)</span>、直线 <span class="ko">(직선)</span>、曲线 <span class="ko">(곡선)</span>。直角路径会在中间折弯，使两侧对称；选中线条后拖动出现的圆形控制点可以移动折弯位置。点击 <b>自动路径</b> <span class="ko">(자동 경로)</span> 可恢复自动布线。</li>
+<li><b>箭头</b>：起点和终点可分别选择 无 / 实心 / 空心 / 圆点。<b>反转方向</b> <span class="ko">(방향 반전)</span> 可交换起点和终点。</li>
+<li><b>重新连接</b>：选中线条后两端会出现方形控制点。可将其拖到其他节点上，或放到空白处成为自由端点。</li>
+<li><b>标签、虚线、颜色、线宽</b>：在面板中设置。同时选中多条线可一次性应用。</li>
+<li><b>统一长度</b> <span class="ko">(길이 통일)</span>：选中多条连接线，输入 px 数值并应用，每个终点节点都会移动到距起点节点相同的距离。打开 <b>拉直</b> <span class="ko">(직선화)</span> 后，中心线也会对齐，折弯随之消失。</li>
+</ul>
+<div class="tip"><b>线条出现细小折弯时</b> 这是因为两个节点的中心高度相差几个像素。把其中一个稍微拖动，让它吸附到粉色参考线上，或者同时选中两者后点击"垂直居中"对齐。</div>
+
+<h2 id="align">对齐 · 间距 · 编组</h2>
+<p>用 <kbd>Shift</kbd>+点击，或在空白处拖动（框选）来选择多个元素。选中两个及以上时，面板中会出现对齐工具。</p>
+<ul>
+<li><b>对齐</b> 左 / 水平居中 / 右 / 上 / 垂直居中 / 下</li>
+<li><b>水平均分 · 垂直均分</b> <span class="ko">(가로 균등 · 세로 균등)</span> — 保持两端不动，只让中间的间距相等</li>
+<li><b>固定间距</b> <span class="ko">(간격 고정)</span> — 按输入的像素间距依次重新排列（"水平应用" <span class="ko">(가로 적용)</span> / "垂直应用" <span class="ko">(세로 적용)</span>），节点之间的连接线长度将全部相同</li>
+<li><b>统一宽度 · 统一高度</b> <span class="ko">(너비 길이 맞춤 · 높이 길이 맞춤)</span> — 以 <b>第一个选中的图形</b> 的宽度或高度为准，调整其余图形</li>
+<li><b>编组</b> <kbd>Ctrl</kbd>+<kbd>G</kbd> — 之后点击其中一个即可选中整组，一起移动和删除。连接线也可以加入编组。取消编组用 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd>。</li>
+</ul>
+
+<h2 id="band">阶段带 · 面板标签</h2>
+<p>阶段带是把多个节点归为一段的浅色背景。用工具栏中的虚线矩形图标放置并调整大小。移动阶段带时，其中的节点会一起移动。在阶段带内的空白处拖动时，框选的是其中的元素而不是阶段带本身（要移动阶段带，请抓住边框附近或标签部分）。</p>
+<ul>
+<li><b>标签</b>：在第一个字符后输入两个空格（<code>a  Sample collection</code>），该字符就会作为面板字母以加粗放大的形式显示。</li>
+<li><b>背景</b>：从填充调色板中选择。<b>圆角</b>：直角 / 8 / 16 / 28 px。<b>边框</b>：无 / 实线 / 虚线。</li>
+<li><b>泳道</b>：把竖长的阶段带并排放置，就能画出按负责人或部门划分的流程图（参见报告用模板"审批流程"）。</li>
+</ul>
+
+<h2 id="pen">手绘识别</h2>
+<p>按 <kbd>P</kbd> 后用鼠标或手写笔随手画，笔画就会变成规范图形。闭合的形状会根据角的数量和倾斜度识别为矩形、菱形、椭圆或胶囊形；开放的线条会识别为连接线。在两个节点之间画线，就会生成连接它们的连接线。</p>
+<p>识别后立即出现的小弹窗中，可以切换为其他图形（处理、矩形、开始/结束、判断、椭圆、连接线），或用最后一个图标保留手绘原样。识别基于规则，复杂的图形可能识别不准确，六边形、星形等图形不会被识别。</p>
+
+<h2 id="image">图片 · 图标库</h2>
+<p>通过工具栏的图片图标（或面板中的"上传图片 · 图标" <span class="ko">(이미지 · 아이콘 업로드)</span>）上传 PNG / JPG / SVG 后，会保存到 <b>我的图片图形</b> <span class="ko">(내 이미지 도형)</span>，之后点击它再点击画布即可随时放置。放置的图片和普通节点一样，可以用端口连接、调整大小，双击即可在下方添加说明文字。</p>
+<ul>
+<li><b>去除背景</b> <span class="ko">(배경 제거)</span>：选中图片后点击强度 <b>弱 / 中 / 强</b> <span class="ko">(약 / 중 / 강)</span> 之一，与边缘相连的纯色背景（如白色）就会变为透明。不满意时可换一个强度，或点击 <b>原图</b> <span class="ko">(원본)</span> 恢复。去除背景后的版本可以通过"将此版本添加到图库" <span class="ko">(이 버전을 라이브러리에 추가)</span> 另行保存。像照片那样背景不均匀的图片效果不佳。</li>
+<li><b>单色化</b> <span class="ko">(단색화)</span>：转为灰度，与论文插图的色调保持一致。<b>边框</b> <span class="ko">(테두리 상자)</span>：用与其他节点相同的边框包围图片。</li>
+<li>较大的照片会自动缩小到 640 px 以内再保存。要从图库中删除，请 <kbd>Shift</kbd>+点击。</li>
+<li>图库只保存在当前浏览器中。图形本身在导出为 JSON/SVG 时会包含图片，因此在其他电脑上也能打开。</li>
+</ul>
+
+<h2 id="color">调色板</h2>
+<p>选中图形后，面板中会分别显示 <b>填充</b> <span class="ko">(채움)</span>、<b>边框</b> <span class="ko">(테두리)</span> 和 <b>文字颜色</b> <span class="ko">(글자 색)</span> 调色板。默认颜色基于 Okabe–Ito 配色调整而来，色觉障碍读者和黑白印刷也能清楚区分。把鼠标移到颜色上，会显示其名称和 HEX 代码（例如 <code>#2F6DB5</code>）。</p>
+<ul>
+<li><b>填充</b>：一行共 34 种颜色 — 白色、3 级灰色，以及 10 种色相（灰、蓝、青、绿、黄、橙、红、紫、藏青、粉）的浅 / 中 / 深三个层级。<b>选择深色填充时，文字会自动变为白色。</b></li>
+<li><b>边框</b>：<b>无</b>（显示为虚线空格）和 10 种颜色。"无"适用于所有图形。</li>
+<li><b>文字颜色</b>：白色和 10 种颜色。自己选择的文字颜色优先于自动白色。</li>
+<li><b>添加颜色</b>：点击任一调色板末尾的 <b>+</b>，会出现 24 种推荐颜色、取色器和 HEX 输入框（<code>#RRGGBB</code>）。添加的颜色 <b>只进入该调色板</b>，并保存在当前浏览器中。要删除，请 <kbd>Shift</kbd>+点击。</li>
+<li>要更改整张图的默认线条和文字颜色，请在未选中任何内容时使用 <b>图形规范 → 默认线条 · 文字颜色</b> <span class="ko">(그림 규격 → 기본 선 · 텍스트 색)</span>。</li>
+</ul>
+<div class="tip"><b>建议</b> 一张图中的强调色最多用 2~3 种，其余用白色或灰色。让颜色只对应含义（数据 / 处理 / 判断 / 结果），图会更易读。</div>
+
+<h2 id="style">图形规范（预设）</h2>
+<p>未选中任何内容时，右侧面板中的数值会应用到整张图。</p>
+<div class="table-wrap"><table>
+<tr><th>预设</th><th>特点</th></tr>
+<tr><td>Nature</td><td>Helvetica · 1.2 px 线条 · 4 px 圆角 · 浅色阶段带。适用于大多数期刊</td></tr>
+<tr><td>Cell</td><td>稍粗的线条（1.6 px）和更圆的圆角（8 px）。适合大胆用色的图</td></tr>
+<tr><td>Mono</td><td>直角、细线、仅用灰色。适合黑白印刷和报告正文</td></tr>
+</table></div>
+<p>字体（Helvetica/Arial、Noto Sans KR、IBM Plex Sans KR、Times New Roman）、默认字号、线宽、圆角半径、箭头大小、默认间距（gap）、网格间距和画布尺寸都可以单独调整。为单个元素设置的颜色或字号优先于图形规范。</p>
+
+<h2 id="templates">示例模板</h2>
+<p>从 <b>文件 → 示例</b> <span class="ko">(파일 → 예제)</span> 中打开，只需替换内容即可使用。模板中的文字部分为韩语、部分为英语。</p>
+<div class="table-wrap"><table>
+<tr><th>类别</th><th>模板</th><th>用途</th></tr>
+<tr><td rowspan="5">论文用</td><td>实验工作流程（a·b·c）</td><td>如采样 → 测序 → 分析这类按面板分阶段的方法学插图</td></tr>
+<tr><td>CONSORT 流程图</td><td>报告临床试验参与者的招募、分配、随访和分析人数</td></tr>
+<tr><td>PRISMA 2020</td><td>系统综述的检索、筛选和纳入过程</td></tr>
+<tr><td>研究设计</td><td>展示随机分配和随访时间点的 study design schematic</td></tr>
+<tr><td>ML 流程</td><td>数据 → 训练 → 评估 → 判断循环的模型开发流程</td></tr>
+<tr><td rowspan="3">报告用</td><td>审批流程</td><td>按负责人划分的泳道，批准/驳回分支</td></tr>
+<tr><td>项目阶段</td><td>Phase-gate 箭头块与各阶段活动列表</td></tr>
+<tr><td>系统数据流图</td><td>源数据 → 采集 → 存储 → 分析 → 用户</td></tr>
+</table></div>
+
+<h2 id="export">导出 · 保存</h2>
+<ul>
+<li><b>SVG</b>：矢量格式。最适合期刊投稿、在 Illustrator/Inkscape 中编辑，以及插入 Word 或 PowerPoint。不包含网格和选中标记。</li>
+<li><b>PNG</b>：画布的 3 倍分辨率（宽 1200 px 的画布 → 3600 px，按 30 cm 宽约为 300 dpi）。使用系统字体（Arial 等）渲染。</li>
+<li><b>JSON</b>：可编辑的原始文件。用于转移到其他电脑或分享给同事，通过 <b>文件 → 打开 JSON</b> <span class="ko">(파일 → JSON 불러오기)</span> 打开。</li>
+<li><b>复制 SVG 代码</b> <span class="ko">(SVG 코드 복사)</span>：在无法下载的环境中，可复制到剪贴板并保存为 <code>.svg</code> 文件。</li>
+<li><b>自动保存</b>：作品会自动保存在浏览器中，下次打开时继续。清除浏览器数据会导致丢失，重要的图请保存为 JSON。</li>
+</ul>
+
+<h2 id="embed">嵌入其他网站</h2>
+<p>Workflow-assist 无需构建，仅凭一个 <code>index.html</code> 文件即可运行，因此可以用 <b>iframe</b> 嵌入其他网站，并通过 JavaScript API（<code>postMessage</code>）载入和取出文档或获取 SVG。与网站使用的技术（React、Vue 等）无关。</p>
+<ul>
+<li>可运行的示例：<code>embed-example.html</code>（在同一文件夹中打开即可运行）</li>
+<li>API 规范和文档（JSON）格式：<code>DEVELOPER.md</code>（韩语）</li>
+</ul>
+
+<h2 id="keys">快捷键</h2>
+<div class="table-wrap"><table>
+<tr><th>按键</th><th>操作</th><th>按键</th><th>操作</th></tr>
+<tr><td><kbd>V</kbd></td><td>选择·移动</td><td><kbd>H</kbd> / <kbd>Space</kbd>+拖动</td><td>平移画面</td></tr>
+<tr><td><kbd>R</kbd> / <kbd>D</kbd></td><td>处理 / 判断节点</td><td><kbd>T</kbd></td><td>文字</td></tr>
+<tr><td><kbd>C</kbd></td><td>连接线工具</td><td><kbd>P</kbd></td><td>手绘</td></tr>
+<tr><td><kbd>Enter</kbd> / 双击</td><td>编辑文字</td><td><kbd>Esc</kbd></td><td>取消选择·取消</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></td><td>撤销 / 重做</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>复制</td></tr>
+<tr><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td><td>编组（加 <kbd>Shift</kbd> 取消）</td><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>全选</td></tr>
+<tr><td>方向键</td><td>按网格步长移动（<kbd>Shift</kbd>：10 倍）</td><td><kbd>Delete</kbd></td><td>删除</td></tr>
+<tr><td><kbd>Ctrl</kbd>+滚轮</td><td>缩放</td><td>滚轮</td><td>滚动画面</td></tr>
+<tr><td><kbd>Shift</kbd>+点击</td><td>多选</td><td><kbd>Alt</kbd>+拖动</td><td>不吸附移动</td></tr>
+</table></div>
+
+<h2 id="faq">常见问题</h2>
+<h3>投稿期刊时推荐什么设置？</h3>
+<p>使用 Nature 预设、11~12 px 字号、1200 px 画布宽度（按双栏宽度插图）绘制，然后导出为 SVG 即可。大多数期刊偏好矢量格式（SVG/PDF/EPS）；如需位图，3 倍 PNG 已足够。</p>
+<h3>导出 PNG 后字体变了。</h3>
+<p>PNG 是在浏览器内部用系统字体绘制的。要准确保留字体，请先导出 SVG，再在 Illustrator、Inkscape 等软件中转换为 PNG/PDF。</p>
+<h3>连接线穿过了其他节点。</h3>
+<p>选中线条后拖动圆形控制点移动折弯位置，或把路径改为"曲线"，或把起点/终点端口重新连接到另一条边（把端点控制点放到节点目标边附近，就会吸附到该边的端口）。</p>
+<h3>我想管理多张图。</h3>
+<p>把每张图都保存为 JSON，需要时再打开。自动保存只保留最近一次的作品。</p>
+<h3>我想转移到其他电脑或浏览器。</h3>
+<p>用 <b>导出 → JSON</b> 保存图形，在新环境中通过 <b>文件 → 打开 JSON</b> 打开。添加的颜色和图片库按浏览器分别保存，不会随之转移（放置在图中的图片包含在 JSON 中）。</p>
+</main>
+</div>
+<script>try{localStorage.setItem('workflow-assist.manual-lang','cn');}catch(e){}</script>
+</body>
+</html>

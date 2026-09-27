@@ -27,7 +27,7 @@ ul,ol{padding-left:22px;margin:0 0 10px}
 li{margin:3px 0}
 kbd{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12px;background:var(--code);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;white-space:nowrap}
 code{font-family:"IBM Plex Mono",Consolas,monospace;font-size:12.5px;background:var(--code);padding:1px 5px;border-radius:4px}
-.ko{color:var(--muted);font-size:.92em;white-space:nowrap}
+.ko{color:var(--muted);font-size:.92em}
 .tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;max-width:68ch}
 .tip b{color:var(--accent)}
 .table-wrap{overflow-x:auto}
@@ -59,7 +59,7 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 </div>
 <h1>Workflow-assist ユーザーガイド</h1>
 <p class="lead">論文やレポートにそのまま載せられるワークフロー図・フローチャートを描くツールです。グリッド、間隔、コネクタの形といった「規格」は自動で守り、位置・サイズ・色・フォントは自由に変えられます。</p>
-<div class="tip"><b>画面の言語について</b> エディタのボタンやメニューは現在、韓国語のみです。このガイドでは、画面上で見つけやすいように日本語名の後に韓国語の表記を灰色で添えています（例：<b>書き出し</b> <span class="ko">(내보내기)</span>）。</div>
+<div class="tip"><b>画面の言語について</b> エディタの画面は英語と韓国語に対応しています（上部バーの地球アイコンで切り替え。日本語の画面はまだありません）。このガイドでは、画面上で見つけやすいように日本語名の後に英語と韓国語の表記を灰色で添えています（例：<b>書き出し</b> <span class="ko">(Export / 내보내기)</span>）。</div>
 
 <h2 id="intro">Workflow-assist とは</h2>
 <p>Nature、Cell、Science などの学術誌の図の慣例を初期値にしています：Helvetica/Arial フォント、約 1 pt の細い線、小さな塗りつぶし矢印、控えめな淡い色、パネル文字（<b>a</b>、<b>b</b>、<b>c</b>）付きのフェーズバンド。この初期値の上で自由に編集できますが、新しく置く要素は常にグリッドと標準間隔に揃うので、仕上がりが乱れません。</p>
@@ -67,10 +67,10 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <h2 id="screen">画面構成</h2>
 <div class="table-wrap"><table>
 <tr><th>領域</th><th>役割</th></tr>
-<tr><td>上部バー</td><td><b>ファイル</b> <span class="ko">(파일)</span>：新規文書・テンプレート・JSON を開く ／ <b>書き出し</b> <span class="ko">(내보내기)</span>：SVG・PNG・JSON・SVG コードのコピー ／ 元に戻す・やり直し ／ ズーム ／ ショートカット一覧 <span class="ko">(단축키)</span></td></tr>
+<tr><td>上部バー</td><td><b>ファイル</b> <span class="ko">(File / 파일)</span>：新規文書・テンプレート・JSON を開く ／ <b>書き出し</b> <span class="ko">(Export / 내보내기)</span>：SVG・PNG・JSON・SVG コードのコピー ／ 元に戻す・やり直し ／ ズーム ／ ショートカット一覧 <span class="ko">(Shortcuts / 단축키)</span> ／ 言語の切り替え（English / 한국어）</td></tr>
 <tr><td>左ツールバー</td><td>選択・移動、画面移動、図形 10 種、画像アップロード、フェーズバンド、テキスト、コネクタ、手描き。三角形・文書・クラウドは、図形を選択した後に右パネルで切り替えられます。</td></tr>
 <tr><td>キャンバス</td><td>白い用紙が実際の図の範囲（書き出し範囲）です。点のグリッドは画面上だけに表示され、書き出しには含まれません。</td></tr>
-<tr><td>右パネル</td><td>何も選択していないときは <b>図の規格</b> <span class="ko">(그림 규격)</span>（プリセット・フォント・線の太さ・間隔・既定の線の色）、<b>キャンバス</b> <span class="ko">(캔버스)</span> サイズ、<b>マイ画像図形</b> <span class="ko">(내 이미지 도형)</span> が表示されます。要素を選択すると、その要素のプロパティが表示されます。</td></tr>
+<tr><td>右パネル</td><td>何も選択していないときは <b>図の規格</b> <span class="ko">(Figure style / 그림 규격)</span>（プリセット・フォント・線の太さ・間隔・既定の線の色）、<b>キャンバス</b> <span class="ko">(Canvas / 캔버스)</span> サイズ、<b>マイ画像図形</b> <span class="ko">(My image shapes / 내 이미지 도형)</span> が表示されます。要素を選択すると、その要素のプロパティが表示されます。</td></tr>
 <tr><td>下部ステータスバー</td><td>現在のツールの案内、選択数、自動保存の状態</td></tr>
 </table></div>
 
@@ -80,7 +80,7 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <li>ノードにマウスを乗せると、四辺に小さな円（ポート）が現れます。右のポートをつかんで <b>何もない場所へドラッグ</b>すると、標準間隔だけ離れた新しいノードが作られ、接続されます。これを繰り返せば、整列したフローが完成します。</li>
 <li>分岐が必要なら <b>ひし形</b>（<kbd>D</kbd>）を置き、ポートを別のノードへドラッグして接続したあと、コネクタをダブルクリックして <code>Yes</code>/<code>No</code> のラベルを入力します。</li>
 <li>右パネルで塗りの色を選び、必要に応じて <b>フェーズバンド</b> で区間をまとめます。</li>
-<li><b>書き出し → SVG</b> <span class="ko">(내보내기 → SVG)</span> で保存すれば、原稿エディタや Illustrator、PowerPoint でそのまま使えます。</li>
+<li><b>書き出し → SVG</b> <span class="ko">(Export → SVG / 내보내기 → SVG)</span> で保存すれば、原稿エディタや Illustrator、PowerPoint でそのまま使えます。</li>
 </ol>
 
 <h2 id="shapes">図形とテキスト</h2>
@@ -88,7 +88,7 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <ul>
 <li><b>移動</b>：ドラッグ。他のノードの中心線・端と揃うとピンクのガイドが現れ、磁石のように吸着します。自由に置くには <kbd>Alt</kbd> を押しながらドラッグします。</li>
 <li><b>サイズ</b>：選択後に 8 つのハンドルをドラッグするか、パネルの W/H に数値を入力します。</li>
-<li><b>文字</b>：ダブルクリック（または <kbd>Enter</kbd>）で編集。パネルで文字サイズ・太字・左揃え（箇条書きに便利）・<b>文字色</b> <span class="ko">(글자 색)</span> を設定します。</li>
+<li><b>文字</b>：ダブルクリック（または <kbd>Enter</kbd>）で編集。パネルで文字サイズ・太字・左揃え（箇条書きに便利）・<b>文字色</b> <span class="ko">(Text color / 글자 색)</span> を設定します。</li>
 <li><b>テキスト</b>（<kbd>T</kbd>）：図形なしで文字だけを置きます。パネル文字 <b>a</b>、<b>b</b> や図のタイトルに使います。</li>
 <li><b>複製</b> <kbd>Ctrl</kbd>+<kbd>D</kbd>、<b>削除</b> <kbd>Delete</kbd>、<b>微調整</b> は矢印キー（<kbd>Shift</kbd> で 10 倍）。</li>
 </ul>
@@ -96,11 +96,11 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <h2 id="connect">コネクタ</h2>
 <p>作り方は 3 通りです。① ノードのポートを別のノードへドラッグ、② <kbd>C</kbd> ツールで始点ノード → 終点ノードをクリック、③ 手描き（<kbd>P</kbd>）で 2 つのノードの間に線を引く。</p>
 <ul>
-<li><b>経路</b> <span class="ko">(경로)</span>：直角（既定）<span class="ko">(직각)</span>・直線 <span class="ko">(직선)</span>・曲線 <span class="ko">(곡선)</span>。直角の経路は両側が対称になるよう中央で折れ、線を選択すると現れる丸いハンドルをドラッグして折れる位置を動かせます。<b>自動経路</b> <span class="ko">(자동 경로)</span> で自動に戻ります。</li>
-<li><b>矢印</b>：始点・終点それぞれに なし / 塗り / 開き / 点 から選択。<b>方向反転</b> <span class="ko">(방향 반전)</span> で始点と終点を入れ替えます。</li>
+<li><b>経路</b> <span class="ko">(Route / 경로)</span>：直角（既定）<span class="ko">(Orthogonal / 직각)</span>・直線 <span class="ko">(Straight / 직선)</span>・曲線 <span class="ko">(Curved / 곡선)</span>。直角の経路は両側が対称になるよう中央で折れ、線を選択すると現れる丸いハンドルをドラッグして折れる位置を動かせます。<b>自動経路</b> <span class="ko">(Auto route / 자동 경로)</span> で自動に戻ります。</li>
+<li><b>矢印</b>：始点・終点それぞれに なし / 塗り / 開き / 点 から選択。<b>方向反転</b> <span class="ko">(Reverse / 방향 반전)</span> で始点と終点を入れ替えます。</li>
 <li><b>再接続</b>：線を選択すると両端に四角いハンドルが現れます。別のノードへドラッグするか、何もない場所に置いて自由端点にできます。</li>
 <li><b>ラベル・破線・色・太さ</b>：パネルで設定。複数の線を同時に選択すると一度に適用されます。</li>
-<li><b>長さの統一</b> <span class="ko">(길이 통일)</span>：複数のコネクタを選択し、px の値を入れて適用すると、各終点ノードが始点ノードから同じ距離に移動します。<b>直線化</b> <span class="ko">(직선화)</span> をオンにすると中心線まで揃い、折れがなくなります。</li>
+<li><b>長さの統一</b> <span class="ko">(Equalize length / 길이 통일)</span>：複数のコネクタを選択し、px の値を入れて適用すると、各終点ノードが始点ノードから同じ距離に移動します。<b>直線化</b> <span class="ko">(Straighten / 직선화)</span> をオンにすると中心線まで揃い、折れがなくなります。</li>
 </ul>
 <div class="tip"><b>線がわずかに折れるとき</b> 2 つのノードの中心の高さが数 px ずれているためです。片方を少しドラッグしてピンクのガイドに吸着させるか、2 つを選択して「上下中央」揃えを押してください。</div>
 
@@ -108,9 +108,9 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <p><kbd>Shift</kbd>+クリック、または何もない場所からのドラッグ（範囲選択）で複数の要素を選びます。2 つ以上選択すると、パネルに整列ツールが表示されます。</p>
 <ul>
 <li><b>整列</b> 左 / 左右中央 / 右 / 上 / 上下中央 / 下</li>
-<li><b>左右に均等 · 上下に均等</b> <span class="ko">(가로 균등 · 세로 균등)</span> — 両端はそのままで、間の間隔だけを揃えます</li>
-<li><b>間隔の固定</b> <span class="ko">(간격 고정)</span> — 入力した px 間隔で順番に並べ直します（「横に適用」<span class="ko">(가로 적용)</span> / 「縦に適用」<span class="ko">(세로 적용)</span>）。ノード間のコネクタの長さがすべて同じになります</li>
-<li><b>幅を揃える · 高さを揃える</b> <span class="ko">(너비 길이 맞춤 · 높이 길이 맞춤)</span> — <b>最初に選択した図形</b>の幅または高さに、他の図形を合わせます</li>
+<li><b>左右に均等 · 上下に均等</b> <span class="ko">(Distribute H · Distribute V / 가로 균등 · 세로 균등)</span> — 両端はそのままで、間の間隔だけを揃えます</li>
+<li><b>間隔の固定</b> <span class="ko">(Fixed gap / 간격 고정)</span> — 入力した px 間隔で順番に並べ直します（「横に適用」<span class="ko">(Apply H / 가로 적용)</span> / 「縦に適用」<span class="ko">(Apply V / 세로 적용)</span>）。ノード間のコネクタの長さがすべて同じになります</li>
+<li><b>幅を揃える · 高さを揃える</b> <span class="ko">(Match width · Match height / 너비 길이 맞춤 · 높이 길이 맞춤)</span> — <b>最初に選択した図形</b>の幅または高さに、他の図形を合わせます</li>
 <li><b>グループ</b> <kbd>Ctrl</kbd>+<kbd>G</kbd> — 以後、1 つをクリックするとグループ全体が選択され、一緒に移動・削除されます。コネクタもグループに入れられます。解除は <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd>。</li>
 </ul>
 
@@ -127,22 +127,22 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <p>認識直後に現れる小さなポップアップで別の図形（処理・長方形・開始/終了・判断・楕円・コネクタ）に切り替えるか、最後のアイコンで手描きの原形をそのまま残せます。認識はルールベースのため複雑な絵は正確でない場合があり、六角形や星などの図形は認識しません。</p>
 
 <h2 id="image">画像・アイコンライブラリ</h2>
-<p>ツールバーの画像アイコン（またはパネルの「画像・アイコンのアップロード」<span class="ko">(이미지 · 아이콘 업로드)</span>）で PNG / JPG / SVG をアップロードすると <b>マイ画像図形</b> <span class="ko">(내 이미지 도형)</span> に保存され、以後はクリック → キャンバスをクリックでいつでも配置できます。配置した画像は通常のノードと同じようにポートで接続し、サイズを変え、ダブルクリックで下にキャプションを付けられます。</p>
+<p>ツールバーの画像アイコン（またはパネルの「画像・アイコンのアップロード」<span class="ko">(Upload image · icon / 이미지 · 아이콘 업로드)</span>）で PNG / JPG / SVG をアップロードすると <b>マイ画像図形</b> <span class="ko">(My image shapes / 내 이미지 도형)</span> に保存され、以後はクリック → キャンバスをクリックでいつでも配置できます。配置した画像は通常のノードと同じようにポートで接続し、サイズを変え、ダブルクリックで下にキャプションを付けられます。</p>
 <ul>
-<li><b>背景の除去</b> <span class="ko">(배경 제거)</span>：画像を選択し、強さ <b>弱 / 中 / 強</b> <span class="ko">(약 / 중 / 강)</span> のいずれかを押すと、端とつながった単色の背景（白など）が透明になります。結果が気に入らなければ別の強さを押すか、<b>元画像</b> <span class="ko">(원본)</span> に戻します。背景を消した版は「この版をライブラリに追加」<span class="ko">(이 버전을 라이브러리에 추가)</span> で別に保存できます。写真のように背景が均一でない場合はうまく消えません。</li>
-<li><b>単色化</b> <span class="ko">(단색화)</span>：グレースケールにして論文の図のトーンに合わせます。<b>枠ボックス</b> <span class="ko">(테두리 상자)</span>：他のノードと同じ枠線で囲みます。</li>
+<li><b>背景の除去</b> <span class="ko">(Remove background / 배경 제거)</span>：画像を選択し、強さ <b>弱 / 中 / 強</b> <span class="ko">(Low / Medium / High / 약 / 중 / 강)</span> のいずれかを押すと、端とつながった単色の背景（白など）が透明になります。結果が気に入らなければ別の強さを押すか、<b>元画像</b> <span class="ko">(Original / 원본)</span> に戻します。背景を消した版は「この版をライブラリに追加」<span class="ko">(Add this version to the library / 이 버전을 라이브러리에 추가)</span> で別に保存できます。写真のように背景が均一でない場合はうまく消えません。</li>
+<li><b>単色化</b> <span class="ko">(Monochrome / 단색화)</span>：グレースケールにして論文の図のトーンに合わせます。<b>枠ボックス</b> <span class="ko">(Border box / 테두리 상자)</span>：他のノードと同じ枠線で囲みます。</li>
 <li>大きな写真は自動的に 640 px 以下に縮小して保存します。ライブラリから削除するには <kbd>Shift</kbd>+クリック。</li>
 <li>ライブラリはこのブラウザにのみ保存されます。図そのものは JSON/SVG に画像が含まれて書き出されるので、他の PC でも開けます。</li>
 </ul>
 
 <h2 id="color">カラーパレット</h2>
-<p>図形を選択すると、パネルに <b>塗り</b> <span class="ko">(채움)</span>・<b>枠線</b> <span class="ko">(테두리)</span>・<b>文字色</b> <span class="ko">(글자 색)</span> のパレットが別々に表示されます。既定の色は、色覚多様性や白黒印刷でも区別しやすい Okabe–Ito 系を調整したものです。色にマウスを乗せると名前と HEX コード（例：<code>#2F6DB5</code>）が表示されます。</p>
+<p>図形を選択すると、パネルに <b>塗り</b> <span class="ko">(Fill / 채움)</span>・<b>枠線</b> <span class="ko">(Border / 테두리)</span>・<b>文字色</b> <span class="ko">(Text color / 글자 색)</span> のパレットが別々に表示されます。既定の色は、色覚多様性や白黒印刷でも区別しやすい Okabe–Ito 系を調整したものです。色にマウスを乗せると名前と HEX コード（例：<code>#2F6DB5</code>）が表示されます。</p>
 <ul>
 <li><b>塗り</b>：1 行に 34 色 — 白、グレー 3 段階、そして 10 色相（グレー・青・青緑・緑・黄・橙・赤・紫・紺・ピンク）の淡い / 中間 / 濃い段階。<b>濃い塗りを選ぶと文字が自動的に白</b>になります。</li>
 <li><b>枠線</b>：<b>なし</b>（点線の空欄で表示）と 10 色。「なし」はすべての図形に使えます。</li>
 <li><b>文字色</b>：白と 10 色。自分で選んだ文字色は、自動の白より優先されます。</li>
 <li><b>色の追加</b>：各パレットの末尾の <b>+</b> を押すと、おすすめの 24 色、カラーピッカー、HEX 入力欄（<code>#RRGGBB</code>）が現れます。追加した色は <b>そのパレットにだけ</b> 入り、このブラウザに保存されます。削除するには <kbd>Shift</kbd>+クリック。</li>
-<li>図全体の既定の線・文字の色は、何も選択していない状態で <b>図の規格 → 既定の線・テキストの色</b> <span class="ko">(그림 규격 → 기본 선 · 텍스트 색)</span> から変更します。</li>
+<li>図全体の既定の線・文字の色は、何も選択していない状態で <b>図の規格 → 既定の線・テキストの色</b> <span class="ko">(Figure style → Default line · text color / 그림 규격 → 기본 선 · 텍스트 색)</span> から変更します。</li>
 </ul>
 <div class="tip"><b>おすすめ</b> 1 つの図で使う強調色は 2〜3 色までにし、残りは白・グレーに。色を意味（データ / 処理 / 判断 / 結果）にだけ対応させると読みやすくなります。</div>
 
@@ -157,7 +157,7 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <p>フォント（Helvetica/Arial、Noto Sans KR、IBM Plex Sans KR、Times New Roman）、既定の文字サイズ、線の太さ、角の半径、矢印のサイズ、既定の間隔（gap）、グリッド間隔、キャンバスサイズを個別に調整できます。個々の要素に指定した色や文字サイズは規格より優先されます。</p>
 
 <h2 id="templates">テンプレート</h2>
-<p><b>ファイル → テンプレート</b> <span class="ko">(파일 → 예제)</span> から開き、内容だけを書き換えて使ってください。テンプレートの文字は一部が韓国語、一部が英語です。</p>
+<p><b>ファイル → テンプレート</b> <span class="ko">(File → Templates / 파일 → 예제)</span> から開き、内容だけを書き換えて使ってください。テンプレートの文字は一部が韓国語、一部が英語です。</p>
 <div class="table-wrap"><table>
 <tr><th>区分</th><th>テンプレート</th><th>用途</th></tr>
 <tr><td rowspan="5">論文用</td><td>実験ワークフロー（a·b·c）</td><td>試料採取 → シーケンシング → 解析のように、段階がパネルに分かれる方法の図</td></tr>
@@ -174,8 +174,8 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <ul>
 <li><b>SVG</b>：ベクター。学術誌への投稿、Illustrator/Inkscape での編集、Word・PowerPoint への挿入に最適です。グリッドや選択表示は含まれません。</li>
 <li><b>PNG</b>：キャンバスの 3 倍の解像度（幅 1200 px のキャンバス → 3600 px、幅 30 cm で約 300 dpi）。システムフォント（Arial など）で描画されます。</li>
-<li><b>JSON</b>：編集可能な元データ。他の PC や同僚に渡すときに使い、<b>ファイル → JSON を開く</b> <span class="ko">(파일 → JSON 불러오기)</span> で開きます。</li>
-<li><b>SVG コードのコピー</b> <span class="ko">(SVG 코드 복사)</span>：ダウンロードが制限された環境で、クリップボードにコピーして <code>.svg</code> ファイルとして保存できます。</li>
+<li><b>JSON</b>：編集可能な元データ。他の PC や同僚に渡すときに使い、<b>ファイル → JSON を開く</b> <span class="ko">(File → Open JSON… / 파일 → JSON 불러오기)</span> で開きます。</li>
+<li><b>SVG コードのコピー</b> <span class="ko">(Copy SVG code / SVG 코드 복사)</span>：ダウンロードが制限された環境で、クリップボードにコピーして <code>.svg</code> ファイルとして保存できます。</li>
 <li><b>自動保存</b>：作業はブラウザに自動保存され、次に開くと続きから始められます。ブラウザのデータを消すと失われるので、大切な図は JSON で保管してください。</li>
 </ul>
 

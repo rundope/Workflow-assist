@@ -12,7 +12,7 @@ A web editor for drawing journal-grade workflows and flowcharts for papers and r
 - User guide: `manual.html` (opens the guide in your browser's language — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html))
 - Work is auto-saved in the browser (localStorage) and can be exported as SVG / PNG / JSON.
 
-> **Note:** the editor's interface (buttons and menus) is currently in Korean only. The user guides show the Korean label next to each feature name so you can find it on screen.
+> **Interface language:** English and Korean — switch with the globe button in the top bar. The editor starts in English unless your browser is set to Korean.
 
 ### Features
 
@@ -81,6 +81,7 @@ MIT — see `LICENSE`.
 - 앱: `index.html`
 - 사용 설명서: `manual.html` (브라우저 언어에 맞는 설명서가 열립니다 — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html))
 - 작업은 브라우저(localStorage)에 자동 저장되고, SVG / PNG / JSON으로 내보낼 수 있습니다.
+- 화면 언어: 한국어 / English — 상단 바의 지구본 버튼으로 바꿉니다.
 
 ### 주요 기능
 
@@ -150,7 +151,7 @@ MIT — `LICENSE` 참고.
 - ユーザーガイド：`manual.html`（ブラウザの言語に合ったガイドが開きます — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html)）
 - 作業はブラウザ（localStorage）に自動保存され、SVG / PNG / JSON で書き出せます。
 
-> **注意：** エディタの画面（ボタンやメニュー）は現在、韓国語のみです。ユーザーガイドでは各機能名の横に韓国語の表記を添えているので、画面上で見つけられます。
+> **画面の言語：** 英語と韓国語に対応しています（上部バーの地球アイコンで切り替え）。日本語の画面はまだないため、ユーザーガイドでは各機能名の横に英語と韓国語の表記を添えています。
 
 ### 主な機能
 
@@ -220,7 +221,7 @@ MIT — `LICENSE` を参照。
 - 使用指南：`manual.html`（按浏览器语言打开对应的指南 — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html)）
 - 作品会自动保存在浏览器（localStorage）中，并可导出为 SVG / PNG / JSON。
 
-> **注意：** 编辑器界面（按钮和菜单）目前只有韩语。使用指南在每个功能名称旁标注了韩语原文，方便在界面上找到。
+> **界面语言：** 支持英语和韩语（用顶部栏的地球图标切换）。暂无中文界面，因此使用指南在每个功能名称旁标注了英语和韩语原文。
 
 ### 主要功能
 

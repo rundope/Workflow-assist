@@ -63,30 +63,31 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 
 ## 3. index.html 코드 구조
 
-파일 안에서 `/* ---------- 이름 ---------- */` 주석으로 구역이 나뉩니다. (줄 번호는 2026-09-17 기준)
+파일 안에서 `/* ---------- 이름 ---------- */` 주석으로 구역이 나뉩니다. (줄 번호는 2026-09-27, v1.1.0 기준)
 
 | 줄 | 구역 | 내용 |
 |---|---|---|
-| 1–260 | `<style>` | UI 크롬 스타일. CSS 변수로 라이트/다크 테마 |
-| 262–330 | HTML 마크업 | 상단 바, 왼쪽 툴바, 캔버스 `<svg>`, 오른쪽 인스펙터, 상태줄 |
-| 277 | constants | `FONTS`, `HUES`/`FILLS`/`STROKES`(팔레트), `SHAPES`, `PRESETS`, `defaultStyle()`, 사용자 색·이미지 라이브러리(localStorage) |
-| 330 | state | 문서 상태 `state`, 선택 `sel`, 뷰 `view`, 현재 도구 `tool` |
-| 348 | templates | `TEMPLATES.{rnaseq,consort,prisma,studydesign,ml,approval,phases,dataflow}` — 예제 문서 생성 함수 |
-| 492 | history / persistence | undo/redo 스택(`snapshot`/`undo`/`redo`), `mutate(fn)`, `persist()` |
-| 502 | geometry | 포트 좌표, 자동 포트 선택(`resolveEnds`), **직각 연결선 라우터 `routeEdge`**, 둥근 모서리 경로 |
-| 576 | rendering | 도형 SVG 생성 `nodeShapeEl`, 노드/밴드/텍스트/연결선 렌더, 오버레이(핸들·포트·가이드) |
-| 722 | view | viewBox 기반 확대/축소/이동, `fitPage` |
-| 740 | tools | 도구 전환 `setTool`, 도형 추가 `addNodeAt`, 연결선 생성 |
-| 753 | smart guides | 드래그 중 중심선·모서리 스냅 `smartSnap` |
-| 760 | pointer interaction | 단일 `pointerdown/move/up` 상태 머신 (`drag.mode`: move / resize / connect / reattach / bend / marquee / ink / pan) |
-| 833 | inline editing | 더블클릭 텍스트 편집 (textarea 오버레이) |
-| 850 | sketch recognition | 손그림 → 도형 인식 (`rdp` 단순화 + 모서리 수 + 축/대각선 비율) |
-| 895 | actions | 삭제·복제·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
-| 911 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
-| 1047 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
-| 1076 | keyboard | 단축키 |
-| ~1096 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
-| 마지막 | boot | localStorage 복원 → 없으면 예제 로드 → 렌더 |
+| 5–167 | `<style>` | UI 크롬 스타일. CSS 변수로 라이트/다크 테마 |
+| 169–264 | HTML 마크업 | 상단 바, 왼쪽 툴바, 캔버스 `<svg>`, 오른쪽 인스펙터, 상태줄 |
+| 278 | i18n | UI 언어(한국어/영어). `I18N_EN` 번역표, `L(원문, 인자)`, `applyStaticI18n()`, `setLang()` |
+| 345 | constants | `FONTS`, `HUES`/`FILLS`/`STROKES`(팔레트), `SHAPES`, `PRESETS`, `defaultStyle()`, 사용자 색·이미지 라이브러리(localStorage) |
+| 398 | state | 문서 상태 `state`, 선택 `sel`, 뷰 `view`, 현재 도구 `tool` |
+| 416 | templates | `TEMPLATES.{rnaseq,consort,prisma,studydesign,ml,approval,phases,dataflow}` — 예제 문서 생성 함수 |
+| 560 | history / persistence | undo/redo 스택(`snapshot`/`undo`/`redo`), `mutate(fn)`, `persist()` |
+| 570 | geometry | 포트 좌표, 자동 포트 선택(`resolveEnds`), **직각 연결선 라우터 `routeEdge`**, 둥근 모서리 경로 |
+| 644 | rendering | 도형 SVG 생성 `nodeShapeEl`, 노드/밴드/텍스트/연결선 렌더, 오버레이(핸들·포트·가이드) |
+| 790 | view | viewBox 기반 확대/축소/이동, `fitPage` |
+| 808 | tools | 도구 전환 `setTool`, 도형 추가 `addNodeAt`, 연결선 생성 |
+| 821 | smart guides | 드래그 중 중심선·모서리 스냅 `smartSnap` |
+| 828 | pointer interaction | 단일 `pointerdown/move/up` 상태 머신 (`drag.mode`: move / resize / connect / reattach / bend / marquee / ink / pan) |
+| 901 | inline editing | 더블클릭 텍스트 편집 (textarea 오버레이) |
+| 918 | sketch recognition | 손그림 → 도형 인식 (`rdp` 단순화 + 모서리 수 + 축/대각선 비율) |
+| 963 | actions | 삭제·복제·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
+| 979 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
+| 1115 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
+| 1144 | keyboard | 단축키 |
+| 1164 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
+| 1194 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 |
 
 **코드 스타일 메모**: 한 줄에 여러 문장을 쓴 압축된 스타일입니다. 읽기 편하게 만들려면 Prettier를 한 번 돌리면 됩니다: `npx prettier --write index.html` (동작은 바뀌지 않습니다).
 
@@ -188,6 +189,7 @@ id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위�
 | `figureassist.doc.v3` | 마지막 작업 문서 (JSON) |
 | `figureassist.colors.v2` | 사용자 추가 색 `{fill:[],stroke:[],text:[]}` |
 | `figureassist.images` | 이미지 라이브러리 `[{id,name,src(dataURL),w,h}]` |
+| `figureassist.lang` | UI 언어 `ko` / `en` (없으면 브라우저 언어로 결정: 한국어면 `ko`, 그 외 `en`) |
 
 호스트 사이트가 문서를 서버에 저장한다면 `load()`/`getDoc()`만 쓰고 localStorage는 무시해도 됩니다.
 
@@ -198,7 +200,7 @@ id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위�
 - **프리셋 추가**: `PRESETS`에 항목 추가 (글꼴·선 굵기·모서리·화살표·밴드색).
 - **글꼴 추가**: `FONTS`에 항목 추가 + `<link>`의 Google Fonts 목록에 패밀리 추가. 한글이 있으면 KR 계열 폰트를 쓰세요.
 - **팔레트 변경**: `HUES`(채움 계열), `STROKES`(선·글자), `EXTRA_COLORS`(추가 팝업의 후보색).
-- **UI 문구/언어**: 마크업과 `renderInspector()`의 템플릿 문자열에 직접 있습니다. i18n 층은 없습니다.
+- **UI 문구/언어**: 한국어 원문이 키입니다. 새 문구는 `L('원문')`으로 감싸고(마크업은 `data-i18n` / `data-i18n-title` 속성) `I18N_EN`에 영어를 추가합니다. 인자는 `L('{n}개 선택',{n})`, 단수형은 `'키|1'`. 언어를 늘리려면 `I18N_EN`과 같은 표를 하나 더 만들고 `L()`과 언어 버튼을 확장합니다.
 
 ## 8. 알려진 제약과 개선 후보
 

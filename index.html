@@ -170,69 +170,70 @@ select.in{font-family:"IBM Plex Sans KR",sans-serif;font-size:12px}
   <header class="topbar">
     <div class="brand"><b>Workflow-assist</b><span class="hide-sm">journal-grade workflow figures</span></div>
     <div class="menu" id="menu-file">
-      <button class="tb" data-menu="file">파일 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="tb" data-menu="file"><span data-i18n>파일</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="dd" hidden>
-        <div class="dd-title">문서</div>
-        <button data-act="new">새 문서 <small>빈 캔버스</small></button>
-        <button data-act="import">JSON 불러오기…</button>
-        <div class="dd-title">논문용 예제</div>
-        <button data-act="tpl:rnaseq">실험 워크플로우 (패널 a·b·c)</button>
-        <button data-act="tpl:consort">CONSORT 참가자 흐름도</button>
-        <button data-act="tpl:prisma">PRISMA 2020 문헌 선별 흐름도</button>
-        <button data-act="tpl:studydesign">연구 설계 (무작위 배정 · 추적)</button>
-        <button data-act="tpl:ml">ML 파이프라인 (판단 루프)</button>
-        <div class="dd-title">보고서용 예제</div>
-        <button data-act="tpl:approval">업무 승인 프로세스 (스윔레인)</button>
-        <button data-act="tpl:phases">프로젝트 단계 (Phase-gate)</button>
-        <button data-act="tpl:dataflow">시스템 데이터 흐름도</button>
+        <div class="dd-title" data-i18n>문서</div>
+        <button data-act="new"><span data-i18n>새 문서</span> <small data-i18n>빈 캔버스</small></button>
+        <button data-act="import" data-i18n>JSON 불러오기…</button>
+        <div class="dd-title" data-i18n>논문용 예제</div>
+        <button data-act="tpl:rnaseq" data-i18n>실험 워크플로우 (패널 a·b·c)</button>
+        <button data-act="tpl:consort" data-i18n>CONSORT 참가자 흐름도</button>
+        <button data-act="tpl:prisma" data-i18n>PRISMA 2020 문헌 선별 흐름도</button>
+        <button data-act="tpl:studydesign" data-i18n>연구 설계 (무작위 배정 · 추적)</button>
+        <button data-act="tpl:ml" data-i18n>ML 파이프라인 (판단 루프)</button>
+        <div class="dd-title" data-i18n>보고서용 예제</div>
+        <button data-act="tpl:approval" data-i18n>업무 승인 프로세스 (스윔레인)</button>
+        <button data-act="tpl:phases" data-i18n>프로젝트 단계 (Phase-gate)</button>
+        <button data-act="tpl:dataflow" data-i18n>시스템 데이터 흐름도</button>
       </div>
     </div>
     <div class="menu" id="menu-export">
-      <button class="tb" data-menu="export">내보내기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="tb" data-menu="export"><span data-i18n>내보내기</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="dd" hidden>
-        <button data-act="export:svg">SVG (벡터) <small>journal</small></button>
+        <button data-act="export:svg"><span data-i18n>SVG (벡터)</span> <small>journal</small></button>
         <button data-act="export:png">PNG <small>3× ≈ 300 dpi</small></button>
-        <button data-act="export:json">JSON (편집용)</button>
-        <button data-act="export:copysvg">SVG 코드 복사 <small>clipboard</small></button>
+        <button data-act="export:json" data-i18n>JSON (편집용)</button>
+        <button data-act="export:copysvg"><span data-i18n>SVG 코드 복사</span> <small>clipboard</small></button>
       </div>
     </div>
     <div class="sep"></div>
-    <button class="tb" id="btn-undo" title="실행 취소 (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/></svg></button>
-    <button class="tb" id="btn-redo" title="다시 실행 (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h2"/></svg></button>
+    <button class="tb" id="btn-undo" data-i18n-title title="실행 취소 (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/></svg></button>
+    <button class="tb" id="btn-redo" data-i18n-title title="다시 실행 (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h2"/></svg></button>
     <div class="grow"></div>
     <div class="zoom">
-      <button id="zoom-out" title="축소">−</button>
+      <button id="zoom-out" data-i18n-title title="축소">−</button>
       <span id="zoom-label">100%</span>
-      <button id="zoom-in" title="확대">+</button>
-      <button id="zoom-fit" title="페이지 맞춤" style="width:auto;padding:0 8px;font-size:11px">맞춤</button>
+      <button id="zoom-in" data-i18n-title title="확대">+</button>
+      <button id="zoom-fit" data-i18n data-i18n-title title="페이지 맞춤" style="width:auto;padding:0 8px;font-size:11px">맞춤</button>
     </div>
-    <button class="tb" id="btn-keys" title="단축키"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg><span class="hide-sm">단축키</span></button>
+    <button class="tb" id="btn-lang" title="Language · 언어"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span id="lang-label" class="hide-sm">한국어</span></button>
+    <button class="tb" id="btn-keys" data-i18n-title title="단축키"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg><span class="hide-sm" data-i18n>단축키</span></button>
   </header>
 
   <div class="main">
     <aside class="rail" id="rail">
       <div class="rgrp">
-        <button class="rb active" data-tool="select" title="선택 · 이동 (V)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l6 16 2.5-6.5L20 10 5 3z"/></svg><span class="kbd">V</span></button>
-        <button class="rb" data-tool="hand" title="화면 이동 (H, Space)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13V6a1.5 1.5 0 0 1 3 0v5m0-6a1.5 1.5 0 0 1 3 0v6m0-4a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-3l-2-4a1.5 1.5 0 0 1 2.6-1.5L8 13"/></svg><span class="kbd">H</span></button>
+        <button class="rb active" data-tool="select" data-i18n-title title="선택 · 이동 (V)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l6 16 2.5-6.5L20 10 5 3z"/></svg><span class="kbd">V</span></button>
+        <button class="rb" data-tool="hand" data-i18n-title title="화면 이동 (H, Space)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 13V6a1.5 1.5 0 0 1 3 0v5m0-6a1.5 1.5 0 0 1 3 0v6m0-4a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-3l-2-4a1.5 1.5 0 0 1 2.6-1.5L8 13"/></svg><span class="kbd">H</span></button>
       </div>
       <div class="rgrp">
-        <button class="rb" data-tool="shape:rounded" title="둥근 사각형 · 프로세스 (R)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="3"/></svg><span class="kbd">R</span></button>
-        <button class="rb" data-tool="shape:rect" title="사각형"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12"/></svg></button>
-        <button class="rb" data-tool="shape:pill" title="시작 · 종료"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="10" rx="5"/></svg></button>
-        <button class="rb" data-tool="shape:diamond" title="판단 · 분기 (D)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 9-9 9-9-9z"/></svg><span class="kbd">D</span></button>
-        <button class="rb" data-tool="shape:ellipse" title="타원"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg></button>
-        <button class="rb" data-tool="shape:parallelogram" title="입출력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 6h14l-4 12H3z"/></svg></button>
-        <button class="rb" data-tool="shape:cylinder" title="데이터 저장소"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></button>
-        <button class="rb" data-tool="shape:hexagon" title="육각형 · 준비/조건"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 5h10l4 7-4 7H7l-4-7z"/></svg></button>
-        <button class="rb" data-tool="shape:chevron" title="화살 블록 · 단계"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h12l6 6-6 6H3l5-6z"/></svg></button>
-        <button class="rb" data-tool="shape:star" title="별 · 강조"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z"/></svg></button>
-        <button class="rb" data-act="upload-image" title="이미지 · 아이콘 업로드 → 도형으로 사용"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg></button>
-        <button class="rb" data-tool="shape:band" title="단계 밴드 · 패널"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"><rect x="3" y="4" width="18" height="16" rx="2"/></svg></button>
-        <button class="rb" data-tool="text" title="텍스트 · 패널 라벨 (T)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 6h14M12 6v13"/></svg><span class="kbd">T</span></button>
+        <button class="rb" data-tool="shape:rounded" data-i18n-title title="둥근 사각형 · 프로세스 (R)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="3"/></svg><span class="kbd">R</span></button>
+        <button class="rb" data-tool="shape:rect" data-i18n-title title="사각형"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12"/></svg></button>
+        <button class="rb" data-tool="shape:pill" data-i18n-title title="시작 · 종료"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="10" rx="5"/></svg></button>
+        <button class="rb" data-tool="shape:diamond" data-i18n-title title="판단 · 분기 (D)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 9-9 9-9-9z"/></svg><span class="kbd">D</span></button>
+        <button class="rb" data-tool="shape:ellipse" data-i18n-title title="타원"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="12" rx="9" ry="6"/></svg></button>
+        <button class="rb" data-tool="shape:parallelogram" data-i18n-title title="입출력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 6h14l-4 12H3z"/></svg></button>
+        <button class="rb" data-tool="shape:cylinder" data-i18n-title title="데이터 저장소"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></button>
+        <button class="rb" data-tool="shape:hexagon" data-i18n-title title="육각형 · 준비/조건"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 5h10l4 7-4 7H7l-4-7z"/></svg></button>
+        <button class="rb" data-tool="shape:chevron" data-i18n-title title="화살 블록 · 단계"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h12l6 6-6 6H3l5-6z"/></svg></button>
+        <button class="rb" data-tool="shape:star" data-i18n-title title="별 · 강조"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z"/></svg></button>
+        <button class="rb" data-act="upload-image" data-i18n-title title="이미지 · 아이콘 업로드 → 도형으로 사용"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg></button>
+        <button class="rb" data-tool="shape:band" data-i18n-title title="단계 밴드 · 패널"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"><rect x="3" y="4" width="18" height="16" rx="2"/></svg></button>
+        <button class="rb" data-tool="text" data-i18n-title title="텍스트 · 패널 라벨 (T)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 6h14M12 6v13"/></svg><span class="kbd">T</span></button>
       </div>
       <div class="rgrp">
-        <button class="rb" data-tool="connect" title="연결선 (C): 노드 → 노드 클릭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="6" r="2.2"/><path d="M6.8 16.4L17.2 7.6"/></svg><span class="kbd">C</span></button>
-        <button class="rb" data-tool="pen" title="손그림 → 도형 인식 (P)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1.2-4.2L16.6 4.4a1.8 1.8 0 0 1 2.5 0l.5.5a1.8 1.8 0 0 1 0 2.5L8.2 18.8 4 20z"/></svg><span class="kbd">P</span></button>
+        <button class="rb" data-tool="connect" data-i18n-title title="연결선 (C): 노드 → 노드 클릭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="6" r="2.2"/><path d="M6.8 16.4L17.2 7.6"/></svg><span class="kbd">C</span></button>
+        <button class="rb" data-tool="pen" data-i18n-title title="손그림 → 도형 인식 (P)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1.2-4.2L16.6 4.4a1.8 1.8 0 0 1 2.5 0l.5.5a1.8 1.8 0 0 1 0 2.5L8.2 18.8 4 20z"/></svg><span class="kbd">P</span></button>
       </div>
     </aside>
 
@@ -255,7 +256,7 @@ select.in{font-family:"IBM Plex Sans KR",sans-serif;font-size:12px}
     <span id="st-hint">노드를 드래그해 이동 · 포트를 드래그해 연결 · 더블클릭으로 텍스트 편집</span>
     <span class="grow"></span>
     <span id="st-sel"></span>
-    <span id="st-saved"><span class="dot"></span>자동 저장</span>
+    <span id="st-saved"><span class="dot"></span><span data-i18n>자동 저장</span></span>
   </footer>
 </div>
 <input type="file" id="file-in" accept="application/json" hidden>
@@ -273,6 +274,73 @@ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const R=v=>Math.round(v*100)/100;
 
 function svgEl(tag,attrs={},children=[]){const e=document.createElementNS(NS,tag);for(const k in attrs){if(attrs[k]!=null)e.setAttribute(k,attrs[k]);}for(const c of children){if(c==null)continue;e.appendChild(typeof c==='string'?document.createTextNode(c):c);}return e;}
+
+/* ---------- i18n ---------- */
+// 한국어 원문이 키. 영어 모드에서만 I18N_EN을 쓰고, 없으면 원문을 그대로 보여 준다. '{n}' 등은 치환 인자, '키|1'은 n=1일 때의 단수형.
+let lang='ko';try{const s=localStorage.getItem('figureassist.lang');lang=(s==='en'||s==='ko')?s:(/^ko\b/i.test(navigator.language||'')?'ko':'en');}catch(e){lang=/^ko\b/i.test(navigator.language||'')?'ko':'en';}
+const I18N_EN={
+  // top bar · menus
+  '파일':'File','문서':'Document','새 문서':'New document','빈 캔버스':'blank canvas','JSON 불러오기…':'Open JSON…',
+  '논문용 예제':'Templates for papers','실험 워크플로우 (패널 a·b·c)':'Experimental workflow (panels a·b·c)','CONSORT 참가자 흐름도':'CONSORT participant flow','PRISMA 2020 문헌 선별 흐름도':'PRISMA 2020 study selection','연구 설계 (무작위 배정 · 추적)':'Study design (randomization · follow-up)','ML 파이프라인 (판단 루프)':'ML pipeline (decision loop)',
+  '보고서용 예제':'Templates for reports','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
+  '내보내기':'Export','SVG (벡터)':'SVG (vector)','JSON (편집용)':'JSON (editable)','SVG 코드 복사':'Copy SVG code',
+  '실행 취소 (Ctrl+Z)':'Undo (Ctrl+Z)','다시 실행 (Ctrl+Shift+Z)':'Redo (Ctrl+Shift+Z)','축소':'Zoom out','확대':'Zoom in','페이지 맞춤':'Fit page','맞춤':'Fit','단축키':'Shortcuts','자동 저장':'Auto-saved',
+  // toolbar · shapes
+  '선택 · 이동 (V)':'Select · move (V)','화면 이동 (H, Space)':'Pan (H, Space)','둥근 사각형 · 프로세스 (R)':'Rounded rectangle · process (R)','사각형':'Rectangle','시작 · 종료':'Start · end','판단 · 분기 (D)':'Decision · branch (D)','타원':'Ellipse','입출력':'Input / output','데이터 저장소':'Data store','육각형 · 준비/조건':'Hexagon · preparation','화살 블록 · 단계':'Chevron · phase','별 · 강조':'Star · emphasis','이미지 · 아이콘 업로드 → 도형으로 사용':'Upload image · icon → use as a shape','단계 밴드 · 패널':'Phase band · panel','텍스트 · 패널 라벨 (T)':'Text · panel label (T)','연결선 (C): 노드 → 노드 클릭':'Connector (C): click node → node','손그림 → 도형 인식 (P)':'Sketch → shape recognition (P)',
+  '프로세스':'Process','시작/종료':'Start / end','판단':'Decision','데이터':'Data','육각형 · 준비':'Hexagon · preparation','삼각형':'Triangle','클라우드 · 외부':'Cloud · external','스케치 유지':'Keep sketch',
+  'Helvetica / Arial (Nature·Science 기본)':'Helvetica / Arial (Nature·Science default)','Times New Roman (세리프)':'Times New Roman (serif)','각진 · 흑백':'Square · greyscale',
+  '채움색':'fill','테두리·선 색':'border / line','글자색':'text',
+  // status bar hints
+  '노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Shift+클릭/영역 드래그로 다중 선택':'Drag nodes to move · drag a port to connect (drop on empty space for a new node) · double-click to edit text · Shift+click or drag an area to multi-select',
+  '드래그해서 화면 이동 · Ctrl+휠로 확대/축소':'Drag to pan · Ctrl+wheel to zoom','출발 노드를 클릭한 뒤 도착 노드를 클릭하세요':'Click the start node, then the end node',
+  '도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)':'Draw a shape or arrow by hand and it becomes a standard shape (a line between two nodes becomes a connector)',
+  '캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)':'Click the canvas to place text (panel labels a, b, c …)','캔버스를 클릭해 도형을 놓으세요':'Click the canvas to place the shape',
+  '{n}개 선택':'{n} selected',
+  // toasts · dialogs
+  '브라우저 저장 공간이 부족합니다. 이미지 몇 개를 삭제해 주세요 (Shift+클릭).':'Browser storage is full. Please delete some images (Shift+click).',
+  '{name}: 이미지를 읽을 수 없습니다':'{name}: could not read the image','캔버스를 클릭해 이미지를 배치하세요 (라이브러리에 저장됨)':'Click the canvas to place the image (saved to the library)','캔버스를 클릭해 이미지를 배치하세요':'Click the canvas to place the image',
+  '{v} 색을 {cat} 팔레트에 추가했습니다':'Added {v} to the {cat} palette','인식됨 →':'Recognized →','확인':'Done',
+  '그룹으로 묶었습니다 (Ctrl+Shift+G로 해제)':'Grouped (Ctrl+Shift+G to ungroup)','{n}개 연결선의 길이를 {gap}px로 맞췄습니다':'Set {n} connectors to {gap}px','{n}개 연결선의 길이를 {gap}px로 맞췄습니다|1':'Set 1 connector to {gap}px',
+  '#RRGGBB 형식으로 입력하세요':'Enter a color as #RRGGBB','배경을 제거하는 중…':'Removing background…',
+  '배경을 제거했습니다. 결과가 마음에 들지 않으면 다른 강도를 누르거나 "원본"으로 되돌리세요.':'Background removed. If you don’t like the result, try another strength or go back with "Original".',
+  '이 이미지는 처리할 수 없습니다 (SVG는 먼저 PNG로 변환해 주세요)':'This image cannot be processed (convert SVG to PNG first)','배경 제거':'background removed','라이브러리에 추가했습니다':'Added to the library',
+  '현재 문서를 지우고 새로 시작할까요? (실행 취소 불가)':'Clear the current document and start a new one? (cannot be undone)','현재 문서를 예제로 바꿀까요?':'Replace the current document with this template?',
+  'SVG 코드를 클립보드에 복사했습니다. Illustrator/Inkscape/PowerPoint에 붙여넣거나 .svg로 저장하세요.':'SVG code copied to the clipboard. Paste it into Illustrator/Inkscape/PowerPoint or save it as .svg.',
+  '클립보드 접근이 차단되었습니다.':'Clipboard access was blocked.','불러왔습니다':'Loaded','JSON 파일을 읽을 수 없습니다':'Could not read the JSON file',
+  '{name} 저장했습니다':'Saved {name}','저장하지 못했습니다: ':'Could not save: ','알 수 없는 오류':'unknown error',
+  '{name} 다운로드를 시작했습니다. 다운로드가 차단된 환경이면 "SVG 코드 복사"를 사용하세요.':'Downloading {name}. If downloads are blocked here, use "Copy SVG code".','PNG 변환에 실패했습니다':'PNG conversion failed',
+  // color palettes
+  'Shift+클릭: 삭제':'Shift+click: remove','{cat} 추가 (이 브라우저에 저장)':'Add a {cat} color (saved in this browser)','{cat}에 추가':'Add to {cat} colors','색 고르기':'Pick a color','추가':'Add','닫기':'Close',
+  '고른 색은 이 팔레트({cat})에만 추가되고 이 브라우저에 저장됩니다.':'The color is added only to this palette ({cat}) and saved in this browser.','사용자 색':'Custom color','없음':'None',
+  // inspector — figure
+  '그림 규격':'Figure style','글꼴':'Font','기본 글자 크기':'Font size','선 굵기':'Line width','모서리 반경':'Corner radius','화살표 크기':'Arrow size','기본 간격 (gap)':'Default gap','그리드':'Grid','기본 선 · 텍스트 색':'Default line · text color',
+  '캔버스':'Canvas','너비 (px)':'Width (px)','높이 (px)':'Height (px)','SVG는 벡터라 크기와 무관하게 선명합니다. PNG는 3배(1200px 너비 기준 ≈ 300 dpi, 폭 약 30 cm)로 내보냅니다.':'SVG is vector, so it stays sharp at any size. PNG is exported at 3× (≈ 300 dpi for a 1200 px canvas at about 30 cm wide).',
+  '내 이미지 도형':'My image shapes','클릭: 배치, Shift+클릭: 삭제':'Click: place, Shift+click: remove','이미지 · 아이콘 업로드 (PNG / JPG / SVG)':'Upload image · icon (PNG / JPG / SVG)',
+  '올린 이미지는 이 브라우저에 저장되어 언제든 도형처럼 배치할 수 있습니다. 배치 후 "단색화"를 켜면 그림 스타일에 맞게 회색조로 바뀝니다.':'Uploaded images are saved in this browser and can be placed like shapes at any time. Turn on "Monochrome" after placing to switch to grayscale to match the figure style.',
+  '규격의 원칙':'Principle','<b>기본값은 통일, 예외는 자유.</b> 새 노드는 그리드·기본 간격·대칭 연결선으로 배치되고, 드래그하면 다른 노드의 중심선에 자석처럼 맞춰집니다(분홍 가이드). 직접 옮기거나 수치를 입력하면 그 값이 우선합니다.':'<b>Consistent defaults, free exceptions.</b> New nodes are placed on the grid with the default gap and symmetric connectors, and snap to other nodes’ center lines while dragging (pink guides). Anything you move or type yourself takes priority.',
+  // inspector — selection
+  '선택':'Selection','{n} 요소':'{n} elements','{n} 요소|1':'1 element','{n} 연결선':'{n} connectors','{n} 연결선|1':'1 connector','복제':'Duplicate','삭제':'Delete','그룹 만들기':'Group','그룹 해제':'Ungroup',
+  '정렬 · 분배':'Align · distribute','왼쪽':'Left','가로 중앙':'Center horizontally','오른쪽':'Right','위':'Top','세로 중앙':'Center vertically','아래':'Bottom',
+  '현재 범위 안에서 가로 균등':'Distribute evenly within the current span','가로 균등':'Distribute H','세로 균등':'Distribute V','간격 고정 (px)':'Fixed gap (px)','가로 적용':'Apply H','세로 적용':'Apply V','너비 길이 맞춤':'Match width','높이 길이 맞춤':'Match height',
+  '"간격 고정"은 선택한 노드들을 순서대로 같은 간격으로 재배치해 사이의 연결선 길이를 통일합니다. "길이 맞춤"은 <b>첫 번째로 선택한 도형</b>의 너비 또는 높이로 나머지를 맞춥니다.':'"Fixed gap" rearranges the selected nodes in order with the same gap, so the connectors between them become equal. "Match width / height" resizes the rest to the width or height of the <b>first selected shape</b>.',
+  // inspector — node
+  '도형':'Shape','{n}개에 적용':'applies to {n}','단색화 (회색조)':'Monochrome (grayscale)','테두리 상자':'Border box','배경 제거 (누끼) · 강도':'Remove background · strength','약':'Low','중':'Medium','강':'High','원본':'Original','이 버전을 라이브러리에 추가':'Add this version to the library',
+  '가장자리와 이어진 단색 배경(흰색 등)을 투명하게 만듭니다. 사진처럼 배경이 고르지 않으면 "강"을 쓰거나 원본을 배경이 단순한 것으로 준비하세요. 투명해진 자리에는 아래의 채움색이 비칩니다. 캡션은 더블클릭으로 입력합니다.':'Makes a solid background (such as white) connected to the edges transparent. For uneven backgrounds such as photos, use "High" or start from an image with a simpler background. The fill color below shows through transparent areas. Double-click to add a caption.',
+  '채움':'Fill','(진한 색은 글자가 자동으로 흰색)':'(text turns white on dark fills)','테두리':'Border','글자 색':'Text color','글자 크기':'Font size','스타일':'Style','왼쪽 정렬 (목록형 텍스트)':'Align left (list-style text)',
+  // inspector — band · text · connector
+  '단계 밴드':'Phase band','라벨 (패널 문자 뒤에 공백 2칸: "a  Title")':'Label (two spaces after the panel letter: "a  Title")','배경':'Background','모서리':'Corners','각':'Square','실선':'Solid','점선':'Dashed','밴드를 옮기면 안에 있는 노드가 함께 이동합니다.':'Moving a band moves the nodes inside it.',
+  '텍스트':'Text','굵게':'Bold','색':'Color',
+  '연결선':'Connector','경로':'Route','직각':'Orthogonal','직선':'Straight','곡선':'Curved','시작':'Start','끝':'End','라벨':'Label','굵기':'Width','예: Yes / No':'e.g. Yes / No','방향 반전':'Reverse','꺾임 위치와 포트를 자동으로':'Reset bend and ports to automatic','자동 경로':'Auto route','길이 통일 (px)':'Equalize length (px)','직선화':'Straighten','적용':'Apply',
+  '"길이 통일"은 각 연결선의 도착 노드를 출발 노드로부터 지정 거리에 다시 놓습니다. 직선화를 켜면 중심선도 맞춰 꺾임이 사라집니다.':'"Equalize length" moves each connector’s end node to the given distance from its start node. With Straighten on, center lines are aligned too, so the bends disappear.',
+  // shortcuts dialog
+  '선택 · 이동':'Select · move','화면 이동 (Space 누른 채 드래그도 가능)':'Pan (or drag while holding Space)','프로세스 노드':'Process node','판단(마름모) 노드':'Decision (diamond) node','연결선 (노드 → 노드 클릭)':'Connector (click node → node)','손그림 인식':'Sketch recognition',
+  'Shift+클릭':'Shift+click','다중 선택 추가/해제':'Add to / remove from selection','드래그':'Drag','빈 곳에서 영역 선택':'Marquee-select from empty space','Alt+드래그':'Alt+drag','스냅 없이 자유 이동':'Move freely without snapping','더블클릭':'Double-click','텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)':'Edit text (Enter to confirm, Shift+Enter for a new line)',
+  '실행 취소 / 다시 실행':'Undo / redo','그룹 (Shift로 해제)':'Group (with Shift: ungroup)','전체 선택':'Select all','방향키':'Arrow keys','그리드 단위 이동 (Shift: 10배)':'Move by grid step (Shift: 10×)','Ctrl+휠':'Ctrl+wheel','확대/축소':'Zoom',
+  '포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.':'Drag a port (the small circle on a node’s edge) to empty space to create a new node aligned at the default gap, already connected.','사용 설명서 열기':'Open user guide',
+};
+function L(s,p){let r=lang==='en'?((p&&p.n===1&&I18N_EN[s+'|1'])||I18N_EN[s]||s):s;if(p)r=r.replace(/\{(\w+)\}/g,(m,k)=>p[k]!=null?p[k]:m);return r;}
+function applyStaticI18n(){$$('[data-i18n]').forEach(e=>{if(!e.dataset.i18n)e.dataset.i18n=e.textContent.trim();e.textContent=L(e.dataset.i18n);});$$('[data-i18n-title]').forEach(e=>{if(!e.dataset.i18nTitle)e.dataset.i18nTitle=e.title;e.title=L(e.dataset.i18nTitle);});document.documentElement.lang=lang;$('#lang-label').textContent=lang==='en'?'English':'한국어';}
+function setLang(l){lang=l;try{localStorage.setItem('figureassist.lang',l);}catch(e){}if(editing)commitEdit();hideSketchPop();applyStaticI18n();setTool(tool);renderAll();}
 
 /* ---------- constants ---------- */
 const FONTS=[
@@ -318,7 +386,7 @@ let customColors={fill:[],stroke:[],text:[]};
 try{const c=JSON.parse(localStorage.getItem('figureassist.colors.v2'));if(c&&c.fill)customColors=c;else{const old=JSON.parse(localStorage.getItem('figureassist.colors'));if(Array.isArray(old))customColors={fill:old.slice(),stroke:old.slice(),text:old.slice()};}}catch(e){}
 function saveColors(){try{localStorage.setItem('figureassist.colors.v2',JSON.stringify(customColors));}catch(e){}}
 let imageLib=[];try{imageLib=JSON.parse(localStorage.getItem('figureassist.images'))||[];}catch(e){}
-function saveImages(){try{localStorage.setItem('figureassist.images',JSON.stringify(imageLib));}catch(e){toast('브라우저 저장 공간이 부족합니다. 이미지 몇 개를 삭제해 주세요 (Shift+클릭).');}}
+function saveImages(){try{localStorage.setItem('figureassist.images',JSON.stringify(imageLib));}catch(e){toast(L('브라우저 저장 공간이 부족합니다. 이미지 몇 개를 삭제해 주세요 (Shift+클릭).'));}}
 function importImageFile(f){return new Promise((res,rej)=>{const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{let w=img.naturalWidth||256,h=img.naturalHeight||256;let src;if(f.type==='image/svg+xml'){src=rd.result;}else{const max=640,sc=Math.min(1,max/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.round(w*sc);c.height=Math.round(h*sc);c.getContext('2d').drawImage(img,0,0,c.width,c.height);src=c.toDataURL('image/png');if(src.length>350000)src=c.toDataURL('image/jpeg',.85);}res({id:uid(),name:f.name.replace(/\.[^.]+$/,''),src,w,h});};img.onerror=()=>rej(new Error('decode'));img.src=rd.result;};rd.onerror=()=>rej(new Error('read'));rd.readAsDataURL(f);});}
 const PRESETS={
   nature:{label:'Nature',hint:'Helvetica · 1 pt',font:'helvetica',fontSize:12,strokeWidth:1.2,radius:4,arrowSize:8,bandFill:'#F4F5F7'},
@@ -717,7 +785,7 @@ function renderOverlay(){
 }
 function renderCanvas(){renderPage();renderFigure();renderOverlay();updateStatus();}
 function renderAll(){renderCanvas();renderInspector();updateUndoButtons();}
-function updateStatus(){const n=sel.size;$('#st-sel').textContent=n?`${n}개 선택`:'';$('#zoom-label').textContent=Math.round(view.zoom*100)+'%';}
+function updateStatus(){const n=sel.size;$('#st-sel').textContent=n?L('{n}개 선택',{n}):'';$('#zoom-label').textContent=Math.round(view.zoom*100)+'%';}
 
 /* ---------- view ---------- */
 function applyView(){const r=stage.getBoundingClientRect();if(r.width<1||r.height<1)return;svg.setAttribute('viewBox',`${view.x} ${view.y} ${r.width/view.zoom} ${r.height/view.zoom}`);renderOverlay();updateStatus();}
@@ -738,11 +806,11 @@ function selectedNodes(){return [...sel].map(byId).filter(e=>e&&(e.type==='node'
 function selectedEdges(){return [...sel].map(edgeById).filter(Boolean);}
 
 /* ---------- tools ---------- */
-function setTool(t){tool=t;connectSrc=null;$$('.rb[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));stage.className='stage '+((t.startsWith('shape:')||t.startsWith('image:'))?'tool-shape':'tool-'+t);const hints={select:'노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Shift+클릭/영역 드래그로 다중 선택',hand:'드래그해서 화면 이동 · Ctrl+휠로 확대/축소',connect:'출발 노드를 클릭한 뒤 도착 노드를 클릭하세요',pen:'도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)',text:'캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)'};$('#st-hint').textContent=hints[t]||'캔버스를 클릭해 도형을 놓으세요';renderOverlay();}
+function setTool(t){tool=t;connectSrc=null;$$('.rb[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));stage.className='stage '+((t.startsWith('shape:')||t.startsWith('image:'))?'tool-shape':'tool-'+t);const hints={select:'노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Shift+클릭/영역 드래그로 다중 선택',hand:'드래그해서 화면 이동 · Ctrl+휠로 확대/축소',connect:'출발 노드를 클릭한 뒤 도착 노드를 클릭하세요',pen:'도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)',text:'캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)'};$('#st-hint').textContent=L(hints[t]||'캔버스를 클릭해 도형을 놓으세요');renderOverlay();}
 $$('.rb[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
 $$('[data-act="upload-image"]').forEach(b=>b.addEventListener('click',()=>$('#img-in').click()));
-$('#img-in').addEventListener('change',async ev=>{const files=Array.from(ev.target.files||[]);ev.target.value='';let last=null;for(const f of files){try{const it=await importImageFile(f);imageLib.push(it);last=it;}catch(e){toast(`${f.name}: 이미지를 읽을 수 없습니다`);}}if(last){saveImages();sel.clear();renderInspector();setTool('image:'+last.id);toast('캔버스를 클릭해 이미지를 배치하세요 (라이브러리에 저장됨)');}});
-function addCustomColor(hex,cat){const v=hex.toUpperCase();const list=customColors[cat]||(customColors[cat]=[]);if(!list.includes(v)){list.push(v);saveColors();}renderInspector();toast(`${v} 색을 ${CAT_LABEL[cat]} 팔레트에 추가했습니다`);}
+$('#img-in').addEventListener('change',async ev=>{const files=Array.from(ev.target.files||[]);ev.target.value='';let last=null;for(const f of files){try{const it=await importImageFile(f);imageLib.push(it);last=it;}catch(e){toast(L('{name}: 이미지를 읽을 수 없습니다',{name:f.name}));}}if(last){saveImages();sel.clear();renderInspector();setTool('image:'+last.id);toast(L('캔버스를 클릭해 이미지를 배치하세요 (라이브러리에 저장됨)'));}});
+function addCustomColor(hex,cat){const v=hex.toUpperCase();const list=customColors[cat]||(customColors[cat]=[]);if(!list.includes(v)){list.push(v);saveColors();}renderInspector();toast(L('{v} 색을 {cat} 팔레트에 추가했습니다',{v,cat:L(CAT_LABEL[cat])}));}
 inspector.addEventListener('input',ev=>{if(ev.target.id==='color-in2'){const h=$('#hex-in');if(h)h.value=ev.target.value.toUpperCase();}});
 inspector.addEventListener('keydown',ev=>{if(ev.target.id==='hex-in'&&ev.key==='Enter'){ev.preventDefault();const btn=inspector.querySelector('[data-action="addhex"]');if(btn)btn.click();}});
 
@@ -884,7 +952,7 @@ function showSketchPop(){
   hideSketchPop();if(!sketch)return;
   const pop=document.createElement('div');pop.className='sketch-pop';pop.id='sketch-pop';
   const opts=[['rounded','프로세스','<rect x="3" y="6" width="18" height="12" rx="3"/>'],['rect','사각형','<rect x="3" y="6" width="18" height="12"/>'],['pill','시작/종료','<rect x="3" y="7" width="18" height="10" rx="5"/>'],['diamond','판단','<path d="M12 3l9 9-9 9-9-9z"/>'],['ellipse','타원','<ellipse cx="12" cy="12" rx="9" ry="6"/>'],['line','연결선','<path d="M4 12h14"/><path d="M14 8l4 4-4 4"/>'],['ink','스케치 유지','<path d="M4 16c3-6 5 4 8-2s4-6 8 0"/>']];
-  pop.innerHTML='<span class="lbl">인식됨 →</span>'+opts.map(([id,l,ic])=>`<button class="${id===sketch.shape?'on':''}" data-s="${id}" title="${l}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg></button>`).join('')+'<button class="txt" data-s="done">확인</button>';
+  pop.innerHTML='<span class="lbl">'+L('인식됨 →')+'</span>'+opts.map(([id,l,ic])=>`<button class="${id===sketch.shape?'on':''}" data-s="${id}" title="${L(l)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg></button>`).join('')+'<button class="txt" data-s="done">'+L('확인')+'</button>';
   const s=toScreen({x:sketch.bb.x,y:sketch.bb.y+sketch.bb.h});pop.style.left=clamp(s.x,8,s.w-380)+'px';pop.style.top=clamp(s.y+10,8,s.h-50)+'px';
   pop.addEventListener('pointerdown',e=>e.stopPropagation());
   pop.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.s==='done'){hideSketchPop();sketch=null;renderOverlay();}else applySketch(b.dataset.s);});
@@ -896,7 +964,7 @@ function hideSketchPop(){const p=$('#sketch-pop');if(p)p.remove();}
 function deleteSel(){if(!sel.size)return;mutate(()=>{const ids=new Set(sel);state.elements=state.elements.filter(e=>!ids.has(e.id));state.edges=state.edges.filter(e=>!ids.has(e.id)&&!(e.from.node&&ids.has(e.from.node))&&!(e.to.node&&ids.has(e.to.node)));state.groups=state.groups.map(g=>({id:g.id,members:g.members.filter(m=>!ids.has(m))})).filter(g=>g.members.length>1);});sel.clear();sketch=null;hideSketchPop();renderAll();}
 function duplicateSel(){const els=selectedNodes();if(!els.length)return;const map={};mutate(()=>{const g=st().gap/2;for(const e of els){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.x+=g;c.y+=g;delete c._bb;map[e.id]=c.id;state.elements.push(c);}for(const ed of state.edges.slice()){if(ed.from.node&&ed.to.node&&map[ed.from.node]&&map[ed.to.node]){const c=JSON.parse(JSON.stringify(ed));c.id=uid();c.from.node=map[ed.from.node];c.to.node=map[ed.to.node];state.edges.push(c);}}});sel=new Set(Object.values(map));renderAll();}
 function selectAll(){sel=new Set([...state.elements.map(e=>e.id),...state.edges.map(e=>e.id)]);renderAll();}
-function groupSel(){if(sel.size<2)return;mutate(()=>{const ids=[...sel];state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));state.groups.push({id:uid(),members:ids});});renderInspector();toast('그룹으로 묶었습니다 (Ctrl+Shift+G로 해제)');}
+function groupSel(){if(sel.size<2)return;mutate(()=>{const ids=[...sel];state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));state.groups.push({id:uid(),members:ids});});renderInspector();toast(L('그룹으로 묶었습니다 (Ctrl+Shift+G로 해제)'));}
 function ungroupSel(){mutate(()=>{state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));});renderInspector();}
 function nudge(dx,dy){const els=selectedNodes();if(!els.length)return;mutate(()=>{for(const e of els){e.x+=dx;e.y+=dy;}});}
 function alignSel(mode){const els=selectedNodes();if(els.length<2)return;const bbs=els.map(e=>e.type==='text'&&e._bb?e._bb:elBBox(e));const x1=Math.min(...bbs.map(b=>b.x)),x2=Math.max(...bbs.map(b=>b.x+b.w)),y1=Math.min(...bbs.map(b=>b.y)),y2=Math.max(...bbs.map(b=>b.y+b.h));
@@ -904,7 +972,7 @@ function alignSel(mode){const els=selectedNodes();if(els.length<2)return;const b
 function distribute(axis,gap){const els=selectedNodes().filter(e=>e.type!=='text');if(els.length<2)return;const key=axis==='x'?'x':'y',size=axis==='x'?'w':'h';els.sort((a,b)=>a[key]-b[key]);
   mutate(()=>{if(gap==null){const total=els[els.length-1][key]+els[els.length-1][size]-els[0][key];const sum=els.reduce((s,e)=>s+e[size],0);const g=(total-sum)/(els.length-1);let pos=els[0][key];for(const e of els){e[key]=pos;pos+=e[size]+g;}}else{let pos=els[0][key];for(const e of els){e[key]=pos;pos+=e[size]+gap;}}});}
 function matchSize(what){const els=selectedNodes().filter(e=>e.type==='node');if(els.length<2)return;const ref=els[0];mutate(()=>{for(const e of els){if(what!=='h')e.w=ref.w;if(what!=='w')e.h=ref.h;}});}
-function equalizeEdges(gap,straighten){const eds=selectedEdges().filter(e=>e.from.node&&e.to.node);if(!eds.length)return;mutate(()=>{for(const e of eds){const r=resolveEnds(e);if(!r||!r.a||!r.b)continue;const {A,B,a,b}=r;if(A.dx!==0){b.x=A.dx>0?a.x+a.w+gap:a.x-gap-b.w;if(straighten)b.y=center(a).y-b.h/2;}else{b.y=A.dy>0?a.y+a.h+gap:a.y-gap-b.h;if(straighten)b.x=center(a).x-b.w/2;}e.bend=null;}});toast(`${eds.length}개 연결선의 길이를 ${gap}px로 맞췄습니다`);}
+function equalizeEdges(gap,straighten){const eds=selectedEdges().filter(e=>e.from.node&&e.to.node);if(!eds.length)return;mutate(()=>{for(const e of eds){const r=resolveEnds(e);if(!r||!r.a||!r.b)continue;const {A,B,a,b}=r;if(A.dx!==0){b.x=A.dx>0?a.x+a.w+gap:a.x-gap-b.w;if(straighten)b.y=center(a).y-b.h/2;}else{b.y=A.dy>0?a.y+a.h+gap:a.y-gap-b.h;if(straighten)b.x=center(a).x-b.w/2;}e.bend=null;}});toast(L('{n}개 연결선의 길이를 {gap}px로 맞췄습니다',{n:eds.length,gap}));}
 function applyPreset(id){const p=PRESETS[id];mutate(()=>{Object.assign(state.style,{font:p.font,fontSize:state.style.fontSize,strokeWidth:p.strokeWidth,radius:p.radius,arrowSize:p.arrowSize,bandFill:p.bandFill,preset:id});if(id==='mono'){for(const e of state.elements){if(e.type==='node'&&e.fill&&e.fill!=='#FFFFFF'){const l=luminance(e.fill);e.fill=l>.8?'#EEEEEE':l>.5?'#D9D9D9':'#666666';}}}});renderInspector();}
 function loadTemplate(id){state=TEMPLATES[id]();sel.clear();history=[];future=[];renderAll();fitPage();persist();}
 
@@ -913,11 +981,11 @@ const ICON={alignL:'<path d="M4 4v16M8 8h10v3H8zM8 13h6v3H8z"/>',alignC:'<path d
 const ic=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON[k]||k}</svg>`;
 const CAT_LABEL={fill:'채움색',stroke:'테두리·선 색',text:'글자색'};
 function swatchRow(action,current,cat,items){const list=items.concat((customColors[cat]||[]).map(h=>({name:'사용자 색',hex:h,custom:true})));
-  return `<div class="sw">${list.map(c=>`<button data-action="${action}" data-value="${c.hex}" ${c.custom?`data-custom="${cat}:${c.hex}"`:''} class="${current===c.hex?'on':''}${c.hex==='none'?' none':''}" style="background:${c.hex==='none'?'transparent':c.hex}" title="${c.name}${c.hex==='none'?'':' · '+c.hex}${c.custom?' · Shift+클릭: 삭제':''}"></button>`).join('')}<button class="add" data-action="addcolor" data-cat="${cat}" title="${CAT_LABEL[cat]} 추가 (이 브라우저에 저장)">+</button></div>`;}
+  return `<div class="sw">${list.map(c=>`<button data-action="${action}" data-value="${c.hex}" ${c.custom?`data-custom="${cat}:${c.hex}"`:''} class="${current===c.hex?'on':''}${c.hex==='none'?' none':''}" style="background:${c.hex==='none'?'transparent':c.hex}" title="${L(c.name)}${c.hex==='none'?'':' · '+c.hex}${c.custom?' · '+L('Shift+클릭: 삭제'):''}"></button>`).join('')}<button class="add" data-action="addcolor" data-cat="${cat}" title="${L('{cat} 추가 (이 브라우저에 저장)',{cat:L(CAT_LABEL[cat])})}">+</button></div>`;}
 function fillSwatches(action,current){return swatchRow(action,current,'fill',FILLS);}
 function lineSwatches(action,current,cat,opts={}){const items=(opts.none?[{name:'없음',hex:'none'}]:[]).concat(opts.white?[{name:'white',hex:'#FFFFFF'}]:[]).concat(STROKES);return swatchRow(action,current,cat,items);}
 const EXTRA_COLORS=['#003F5C','#2F4B7C','#665191','#A05195','#D45087','#F95D6A','#FF7C43','#FFA600','#1B9E77','#D95F02','#7570B3','#E7298A','#66A61E','#E6AB02','#A6761D','#4D4D4D','#8DD3C7','#FB8072','#80B1D3','#FDB462','#B3DE69','#FCCDE5','#BC80BD','#CCEBC5'];
-function colorPopHTML(cat){return `<div class="color-pop" id="color-pop" data-cat="${cat}"><div class="kv"><span>${CAT_LABEL[cat]}에 추가</span></div><div class="cgrid">${EXTRA_COLORS.map(c=>`<button data-action="pickcolor" data-value="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div><div class="row"><input type="color" id="color-in2" value="#4A6FA5" title="색 고르기"><input class="in" id="hex-in" placeholder="#3366AA" maxlength="7" spellcheck="false"><button class="btn" data-action="addhex">추가</button><button class="btn" data-action="closepop">닫기</button></div><p class="note">고른 색은 이 팔레트(${CAT_LABEL[cat]})에만 추가되고 이 브라우저에 저장됩니다.</p></div>`;}
+function colorPopHTML(cat){return `<div class="color-pop" id="color-pop" data-cat="${cat}"><div class="kv"><span>${L('{cat}에 추가',{cat:L(CAT_LABEL[cat])})}</span></div><div class="cgrid">${EXTRA_COLORS.map(c=>`<button data-action="pickcolor" data-value="${c}" style="background:${c}" title="${c}"></button>`).join('')}</div><div class="row"><input type="color" id="color-in2" value="#4A6FA5" title="${L('색 고르기')}"><input class="in" id="hex-in" placeholder="#3366AA" maxlength="7" spellcheck="false"><button class="btn" data-action="addhex">${L('추가')}</button><button class="btn" data-action="closepop">${L('닫기')}</button></div><p class="note">${L('고른 색은 이 팔레트({cat})에만 추가되고 이 브라우저에 저장됩니다.',{cat:L(CAT_LABEL[cat])})}</p></div>`;}
 function removeBackground(src,tol){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const W=img.naturalWidth||img.width,H=img.naturalHeight||img.height;if(!W||!H)return rej(new Error('size'));const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);let d;try{d=ctx.getImageData(0,0,W,H);}catch(e){return rej(e);}const px=d.data;
   const samp=[];const sx=Math.max(1,W>>6),sy=Math.max(1,H>>6);for(let x=0;x<W;x+=sx){samp.push(x,(H-1)*W+x);}for(let y=0;y<H;y+=sy){samp.push(y*W,y*W+W-1);}
   let r=0,g=0,b=0,n=0;for(const i of samp){if(px[i*4+3]<8)continue;r+=px[i*4];g+=px[i*4+1];b+=px[i*4+2];n++;}if(!n)return res(src);r/=n;g/=n;b/=n;
@@ -925,68 +993,68 @@ function removeBackground(src,tol){return new Promise((res,rej)=>{const img=new 
   const soft=Math.max(10,tol*.5);
   while(stack.length){const i=stack.pop();if(seen[i])continue;seen[i]=1;const o=i*4;const dd=Math.hypot(px[o]-r,px[o+1]-g,px[o+2]-b);if(dd>tol+soft)continue;const a=dd<=tol?0:Math.round(255*(dd-tol)/soft);if(a<px[o+3])px[o+3]=a;if(dd>tol)continue;const x=i%W,y=(i-x)/W;if(x>0)stack.push(i-1);if(x<W-1)stack.push(i+1);if(y>0)stack.push(i-W);if(y<H-1)stack.push(i+W);}
   ctx.putImageData(d,0,0);res(c.toDataURL('image/png'));};img.onerror=()=>rej(new Error('load'));img.src=src;});}
-function num(label,prop,val,target,step=1,min){return `<div class="fld"><label>${label}</label><input class="in" type="number" step="${step}" ${min!=null?`min="${min}"`:''} data-prop="${prop}" data-target="${target}" data-type="number" value="${val==null?'':R(val)}"></div>`;}
+function num(label,prop,val,target,step=1,min){return `<div class="fld"><label>${L(label)}</label><input class="in" type="number" step="${step}" ${min!=null?`min="${min}"`:''} data-prop="${prop}" data-target="${target}" data-type="number" value="${val==null?'':R(val)}"></div>`;}
 
 function renderInspector(){
   const s=st();const nodes=selectedNodes(),edges=selectedEdges();const onlyNodes=nodes.filter(n=>n.type==='node');
   let html='';
   if(!sel.size){
-    html+=`<div class="sec"><h4>그림 규격 <span class="sub">${state.page.w} × ${state.page.h}</span></h4>
-      <div class="presets">${Object.entries(PRESETS).map(([k,p])=>`<button class="preset ${s.preset===k?'on':''}" data-action="preset" data-value="${k}"><b>${p.label}</b><small>${p.hint}</small></button>`).join('')}</div>
-      <div class="fld"><label>글꼴</label><select class="in" data-prop="font" data-target="style">${FONTS.map(f=>`<option value="${f.id}" ${s.font===f.id?'selected':''}>${f.label}</option>`).join('')}</select></div>
+    html+=`<div class="sec"><h4>${L('그림 규격')} <span class="sub">${state.page.w} × ${state.page.h}</span></h4>
+      <div class="presets">${Object.entries(PRESETS).map(([k,p])=>`<button class="preset ${s.preset===k?'on':''}" data-action="preset" data-value="${k}"><b>${p.label}</b><small>${L(p.hint)}</small></button>`).join('')}</div>
+      <div class="fld"><label>${L('글꼴')}</label><select class="in" data-prop="font" data-target="style">${FONTS.map(f=>`<option value="${f.id}" ${s.font===f.id?'selected':''}>${L(f.label)}</option>`).join('')}</select></div>
       <div class="row">${num('기본 글자 크기','fontSize',s.fontSize,'style',.5,6)}${num('선 굵기','strokeWidth',s.strokeWidth,'style',.1,.3)}</div>
       <div class="row">${num('모서리 반경','radius',s.radius,'style',1,0)}${num('화살표 크기','arrowSize',s.arrowSize,'style',.5,3)}</div>
       <div class="row">${num('기본 간격 (gap)','gap',s.gap,'style',2,4)}${num('그리드','grid',s.grid,'style',1,1)}</div>
-      <div class="fld"><label>기본 선 · 텍스트 색</label>${lineSwatches('style:stroke',s.stroke,'stroke')}</div>
+      <div class="fld"><label>${L('기본 선 · 텍스트 색')}</label>${lineSwatches('style:stroke',s.stroke,'stroke')}</div>
     </div>
-    <div class="sec"><h4>캔버스</h4><div class="row">${num('너비 (px)','w',state.page.w,'page',10,200)}${num('높이 (px)','h',state.page.h,'page',10,200)}</div>
-      <p class="note">SVG는 벡터라 크기와 무관하게 선명합니다. PNG는 3배(1200px 너비 기준 ≈ 300 dpi, 폭 약 30 cm)로 내보냅니다.</p></div>
-    <div class="sec"><h4>내 이미지 도형 <span class="sub">${imageLib.length}</span></h4>${imageLib.length?`<div class="imglib">${imageLib.map(i=>`<button data-action="placeimg" data-value="${i.id}" data-custom="img" title="${i.name.replace(/"/g,'&quot;')} · 클릭: 배치, Shift+클릭: 삭제"><img src="${i.src}" alt=""></button>`).join('')}</div>`:''}<button class="btn" data-action="uploadimg">이미지 · 아이콘 업로드 (PNG / JPG / SVG)</button><p class="note">올린 이미지는 이 브라우저에 저장되어 언제든 도형처럼 배치할 수 있습니다. 배치 후 "단색화"를 켜면 그림 스타일에 맞게 회색조로 바뀝니다.</p></div>
-    <div class="sec"><h4>규격의 원칙</h4><p class="note"><b>기본값은 통일, 예외는 자유.</b> 새 노드는 그리드·기본 간격·대칭 연결선으로 배치되고, 드래그하면 다른 노드의 중심선에 자석처럼 맞춰집니다(분홍 가이드). 직접 옮기거나 수치를 입력하면 그 값이 우선합니다.</p></div>`;
+    <div class="sec"><h4>${L('캔버스')}</h4><div class="row">${num('너비 (px)','w',state.page.w,'page',10,200)}${num('높이 (px)','h',state.page.h,'page',10,200)}</div>
+      <p class="note">${L('SVG는 벡터라 크기와 무관하게 선명합니다. PNG는 3배(1200px 너비 기준 ≈ 300 dpi, 폭 약 30 cm)로 내보냅니다.')}</p></div>
+    <div class="sec"><h4>${L('내 이미지 도형')} <span class="sub">${imageLib.length}</span></h4>${imageLib.length?`<div class="imglib">${imageLib.map(i=>`<button data-action="placeimg" data-value="${i.id}" data-custom="img" title="${i.name.replace(/"/g,'&quot;')} · ${L('클릭: 배치, Shift+클릭: 삭제')}"><img src="${i.src}" alt=""></button>`).join('')}</div>`:''}<button class="btn" data-action="uploadimg">${L('이미지 · 아이콘 업로드 (PNG / JPG / SVG)')}</button><p class="note">${L('올린 이미지는 이 브라우저에 저장되어 언제든 도형처럼 배치할 수 있습니다. 배치 후 "단색화"를 켜면 그림 스타일에 맞게 회색조로 바뀝니다.')}</p></div>
+    <div class="sec"><h4>${L('규격의 원칙')}</h4><p class="note">${L('<b>기본값은 통일, 예외는 자유.</b> 새 노드는 그리드·기본 간격·대칭 연결선으로 배치되고, 드래그하면 다른 노드의 중심선에 자석처럼 맞춰집니다(분홍 가이드). 직접 옮기거나 수치를 입력하면 그 값이 우선합니다.')}</p></div>`;
   }else{
     // mixed summary
-    html+=`<div class="sec"><h4>선택 <span class="sub">${nodes.length?nodes.length+' 요소':''}${nodes.length&&edges.length?' · ':''}${edges.length?edges.length+' 연결선':''}</span></h4>
-      <div class="row"><button class="btn grow" data-action="duplicate" ${nodes.length?'':'disabled'}>복제 <small>Ctrl+D</small></button><button class="btn grow danger" data-action="delete">삭제 <small>Del</small></button></div>
-      ${sel.size>1?`<div class="row"><button class="btn grow" data-action="group">그룹 만들기 <small>Ctrl+G</small></button><button class="btn grow" data-action="ungroup">그룹 해제</button></div>`:(groupOf([...sel][0])?`<div class="row"><button class="btn grow" data-action="ungroup">그룹 해제</button></div>`:'')}
+    html+=`<div class="sec"><h4>${L('선택')} <span class="sub">${nodes.length?L('{n} 요소',{n:nodes.length}):''}${nodes.length&&edges.length?' · ':''}${edges.length?L('{n} 연결선',{n:edges.length}):''}</span></h4>
+      <div class="row"><button class="btn grow" data-action="duplicate" ${nodes.length?'':'disabled'}>${L('복제')} <small>Ctrl+D</small></button><button class="btn grow danger" data-action="delete">${L('삭제')} <small>Del</small></button></div>
+      ${sel.size>1?`<div class="row"><button class="btn grow" data-action="group">${L('그룹 만들기')} <small>Ctrl+G</small></button><button class="btn grow" data-action="ungroup">${L('그룹 해제')}</button></div>`:(groupOf([...sel][0])?`<div class="row"><button class="btn grow" data-action="ungroup">${L('그룹 해제')}</button></div>`:'')}
     </div>`;
     if(nodes.length>=2){
-      html+=`<div class="sec"><h4>정렬 · 분배</h4>
-        <div class="seg"><button data-action="align" data-value="left" title="왼쪽">${ic('alignL')}</button><button data-action="align" data-value="hcenter" title="가로 중앙">${ic('alignC')}</button><button data-action="align" data-value="right" title="오른쪽">${ic('alignR')}</button><button data-action="align" data-value="top" title="위">${ic('alignT')}</button><button data-action="align" data-value="vcenter" title="세로 중앙">${ic('alignM')}</button><button data-action="align" data-value="bottom" title="아래">${ic('alignB')}</button></div>
-        <div class="row"><button class="btn grow" data-action="dist" data-value="x" title="현재 범위 안에서 가로 균등">${ic('distH')} 가로 균등</button><button class="btn grow" data-action="dist" data-value="y">${ic('distV')} 세로 균등</button></div>
-        <div class="row"><div class="fld"><label>간격 고정 (px)</label><input class="in" type="number" id="gap-in" value="${s.gap}" step="2" min="0"></div><button class="btn" data-action="gapx" style="align-self:flex-end">가로 적용</button><button class="btn" data-action="gapy" style="align-self:flex-end">세로 적용</button></div>
-        <div class="row"><button class="btn grow" data-action="match" data-value="w">너비 길이 맞춤</button><button class="btn grow" data-action="match" data-value="h">높이 길이 맞춤</button></div>
-        <p class="note">"간격 고정"은 선택한 노드들을 순서대로 같은 간격으로 재배치해 사이의 연결선 길이를 통일합니다. "길이 맞춤"은 <b>첫 번째로 선택한 도형</b>의 너비 또는 높이로 나머지를 맞춥니다.</p></div>`;
+      html+=`<div class="sec"><h4>${L('정렬 · 분배')}</h4>
+        <div class="seg"><button data-action="align" data-value="left" title="${L('왼쪽')}">${ic('alignL')}</button><button data-action="align" data-value="hcenter" title="${L('가로 중앙')}">${ic('alignC')}</button><button data-action="align" data-value="right" title="${L('오른쪽')}">${ic('alignR')}</button><button data-action="align" data-value="top" title="${L('위')}">${ic('alignT')}</button><button data-action="align" data-value="vcenter" title="${L('세로 중앙')}">${ic('alignM')}</button><button data-action="align" data-value="bottom" title="${L('아래')}">${ic('alignB')}</button></div>
+        <div class="row"><button class="btn grow" data-action="dist" data-value="x" title="${L('현재 범위 안에서 가로 균등')}">${ic('distH')} ${L('가로 균등')}</button><button class="btn grow" data-action="dist" data-value="y">${ic('distV')} ${L('세로 균등')}</button></div>
+        <div class="row"><div class="fld"><label>${L('간격 고정 (px)')}</label><input class="in" type="number" id="gap-in" value="${s.gap}" step="2" min="0"></div><button class="btn" data-action="gapx" style="align-self:flex-end">${L('가로 적용')}</button><button class="btn" data-action="gapy" style="align-self:flex-end">${L('세로 적용')}</button></div>
+        <div class="row"><button class="btn grow" data-action="match" data-value="w">${L('너비 길이 맞춤')}</button><button class="btn grow" data-action="match" data-value="h">${L('높이 길이 맞춤')}</button></div>
+        <p class="note">${L('"간격 고정"은 선택한 노드들을 순서대로 같은 간격으로 재배치해 사이의 연결선 길이를 통일합니다. "길이 맞춤"은 <b>첫 번째로 선택한 도형</b>의 너비 또는 높이로 나머지를 맞춥니다.')}</p></div>`;
     }
     if(onlyNodes.length){
       const n=onlyNodes[0];const same=k=>onlyNodes.every(x=>x[k]===n[k]);
-      html+=`<div class="sec"><h4>도형 ${onlyNodes.length>1?`<span class="sub">${onlyNodes.length}개에 적용</span>`:''}</h4>
-        <div class="shapes">${SHAPES.map(sh=>`<button data-action="shape" data-value="${sh.id}" class="${same('shape')&&n.shape===sh.id?'on':''}" title="${sh.label}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${sh.icon}</svg></button>`).join('')}</div>
-        ${n.shape==='image'?`<div class="row"><button class="btn grow ${n.mono?'on':''}" data-action="imgmono">단색화 (회색조)</button><button class="btn grow ${n.frame?'on':''}" data-action="imgframe">테두리 상자</button></div>
-        <div class="fld"><label>배경 제거 (누끼) · 강도</label><div class="row"><div class="seg" style="flex:1"><button data-action="rmbg" data-value="26">약</button><button data-action="rmbg" data-value="46">중</button><button data-action="rmbg" data-value="72">강</button></div>${n.srcOriginal?`<button class="btn" data-action="restoreimg">원본</button>`:''}</div></div>
-        ${n.srcOriginal?`<div class="row"><button class="btn grow" data-action="libimg">이 버전을 라이브러리에 추가</button></div>`:''}
-        <p class="note">가장자리와 이어진 단색 배경(흰색 등)을 투명하게 만듭니다. 사진처럼 배경이 고르지 않으면 "강"을 쓰거나 원본을 배경이 단순한 것으로 준비하세요. 투명해진 자리에는 아래의 채움색이 비칩니다. 캡션은 더블클릭으로 입력합니다.</p>`:''}
-        <div class="fld"><label>채움 <span style="color:var(--faint)">(진한 색은 글자가 자동으로 흰색)</span></label>${fillSwatches('fill',same('fill')?n.fill:null)}</div>
-        <div class="fld"><label>테두리</label>${lineSwatches('stroke',same('stroke')?(n.stroke||s.stroke):null,'stroke',{none:true})}</div>
-        <div class="fld"><label>글자 색</label>${lineSwatches('ntext',same('textColor')?(n.textColor||null):null,'text',{white:true})}</div>
-        <div class="row">${num('글자 크기','fontSize',n.fontSize||s.fontSize,'nodes',.5,6)}<div class="fld"><label>스타일</label><div class="row"><button class="btn grow ${n.bold?'on':''}" data-action="bold"><b>B</b></button><button class="btn grow ${n.align==='left'?'on':''}" data-action="alignText" title="왼쪽 정렬 (목록형 텍스트)">≡</button></div></div></div>
+      html+=`<div class="sec"><h4>${L('도형')} ${onlyNodes.length>1?`<span class="sub">${L('{n}개에 적용',{n:onlyNodes.length})}</span>`:''}</h4>
+        <div class="shapes">${SHAPES.map(sh=>`<button data-action="shape" data-value="${sh.id}" class="${same('shape')&&n.shape===sh.id?'on':''}" title="${L(sh.label)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${sh.icon}</svg></button>`).join('')}</div>
+        ${n.shape==='image'?`<div class="row"><button class="btn grow ${n.mono?'on':''}" data-action="imgmono">${L('단색화 (회색조)')}</button><button class="btn grow ${n.frame?'on':''}" data-action="imgframe">${L('테두리 상자')}</button></div>
+        <div class="fld"><label>${L('배경 제거 (누끼) · 강도')}</label><div class="row"><div class="seg" style="flex:1"><button data-action="rmbg" data-value="26">${L('약')}</button><button data-action="rmbg" data-value="46">${L('중')}</button><button data-action="rmbg" data-value="72">${L('강')}</button></div>${n.srcOriginal?`<button class="btn" data-action="restoreimg">${L('원본')}</button>`:''}</div></div>
+        ${n.srcOriginal?`<div class="row"><button class="btn grow" data-action="libimg">${L('이 버전을 라이브러리에 추가')}</button></div>`:''}
+        <p class="note">${L('가장자리와 이어진 단색 배경(흰색 등)을 투명하게 만듭니다. 사진처럼 배경이 고르지 않으면 "강"을 쓰거나 원본을 배경이 단순한 것으로 준비하세요. 투명해진 자리에는 아래의 채움색이 비칩니다. 캡션은 더블클릭으로 입력합니다.')}</p>`:''}
+        <div class="fld"><label>${L('채움')} <span style="color:var(--faint)">${L('(진한 색은 글자가 자동으로 흰색)')}</span></label>${fillSwatches('fill',same('fill')?n.fill:null)}</div>
+        <div class="fld"><label>${L('테두리')}</label>${lineSwatches('stroke',same('stroke')?(n.stroke||s.stroke):null,'stroke',{none:true})}</div>
+        <div class="fld"><label>${L('글자 색')}</label>${lineSwatches('ntext',same('textColor')?(n.textColor||null):null,'text',{white:true})}</div>
+        <div class="row">${num('글자 크기','fontSize',n.fontSize||s.fontSize,'nodes',.5,6)}<div class="fld"><label>${L('스타일')}</label><div class="row"><button class="btn grow ${n.bold?'on':''}" data-action="bold"><b>B</b></button><button class="btn grow ${n.align==='left'?'on':''}" data-action="alignText" title="${L('왼쪽 정렬 (목록형 텍스트)')}">≡</button></div></div></div>
         ${onlyNodes.length===1?`<div class="row">${num('X','x',n.x,'nodes',s.grid)}${num('Y','y',n.y,'nodes',s.grid)}${num('W','w',n.w,'nodes',s.grid,20)}${num('H','h',n.h,'nodes',s.grid,20)}</div>`:''}
       </div>`;
     }
     const bands=nodes.filter(n=>n.type==='band');
-    if(bands.length){const b=bands[0];html+=`<div class="sec"><h4>단계 밴드</h4><div class="fld"><label>라벨 (패널 문자 뒤에 공백 2칸: "a  Title")</label><input class="in text" data-prop="label" data-target="bands" value="${(b.label||'').replace(/"/g,'&quot;')}"></div><div class="fld"><label>배경</label>${fillSwatches('bandfill',b.fill||s.bandFill)}</div><div class="row"><div class="fld"><label>모서리</label><div class="seg">${[[0,'각'],[8,'8'],[16,'16'],[28,'28']].map(([v,l])=>`<button data-action="bradius" data-value="${v}" class="${(b.radius!=null?b.radius:(s.radius>0?6:0))===v?'on':''}">${l}</button>`).join('')}</div></div><div class="fld"><label>테두리</label><div class="seg">${[['none','없음'],['solid','실선'],['dashed','점선']].map(([v,l])=>`<button data-action="bborder" data-value="${v}" class="${(b.border||'none')===v?'on':''}">${l}</button>`).join('')}</div></div></div>${bands.length===1?`<div class="row">${num('X','x',b.x,'bands',s.grid)}${num('Y','y',b.y,'bands',s.grid)}${num('W','w',b.w,'bands',s.grid,40)}${num('H','h',b.h,'bands',s.grid,40)}</div>`:''}<p class="note">밴드를 옮기면 안에 있는 노드가 함께 이동합니다.</p></div>`;}
+    if(bands.length){const b=bands[0];html+=`<div class="sec"><h4>${L('단계 밴드')}</h4><div class="fld"><label>${L('라벨 (패널 문자 뒤에 공백 2칸: "a  Title")')}</label><input class="in text" data-prop="label" data-target="bands" value="${(b.label||'').replace(/"/g,'&quot;')}"></div><div class="fld"><label>${L('배경')}</label>${fillSwatches('bandfill',b.fill||s.bandFill)}</div><div class="row"><div class="fld"><label>${L('모서리')}</label><div class="seg">${[[0,'각'],[8,'8'],[16,'16'],[28,'28']].map(([v,l])=>`<button data-action="bradius" data-value="${v}" class="${(b.radius!=null?b.radius:(s.radius>0?6:0))===v?'on':''}">${L(l)}</button>`).join('')}</div></div><div class="fld"><label>${L('테두리')}</label><div class="seg">${[['none','없음'],['solid','실선'],['dashed','점선']].map(([v,l])=>`<button data-action="bborder" data-value="${v}" class="${(b.border||'none')===v?'on':''}">${L(l)}</button>`).join('')}</div></div></div>${bands.length===1?`<div class="row">${num('X','x',b.x,'bands',s.grid)}${num('Y','y',b.y,'bands',s.grid)}${num('W','w',b.w,'bands',s.grid,40)}${num('H','h',b.h,'bands',s.grid,40)}</div>`:''}<p class="note">${L('밴드를 옮기면 안에 있는 노드가 함께 이동합니다.')}</p></div>`;}
     const texts=nodes.filter(n=>n.type==='text');
-    if(texts.length){const t=texts[0];html+=`<div class="sec"><h4>텍스트</h4><div class="row">${num('글자 크기','fontSize',t.fontSize||s.fontSize,'texts',.5,6)}<div class="fld"><label>굵게</label><button class="btn ${t.bold?'on':''}" data-action="tbold"><b>B</b></button></div></div><div class="fld"><label>색</label>${lineSwatches('tcolor',t.color||s.textColor,'text',{white:true})}</div></div>`;}
+    if(texts.length){const t=texts[0];html+=`<div class="sec"><h4>${L('텍스트')}</h4><div class="row">${num('글자 크기','fontSize',t.fontSize||s.fontSize,'texts',.5,6)}<div class="fld"><label>${L('굵게')}</label><button class="btn ${t.bold?'on':''}" data-action="tbold"><b>B</b></button></div></div><div class="fld"><label>${L('색')}</label>${lineSwatches('tcolor',t.color||s.textColor,'text',{white:true})}</div></div>`;}
     if(edges.length){
       const e=edges[0];const same=k=>edges.every(x=>x[k]===e[k]);
-      html+=`<div class="sec"><h4>연결선 ${edges.length>1?`<span class="sub">${edges.length}개에 적용</span>`:''}</h4>
-        <div class="fld"><label>경로</label><div class="seg">${[['ortho','직각'],['straight','직선'],['curve','곡선']].map(([v,l])=>`<button data-action="route" data-value="${v}" class="${same('route')&&e.route===v?'on':''}">${l}</button>`).join('')}</div></div>
-        <div class="row"><div class="fld"><label>시작</label><div class="seg">${[['none','—'],['arrow','◀'],['open','〈'],['dot','●']].map(([v,l])=>`<button data-action="startHead" data-value="${v}" class="${same('startHead')&&e.startHead===v?'on':''}">${l}</button>`).join('')}</div></div>
-        <div class="fld"><label>끝</label><div class="seg">${[['none','—'],['arrow','▶'],['open','〉'],['dot','●']].map(([v,l])=>`<button data-action="endHead" data-value="${v}" class="${same('endHead')&&e.endHead===v?'on':''}">${l}</button>`).join('')}</div></div></div>
-        <div class="row"><div class="fld"><label>라벨</label><input class="in text" data-prop="label" data-target="edges" value="${(e.label||'').replace(/"/g,'&quot;')}" placeholder="예: Yes / No"></div>${num('굵기','strokeWidth',e.strokeWidth||s.strokeWidth,'edges',.1,.3)}</div>
-        <div class="fld"><label>색</label>${lineSwatches('estroke',same('stroke')?(e.stroke||s.stroke):null,'stroke')}</div>
-        <div class="row"><button class="btn grow ${e.dash?'on':''}" data-action="dash">점선</button><button class="btn grow" data-action="reverse">방향 반전</button><button class="btn grow" data-action="resetBend" title="꺾임 위치와 포트를 자동으로">자동 경로</button></div>
-        <div class="row"><div class="fld"><label>길이 통일 (px)</label><input class="in" type="number" id="elen-in" value="${s.gap}" step="2" min="0"></div><label class="row" style="gap:4px;font-size:11.5px;color:var(--muted);align-self:flex-end;height:28px"><input type="checkbox" id="elen-straight" checked>직선화</label><button class="btn" data-action="equalize" style="align-self:flex-end">적용</button></div>
-        <p class="note">"길이 통일"은 각 연결선의 도착 노드를 출발 노드로부터 지정 거리에 다시 놓습니다. 직선화를 켜면 중심선도 맞춰 꺾임이 사라집니다.</p>
+      html+=`<div class="sec"><h4>${L('연결선')} ${edges.length>1?`<span class="sub">${L('{n}개에 적용',{n:edges.length})}</span>`:''}</h4>
+        <div class="fld"><label>${L('경로')}</label><div class="seg">${[['ortho','직각'],['straight','직선'],['curve','곡선']].map(([v,l])=>`<button data-action="route" data-value="${v}" class="${same('route')&&e.route===v?'on':''}">${L(l)}</button>`).join('')}</div></div>
+        <div class="row"><div class="fld"><label>${L('시작')}</label><div class="seg">${[['none','—'],['arrow','◀'],['open','〈'],['dot','●']].map(([v,l])=>`<button data-action="startHead" data-value="${v}" class="${same('startHead')&&e.startHead===v?'on':''}">${l}</button>`).join('')}</div></div>
+        <div class="fld"><label>${L('끝')}</label><div class="seg">${[['none','—'],['arrow','▶'],['open','〉'],['dot','●']].map(([v,l])=>`<button data-action="endHead" data-value="${v}" class="${same('endHead')&&e.endHead===v?'on':''}">${l}</button>`).join('')}</div></div></div>
+        <div class="row"><div class="fld"><label>${L('라벨')}</label><input class="in text" data-prop="label" data-target="edges" value="${(e.label||'').replace(/"/g,'&quot;')}" placeholder="${L('예: Yes / No')}"></div>${num('굵기','strokeWidth',e.strokeWidth||s.strokeWidth,'edges',.1,.3)}</div>
+        <div class="fld"><label>${L('색')}</label>${lineSwatches('estroke',same('stroke')?(e.stroke||s.stroke):null,'stroke')}</div>
+        <div class="row"><button class="btn grow ${e.dash?'on':''}" data-action="dash">${L('점선')}</button><button class="btn grow" data-action="reverse">${L('방향 반전')}</button><button class="btn grow" data-action="resetBend" title="${L('꺾임 위치와 포트를 자동으로')}">${L('자동 경로')}</button></div>
+        <div class="row"><div class="fld"><label>${L('길이 통일 (px)')}</label><input class="in" type="number" id="elen-in" value="${s.gap}" step="2" min="0"></div><label class="row" style="gap:4px;font-size:11.5px;color:var(--muted);align-self:flex-end;height:28px"><input type="checkbox" id="elen-straight" checked>${L('직선화')}</label><button class="btn" data-action="equalize" style="align-self:flex-end">${L('적용')}</button></div>
+        <p class="note">${L('"길이 통일"은 각 연결선의 도착 노드를 출발 노드로부터 지정 거리에 다시 놓습니다. 직선화를 켜면 중심선도 맞춰 꺾임이 사라집니다.')}</p>
       </div>`;
     }
   }
@@ -1001,13 +1069,13 @@ inspector.addEventListener('click',ev=>{
     case 'addcolor':{const old=$('#color-pop');if(old)old.remove();b.closest('.sw').insertAdjacentHTML('afterend',colorPopHTML(b.dataset.cat||'fill'));$('#hex-in').focus();break;}
     case 'closepop':{const old=$('#color-pop');if(old)old.remove();break;}
     case 'pickcolor':addCustomColor(v,popCat());break;
-    case 'addhex':{const hex=($('#hex-in').value||$('#color-in2').value).trim();if(/^#?[0-9a-f]{6}$/i.test(hex))addCustomColor(hex.startsWith('#')?hex:'#'+hex,popCat());else toast('#RRGGBB 형식으로 입력하세요');break;}
+    case 'addhex':{const hex=($('#hex-in').value||$('#color-in2').value).trim();if(/^#?[0-9a-f]{6}$/i.test(hex))addCustomColor(hex.startsWith('#')?hex:'#'+hex,popCat());else toast(L('#RRGGBB 형식으로 입력하세요'));break;}
     case 'ntext':setAll(onlyNodes,n=>{n.textColor=v;});break;
-    case 'rmbg':{const targets=onlyNodes.filter(n=>n.shape==='image');if(!targets.length)break;toast('배경을 제거하는 중…');Promise.all(targets.map(n=>removeBackground(n.srcOriginal||n.src,+v).then(out=>({n,out})))).then(list=>{mutate(()=>{for(const {n,out} of list){if(!n.srcOriginal)n.srcOriginal=n.src;n.src=out;}});renderInspector();toast('배경을 제거했습니다. 결과가 마음에 들지 않으면 다른 강도를 누르거나 "원본"으로 되돌리세요.');}).catch(()=>toast('이 이미지는 처리할 수 없습니다 (SVG는 먼저 PNG로 변환해 주세요)'));break;}
+    case 'rmbg':{const targets=onlyNodes.filter(n=>n.shape==='image');if(!targets.length)break;toast(L('배경을 제거하는 중…'));Promise.all(targets.map(n=>removeBackground(n.srcOriginal||n.src,+v).then(out=>({n,out})))).then(list=>{mutate(()=>{for(const {n,out} of list){if(!n.srcOriginal)n.srcOriginal=n.src;n.src=out;}});renderInspector();toast(L('배경을 제거했습니다. 결과가 마음에 들지 않으면 다른 강도를 누르거나 "원본"으로 되돌리세요.'));}).catch(()=>toast(L('이 이미지는 처리할 수 없습니다 (SVG는 먼저 PNG로 변환해 주세요)')));break;}
     case 'restoreimg':setAll(onlyNodes.filter(n=>n.srcOriginal),n=>{n.src=n.srcOriginal;delete n.srcOriginal;});break;
-    case 'libimg':{const n=onlyNodes.find(x=>x.shape==='image');if(!n)break;const img=new Image();img.onload=()=>{imageLib.push({id:uid(),name:(n.label||'image').split('\n')[0]+' (배경 제거)',src:n.src,w:img.naturalWidth||n.w,h:img.naturalHeight||n.h});saveImages();toast('라이브러리에 추가했습니다');};img.src=n.src;break;}
+    case 'libimg':{const n=onlyNodes.find(x=>x.shape==='image');if(!n)break;const img=new Image();img.onload=()=>{imageLib.push({id:uid(),name:(n.label||'image').split('\n')[0]+' ('+L('배경 제거')+')',src:n.src,w:img.naturalWidth||n.w,h:img.naturalHeight||n.h});saveImages();toast(L('라이브러리에 추가했습니다'));};img.src=n.src;break;}
     case 'uploadimg':$('#img-in').click();break;
-    case 'placeimg':setTool('image:'+v);toast('캔버스를 클릭해 이미지를 배치하세요');break;
+    case 'placeimg':setTool('image:'+v);toast(L('캔버스를 클릭해 이미지를 배치하세요'));break;
     case 'imgmono':setAll(onlyNodes,n=>{n.mono=!onlyNodes[0].mono;});break;
     case 'imgframe':setAll(onlyNodes,n=>{n.frame=!onlyNodes[0].frame;});break;
     case 'bradius':setAll(nodes.filter(n=>n.type==='band'),n=>{n.radius=+v;});break;
@@ -1049,29 +1117,29 @@ function closeMenus(){$$('.menu .dd').forEach(d=>d.hidden=true);}
 $$('[data-menu]').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();const dd=b.nextElementSibling;const open=!dd.hidden;closeMenus();dd.hidden=open;}));
 document.addEventListener('click',ev=>{if(!ev.target.closest('.menu'))closeMenus();});
 $$('.dd [data-act]').forEach(b=>b.addEventListener('click',()=>{closeMenus();const a=b.dataset.act;
-  if(a==='new'){if(state.elements.length&&!confirm('현재 문서를 지우고 새로 시작할까요? (실행 취소 불가)'))return;state=newDoc();sel.clear();history=[];future=[];renderAll();fitPage();persist();}
+  if(a==='new'){if(state.elements.length&&!confirm(L('현재 문서를 지우고 새로 시작할까요? (실행 취소 불가)')))return;state=newDoc();sel.clear();history=[];future=[];renderAll();fitPage();persist();}
   else if(a==='import')$('#file-in').click();
-  else if(a.startsWith('tpl:')){if(state.elements.length&&!confirm('현재 문서를 예제로 바꿀까요?'))return;loadTemplate(a.slice(4));}
+  else if(a.startsWith('tpl:')){if(state.elements.length&&!confirm(L('현재 문서를 예제로 바꿀까요?')))return;loadTemplate(a.slice(4));}
   else if(a==='export:svg')download(new Blob([buildExportSVG()],{type:'image/svg+xml'}),'figure.svg');
   else if(a==='export:png')exportPNG();
   else if(a==='export:json')download(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),'figure.json');
-  else if(a==='export:copysvg'){navigator.clipboard.writeText(buildExportSVG()).then(()=>toast('SVG 코드를 클립보드에 복사했습니다. Illustrator/Inkscape/PowerPoint에 붙여넣거나 .svg로 저장하세요.')).catch(()=>toast('클립보드 접근이 차단되었습니다.'));}
+  else if(a==='export:copysvg'){navigator.clipboard.writeText(buildExportSVG()).then(()=>toast(L('SVG 코드를 클립보드에 복사했습니다. Illustrator/Inkscape/PowerPoint에 붙여넣거나 .svg로 저장하세요.'))).catch(()=>toast(L('클립보드 접근이 차단되었습니다.')));}
 }));
-$('#file-in').addEventListener('change',ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!d.elements||!d.edges)throw 0;snapshot();state=Object.assign(newDoc(),d);state.style=Object.assign(defaultStyle(),d.style||{});sel.clear();renderAll();fitPage();persist();toast('불러왔습니다');}catch(e){toast('JSON 파일을 읽을 수 없습니다');}ev.target.value='';};rd.readAsText(f);});
+$('#file-in').addEventListener('change',ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!d.elements||!d.edges)throw 0;snapshot();state=Object.assign(newDoc(),d);state.style=Object.assign(defaultStyle(),d.style||{});sel.clear();renderAll();fitPage();persist();toast(L('불러왔습니다'));}catch(e){toast(L('JSON 파일을 읽을 수 없습니다'));}ev.target.value='';};rd.readAsText(f);});
 function buildExportSVG(){const {w,h}=state.page;const out=svgEl('svg',{xmlns:NS,viewBox:`0 0 ${w} ${h}`,width:w,height:h});out.appendChild(svgEl('rect',{x:0,y:0,width:w,height:h,fill:'#FFFFFF'}));const fig=gFig.cloneNode(true);fig.removeAttribute('id');fig.querySelectorAll('.hit,[fill="transparent"]').forEach(x=>x.remove());fig.querySelectorAll('[data-id]').forEach(x=>{x.removeAttribute('data-id');x.removeAttribute('data-kind');});out.appendChild(fig);return '<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(out);}
 let dlCap=null;(async()=>{try{if(window.claude&&typeof window.claude.use==='function')dlCap=await window.claude.use('downloads');}catch(e){}})();
 async function download(blob,name){
-  if(dlCap){try{await dlCap.save({filename:name,data:blob});toast(`${name} 저장했습니다`);}catch(e){if(!e||e.code!=='declined')toast('저장하지 못했습니다: '+((e&&e.message)||'알 수 없는 오류'));}return;}
-  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);toast(`${name} 다운로드를 시작했습니다. 다운로드가 차단된 환경이면 "SVG 코드 복사"를 사용하세요.`);}
-function exportPNG(){const s=buildExportSVG();const url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml;charset=utf-8'}));const img=new Image();img.onload=()=>{const sc=3;const c=document.createElement('canvas');c.width=state.page.w*sc;c.height=state.page.h*sc;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);c.toBlob(b=>{download(b,'figure.png');URL.revokeObjectURL(url);},'image/png');};img.onerror=()=>toast('PNG 변환에 실패했습니다');img.src=url;}
+  if(dlCap){try{await dlCap.save({filename:name,data:blob});toast(L('{name} 저장했습니다',{name}));}catch(e){if(!e||e.code!=='declined')toast(L('저장하지 못했습니다: ')+((e&&e.message)||L('알 수 없는 오류')));}return;}
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);toast(L('{name} 다운로드를 시작했습니다. 다운로드가 차단된 환경이면 "SVG 코드 복사"를 사용하세요.',{name}));}
+function exportPNG(){const s=buildExportSVG();const url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml;charset=utf-8'}));const img=new Image();img.onload=()=>{const sc=3;const c=document.createElement('canvas');c.width=state.page.w*sc;c.height=state.page.h*sc;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);c.toBlob(b=>{download(b,'figure.png');URL.revokeObjectURL(url);},'image/png');};img.onerror=()=>toast(L('PNG 변환에 실패했습니다'));img.src=url;}
 let toastT=null;function toast(msg){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t);}t.textContent=msg;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),3200);}
 
-$('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;
-$('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>단축키</h3><div class="keys">
-<kbd>V</kbd><span>선택 · 이동</span><kbd>H</kbd><span>화면 이동 (Space 누른 채 드래그도 가능)</span><kbd>R</kbd><span>프로세스 노드</span><kbd>D</kbd><span>판단(마름모) 노드</span><kbd>T</kbd><span>텍스트</span><kbd>C</kbd><span>연결선 (노드 → 노드 클릭)</span><kbd>P</kbd><span>손그림 인식</span>
-<kbd>Shift+클릭</kbd><span>다중 선택 추가/해제</span><kbd>드래그</kbd><span>빈 곳에서 영역 선택</span><kbd>Alt+드래그</kbd><span>스냅 없이 자유 이동</span><kbd>더블클릭</kbd><span>텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)</span>
-<kbd>Ctrl+Z / Y</kbd><span>실행 취소 / 다시 실행</span><kbd>Ctrl+D</kbd><span>복제</span><kbd>Ctrl+G</kbd><span>그룹 (Shift로 해제)</span><kbd>Ctrl+A</kbd><span>전체 선택</span><kbd>방향키</kbd><span>그리드 단위 이동 (Shift: 10배)</span><kbd>Delete</kbd><span>삭제</span><kbd>Ctrl+휠</kbd><span>확대/축소</span>
-</div><p class="note" style="margin-top:14px">포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.</p><div class="row" style="justify-content:space-between;margin-top:10px"><a class="btn" href="manual.html" target="_blank" rel="noopener">사용 설명서 열기</a><button class="btn" id="close-keys">닫기</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});};
+$('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;$('#btn-lang').onclick=()=>setLang(lang==='en'?'ko':'en');
+$('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>${L('단축키')}</h3><div class="keys">
+<kbd>V</kbd><span>${L('선택 · 이동')}</span><kbd>H</kbd><span>${L('화면 이동 (Space 누른 채 드래그도 가능)')}</span><kbd>R</kbd><span>${L('프로세스 노드')}</span><kbd>D</kbd><span>${L('판단(마름모) 노드')}</span><kbd>T</kbd><span>${L('텍스트')}</span><kbd>C</kbd><span>${L('연결선 (노드 → 노드 클릭)')}</span><kbd>P</kbd><span>${L('손그림 인식')}</span>
+<kbd>${L('Shift+클릭')}</kbd><span>${L('다중 선택 추가/해제')}</span><kbd>${L('드래그')}</kbd><span>${L('빈 곳에서 영역 선택')}</span><kbd>${L('Alt+드래그')}</kbd><span>${L('스냅 없이 자유 이동')}</span><kbd>${L('더블클릭')}</kbd><span>${L('텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)')}</span>
+<kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Shift: 10배)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
+</div><p class="note" style="margin-top:14px">${L('포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.')}</p><div class="row" style="justify-content:space-between;margin-top:10px"><a class="btn" href="manual_${lang==='en'?'en':'kr'}.html" target="_blank" rel="noopener">${L('사용 설명서 열기')}</a><button class="btn" id="close-keys">${L('닫기')}</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});};
 
 /* ---------- keyboard ---------- */
 window.addEventListener('keydown',ev=>{
@@ -1127,7 +1195,7 @@ window.addEventListener('message',ev=>{
 (function boot(){
   let saved=null;try{saved=JSON.parse(localStorage.getItem('figureassist.doc.v3')||localStorage.getItem('figuregrid.doc.v2'));}catch(e){}
   if(saved&&saved.elements){state=Object.assign(newDoc(),saved);state.style=Object.assign(defaultStyle(),saved.style||{});}else state=TEMPLATES.rnaseq();
-  renderAll();requestAnimationFrame(fitPage);setTool('select');
+  applyStaticI18n();renderAll();requestAnimationFrame(fitPage);setTool('select');
 })();
 })();
 </script>

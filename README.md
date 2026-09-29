@@ -8,8 +8,8 @@
 
 A web editor for drawing journal-grade workflows and flowcharts for papers and reports. **The rules — grid, spacing, symmetric connectors — are kept automatically, while every element stays freely adjustable.** It runs from a single `index.html` file with no server or build step.
 
-- App: `index.html`
-- User guide: `manual.html` (opens the guide in your browser's language — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html))
+- **Live demo: [https://rundope.github.io/Workflow-assist/](https://rundope.github.io/Workflow-assist/)** (`index.html`)
+- User guide: [`manual.html`](https://rundope.github.io/Workflow-assist/manual.html) (opens the guide in your browser's language — [English](https://rundope.github.io/Workflow-assist/manual_en.html) · [한국어](https://rundope.github.io/Workflow-assist/manual_kr.html) · [日本語](https://rundope.github.io/Workflow-assist/manual_jp.html) · [中文](https://rundope.github.io/Workflow-assist/manual_cn.html))
 - Work is auto-saved in the browser (localStorage) and can be exported as SVG / PNG / JSON.
 
 > **Interface language:** English and Korean — switch with the globe button in the top bar. The editor starts in English unless your browser is set to Korean.
@@ -78,8 +78,8 @@ MIT — see `LICENSE`.
 
 논문·보고서용 워크플로우 / 플로우차트를 **규격(그리드·간격·대칭 연결선)은 자동으로 지키되, 모든 요소는 자유롭게 조정**할 수 있게 그리는 웹 에디터입니다. 서버나 빌드 과정 없이 `index.html` 한 파일로 동작합니다.
 
-- 앱: `index.html`
-- 사용 설명서: `manual.html` (브라우저 언어에 맞는 설명서가 열립니다 — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html))
+- **바로 사용하기: [https://rundope.github.io/Workflow-assist/](https://rundope.github.io/Workflow-assist/)** (`index.html`)
+- 사용 설명서: [`manual.html`](https://rundope.github.io/Workflow-assist/manual.html) (브라우저 언어에 맞는 설명서가 열립니다 — [English](https://rundope.github.io/Workflow-assist/manual_en.html) · [한국어](https://rundope.github.io/Workflow-assist/manual_kr.html) · [日本語](https://rundope.github.io/Workflow-assist/manual_jp.html) · [中文](https://rundope.github.io/Workflow-assist/manual_cn.html))
 - 작업은 브라우저(localStorage)에 자동 저장되고, SVG / PNG / JSON으로 내보낼 수 있습니다.
 - 화면 언어: 한국어 / English — 상단 바의 지구본 버튼으로 바꿉니다.
 
@@ -147,8 +147,8 @@ MIT — `LICENSE` 참고.
 
 論文・レポート用のワークフロー図／フローチャートを、**規格（グリッド・間隔・対称なコネクタ）は自動で守りつつ、すべての要素を自由に調整**できるように描くウェブエディタです。サーバーやビルドは不要で、`index.html` 1 ファイルで動作します。
 
-- アプリ：`index.html`
-- ユーザーガイド：`manual.html`（ブラウザの言語に合ったガイドが開きます — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html)）
+- **すぐに使う：[https://rundope.github.io/Workflow-assist/](https://rundope.github.io/Workflow-assist/)**（`index.html`）
+- ユーザーガイド：[`manual.html`](https://rundope.github.io/Workflow-assist/manual.html)（ブラウザの言語に合ったガイドが開きます — [English](https://rundope.github.io/Workflow-assist/manual_en.html) · [한국어](https://rundope.github.io/Workflow-assist/manual_kr.html) · [日本語](https://rundope.github.io/Workflow-assist/manual_jp.html) · [中文](https://rundope.github.io/Workflow-assist/manual_cn.html)）
 - 作業はブラウザ（localStorage）に自動保存され、SVG / PNG / JSON で書き出せます。
 
 > **画面の言語：** 英語と韓国語に対応しています（上部バーの地球アイコンで切り替え）。日本語の画面はまだないため、ユーザーガイドでは各機能名の横に英語と韓国語の表記を添えています。
@@ -217,8 +217,8 @@ MIT — `LICENSE` を参照。
 
 一款用于绘制论文和报告用工作流程图 / 流程图的网页编辑器：**自动保持规范（网格、间距、对称连接线），同时每个元素都可以自由调整。** 无需服务器或构建，仅凭一个 `index.html` 文件即可运行。
 
-- 应用：`index.html`
-- 使用指南：`manual.html`（按浏览器语言打开对应的指南 — [English](manual_en.html) · [한국어](manual_kr.html) · [日本語](manual_jp.html) · [中文](manual_cn.html)）
+- **在线使用：[https://rundope.github.io/Workflow-assist/](https://rundope.github.io/Workflow-assist/)**（`index.html`）
+- 使用指南：[`manual.html`](https://rundope.github.io/Workflow-assist/manual.html)（按浏览器语言打开对应的指南 — [English](https://rundope.github.io/Workflow-assist/manual_en.html) · [한국어](https://rundope.github.io/Workflow-assist/manual_kr.html) · [日本語](https://rundope.github.io/Workflow-assist/manual_jp.html) · [中文](https://rundope.github.io/Workflow-assist/manual_cn.html)）
 - 作品会自动保存在浏览器（localStorage）中，并可导出为 SVG / PNG / JSON。
 
 > **界面语言：** 支持英语和韩语（用顶部栏的地球图标切换）。暂无中文界面，因此使用指南在每个功能名称旁标注了英语和韩语原文。

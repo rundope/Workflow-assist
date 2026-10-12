@@ -81,6 +81,9 @@ button{cursor:pointer}
 .stage.tool-text,.stage.tool-shape,.stage.tool-connect{cursor:crosshair}
 .stage.panning{cursor:grabbing}
 .edit-box{position:absolute;z-index:20;border:1.5px solid var(--accent);background:#fff;color:#1A1A1A;padding:2px 6px;resize:none;overflow:hidden;line-height:1.25;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.18);border-radius:3px;outline:none}
+.edit-box.rich{white-space:pre-wrap;word-break:break-word;cursor:text}
+.edit-tools{position:absolute;z-index:21;display:flex;align-items:center;gap:4px;padding:4px 6px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35);font-size:12px;color:var(--muted);white-space:nowrap}
+.edit-tools .btn{padding:2px 8px}.edit-tools .in{width:56px}
 .sketch-pop{position:absolute;z-index:22;display:flex;align-items:center;gap:3px;padding:5px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35)}
 .sketch-pop .lbl{font-size:10.5px;color:var(--faint);padding:0 6px 0 4px;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
 .sketch-pop button{width:32px;height:30px;border:1px solid transparent;border-radius:var(--r-s);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center}
@@ -319,7 +322,7 @@ const I18N_EN={
   '올린 이미지는 이 브라우저에 저장되어 언제든 도형처럼 배치할 수 있습니다. 배치 후 "단색화"를 켜면 그림 스타일에 맞게 회색조로 바뀝니다.':'Uploaded images are saved in this browser and can be placed like shapes at any time. Turn on "Monochrome" after placing to switch to grayscale to match the figure style.',
   '규격의 원칙':'Principle','<b>기본값은 통일, 예외는 자유.</b> 새 노드는 그리드·기본 간격·대칭 연결선으로 배치되고, 드래그하면 다른 노드의 중심선에 자석처럼 맞춰집니다(분홍 가이드). 직접 옮기거나 수치를 입력하면 그 값이 우선합니다.':'<b>Consistent defaults, free exceptions.</b> New nodes are placed on the grid with the default gap and symmetric connectors, and snap to other nodes’ center lines while dragging (pink guides). Anything you move or type yourself takes priority.',
   // inspector — selection
-  '선택':'Selection','{n} 요소':'{n} elements','{n} 요소|1':'1 element','{n} 연결선':'{n} connectors','{n} 연결선|1':'1 connector','복제':'Duplicate','복사 / 붙여넣기':'Copy / paste','{n}개 요소를 복사했습니다':'Copied {n} elements','{n}개 요소를 복사했습니다|1':'Copied 1 element','삭제':'Delete','그룹 만들기':'Group','그룹 해제':'Ungroup',
+  '선택':'Selection','{n} 요소':'{n} elements','{n} 요소|1':'1 element','{n} 연결선':'{n} connectors','{n} 연결선|1':'1 connector','복제':'Duplicate','복사 / 붙여넣기':'Copy / paste','선택 글자 크기':'Selected text size','크기를 바꿀 글자를 먼저 드래그해 선택하세요':'Drag over the text to resize first','{n}개 요소를 복사했습니다':'Copied {n} elements','{n}개 요소를 복사했습니다|1':'Copied 1 element','삭제':'Delete','그룹 만들기':'Group','그룹 해제':'Ungroup',
   '정렬 · 분배':'Align · distribute','왼쪽':'Left','가로 중앙':'Center horizontally','오른쪽':'Right','위':'Top','세로 중앙':'Center vertically','아래':'Bottom',
   '현재 범위 안에서 가로 균등':'Distribute evenly within the current span','가로 균등':'Distribute H','세로 균등':'Distribute V','간격 고정 (px)':'Fixed gap (px)','가로 적용':'Apply H','세로 적용':'Apply V','너비 길이 맞춤':'Match width','높이 길이 맞춤':'Match height',
   '"간격 고정"은 선택한 노드들을 순서대로 같은 간격으로 재배치해 사이의 연결선 길이를 통일합니다. "길이 맞춤"은 <b>첫 번째로 선택한 도형</b>의 너비 또는 높이로 나머지를 맞춥니다.':'"Fixed gap" rearranges the selected nodes in order with the same gap, so the connectors between them become equal. "Match width / height" resizes the rest to the width or height of the <b>first selected shape</b>.',
@@ -643,7 +646,12 @@ function edgeBBox(e){const r=routeEdge(e);if(!r)return null;const pts=r.pts||[r.
 
 /* ---------- rendering ---------- */
 function luminance(hex){if(!hex||hex[0]!=='#')return 1;const n=parseInt(hex.slice(1),16);const r=(n>>16)&255,g=(n>>8)&255,b=n&255;return (0.2126*r+0.7152*g+0.0722*b)/255;}
-function textLines(lines,x,cy,fs,attrs){const lh=fs*1.28;const t=svgEl('text',Object.assign({'font-size':fs},attrs));const n=lines.length;lines.forEach((ln,i)=>{const y=cy-((n-1)/2)*lh+i*lh+fs*.36;t.appendChild(svgEl('tspan',{x:R(x),y:R(y)},ln||' '));});return t;}
+// 글자별 크기: label은 그대로 두고, 기본 크기와 다른 구간만 runs=[{s,e,fs}](label 안의 글자 위치)로 저장한다.
+function sizeAt(runs,k,fs){for(const r of runs||[])if(k>=r.s&&k<r.e)return r.fs;return fs;}
+function runsFrom(sizes,fs){const out=[];sizes.forEach((f,k)=>{if(f===fs)return;const l=out[out.length-1];if(l&&l.e===k&&l.fs===f)l.e=k+1;else out.push({s:k,e:k+1,fs:f});});return out;}
+function richLines(label,runs,fs){const out=[[]];for(let k=0;k<label.length;k++){const c=label[k];if(c==='\n'){out.push([]);continue;}const f=sizeAt(runs,k,fs),ln=out[out.length-1],l=ln[ln.length-1];if(l&&l.fs===f)l.t+=c;else ln.push({t:c,fs:f});}return out.map(segs=>({segs,max:segs.length?Math.max(...segs.map(x=>x.fs)):fs}));}
+function lineTspan(line,x,y,fs){const t=svgEl('tspan',{x:R(x),y:R(y)});if(!line.segs.length)t.textContent=' ';for(const g of line.segs)t.appendChild(g.fs===fs?document.createTextNode(g.t):svgEl('tspan',{'font-size':g.fs},[g.t]));return t;}
+function textLines(label,runs,x,cy,fs,attrs){const t=svgEl('text',Object.assign({'font-size':fs},attrs));const lines=richLines(label,runs,fs);let y=cy-lines.reduce((h,l)=>h+l.max*1.28,0)/2;for(const l of lines){const lh=l.max*1.28;t.appendChild(lineTspan(l,x,y+lh/2+l.max*.36,fs));y+=lh;}return t;}
 
 function nodeShapeEl(n){
   const s=st();const {x,y,w,h}=n;const fill=n.fill||'#FFFFFF',stroke=n.stroke||s.stroke,sw=n.strokeWidth||s.strokeWidth;
@@ -676,7 +684,7 @@ function renderNode(n){
   else if(n.shape==='chevron'){const k=Math.min(n.h/2,n.w*.2);tx+=left?k:k/2;}
   else if(n.shape==='document')cy-=Math.min(12,n.h*.18)/2;
   else if(n.shape==='image')cy=n.y+n.h+6+fs*.7+(lines.length-1)*fs*.64;
-  if(lines.join('').trim())g.appendChild(textLines(lines,tx,cy,fs,{fill:n.textColor||(dark?'#FFFFFF':s.textColor),'text-anchor':left?'start':'middle','font-weight':n.bold?'bold':'normal'}));
+  if(lines.join('').trim())g.appendChild(textLines(n.label||'',n.runs,tx,cy,fs,{fill:n.textColor||(dark?'#FFFFFF':s.textColor),'text-anchor':left?'start':'middle','font-weight':n.bold?'bold':'normal'}));
   return g;
 }
 function renderBand(b){
@@ -693,7 +701,7 @@ function renderBand(b){
 function renderText(t){
   const s=st();const g=svgEl('g',{'data-id':t.id,'data-kind':'text'});const fs=t.fontSize||s.fontSize;const lines=(t.label||'').split('\n');const lh=fs*1.28;
   const el=svgEl('text',{'font-size':fs,fill:t.color||s.textColor,'font-weight':t.bold?'bold':'normal'});
-  lines.forEach((ln,i)=>el.appendChild(svgEl('tspan',{x:t.x,y:R(t.y+i*lh)},ln||' ')));
+  let y=t.y;richLines(t.label||'',t.runs,fs).forEach((l,i)=>{if(i)y+=l.max*1.28;el.appendChild(lineTspan(l,t.x,y,fs));});
   g.appendChild(el);return g;
 }
 function renderInk(k){
@@ -896,7 +904,7 @@ svg.addEventListener('pointerup',ev=>{
     default:renderAll();
   }
 });
-document.addEventListener('pointerdown',ev=>{if(editing&&!editing.ta.contains(ev.target))commitEdit();},true);
+document.addEventListener('pointerdown',ev=>{if(editing&&!editing.ta.contains(ev.target)&&!(editing.tools&&editing.tools.contains(ev.target)))commitEdit();},true);
 
 /* ---------- inline editing ---------- */
 function startEdit(id){
@@ -906,14 +914,36 @@ function startEdit(id){
   else if(it.type==='text'){bb={x:it.x-4,y:it.y-(it.fontSize||12)-2,w:Math.max(it._w||60,80)+8,h:Math.max(it._h||16,16)*((it.label||'').split('\n').length)+8};align='left';}
   else{const r=routeEdge(it);if(!r)return;const m=r.pts?polyMid(r.pts):cubicAt(r.cubic,.5);bb={x:m.x-50,y:m.y-14,w:100,h:28};}
   const s=toScreen({x:bb.x,y:bb.y});const fs=(it.fontSize||st().fontSize)*view.zoom;
-  const ta=document.createElement('textarea');ta.className='edit-box';ta.value=it.label||'';
-  Object.assign(ta.style,{left:s.x+'px',top:s.y+'px',width:Math.max(bb.w*view.zoom,60)+'px',height:Math.max(bb.h*view.zoom,fs*1.6)+'px',fontSize:fs+'px',fontFamily:fontFamily(),textAlign:it.align==='left'?'left':align,fontWeight:it.bold?'bold':'normal'});
-  stage.appendChild(ta);editing={id,ta};ta.focus();ta.select();
-  const refocus=()=>{if(editing&&editing.ta===ta&&document.activeElement!==ta){ta.focus();ta.select();}};
+  // 노드·텍스트는 글자별 크기를 다룰 수 있게 contenteditable로, 밴드·연결선 라벨은 textarea로 편집한다.
+  const rich=it.type==='node'||it.type==='text',base=it.fontSize||st().fontSize;
+  const ta=document.createElement(rich?'div':'textarea');ta.className='edit-box'+(rich?' rich':'');if(rich){ta.contentEditable='true';fillRich(ta,it.label||'',it.runs,base);}else ta.value=it.label||'';
+  Object.assign(ta.style,{left:s.x+'px',top:s.y+'px',width:Math.max(bb.w*view.zoom,60)+'px',[rich?'minHeight':'height']:Math.max(bb.h*view.zoom,fs*1.6)+'px',fontSize:fs+'px',fontFamily:fontFamily(),textAlign:it.align==='left'?'left':align,fontWeight:it.bold?'bold':'normal'});
+  stage.appendChild(ta);editing={id,ta,rich,base,selRange:[0,0]};if(rich)editing.tools=editTools(s);ta.focus();selectAllIn(ta);
+  const refocus=()=>{if(editing&&editing.ta===ta&&document.activeElement!==ta){ta.focus();selectAllIn(ta);}};
   requestAnimationFrame(refocus);setTimeout(refocus,0);setTimeout(refocus,60);
-  ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();commitEdit();}else if(e.key==='Escape'){editing=null;ta.remove();}e.stopPropagation();});
+  ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();commitEdit();}else if(e.key==='Enter'&&rich){e.preventDefault();if(!document.execCommand('insertLineBreak'))document.execCommand('insertText',false,'\n');}else if(e.key==='Escape')endEdit();e.stopPropagation();});
+  if(rich)ta.addEventListener('paste',e=>{e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain')||'');});
 }
-function commitEdit(){if(!editing)return;const {id,ta}=editing;editing=null;const it=anyById(id);const v=ta.value.replace(/\s+$/,'');ta.remove();if(it&&v!==(it.label||'')){mutate(()=>{it.label=v;});renderInspector();}}
+function endEdit(){if(!editing)return;editing.ta.remove();if(editing.tools)editing.tools.remove();editing=null;}
+function selectAllIn(ta){if(ta.select)return ta.select();const r=document.createRange();r.selectNodeContents(ta);const g=getSelection();g.removeAllRanges();g.addRange(r);}
+// 편집 상자 ↔ (label, runs). 화면 배율(view.zoom)을 곱한 글자 크기로 보여 주고, 읽을 때 다시 나눈다.
+function fillRich(root,label,runs,base){root.textContent='';richLines(label,runs,base).forEach((l,i)=>{if(i)root.appendChild(document.createElement('br'));for(const g of l.segs){if(g.fs===base){root.appendChild(document.createTextNode(g.t));continue;}const sp=document.createElement('span');sp.style.fontSize=g.fs*view.zoom+'px';sp.textContent=g.t;root.appendChild(sp);}});if(label.endsWith('\n'))root.appendChild(document.createElement('br'));}
+function readRich(root,base,textOnly){let text='';const sizes=[];const walk=n=>{for(const c of n.childNodes){if(c.nodeType===3){const f=textOnly?base:Math.round(parseFloat(getComputedStyle(c.parentElement).fontSize)/view.zoom*2)/2||base;for(let i=0;i<c.data.length;i++)sizes.push(f);text+=c.data;}else if(c.nodeName==='BR'){text+='\n';sizes.push(base);}else if(c.nodeType===1){if(/^(DIV|P)$/.test(c.nodeName)&&text&&!text.endsWith('\n')){text+='\n';sizes.push(base);}walk(c);}}};walk(root);
+  if(!textOnly){let last=root;while(last.lastChild)last=last.lastChild;if(last.nodeName==='BR'&&text.endsWith('\n')){text=text.slice(0,-1);sizes.pop();}}return {text,runs:runsFrom(sizes,base)};}
+function richOffset(root,node,off){const r=document.createRange();r.setStart(root,0);r.setEnd(node,off);const d=document.createElement('div');d.appendChild(r.cloneContents());return readRich(d,0,true).text.length;}
+function richPoint(root,k){let acc=0,res=null;const walk=n=>{for(let i=0;i<n.childNodes.length&&!res;i++){const c=n.childNodes[i];if(c.nodeType===3){if(k<=acc+c.data.length){res=[c,k-acc];return;}acc+=c.data.length;}else if(c.nodeName==='BR'){if(k===acc){res=[n,i];return;}acc++;}else walk(c);}};walk(root);return res||[root,root.childNodes.length];}
+function editTools(s){const t=document.createElement('div');t.className='edit-tools';t.innerHTML=`<span>${L('선택 글자 크기')}</span><button class="btn" data-d="-1">−</button><input class="in" type="number" step=".5" min="4"><button class="btn" data-d="1">+</button>`;
+  Object.assign(t.style,{left:s.x+'px',top:Math.max(4,s.y-38)+'px'});const inp=t.querySelector('input');inp.value=editing.base;
+  t.querySelectorAll('button').forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();setEditSize(+b.dataset.d,null);}));
+  inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();setEditSize(0,+inp.value);}else if(e.key==='Escape')endEdit();});inp.addEventListener('change',()=>setEditSize(0,+inp.value));
+  stage.appendChild(t);return t;}
+function setEditSize(d,abs){const ed=editing;if(!ed||!ed.rich)return;const [a,b]=ed.selRange;if(a===b){toast(L('크기를 바꿀 글자를 먼저 드래그해 선택하세요'));return;}
+  const {text,runs}=readRich(ed.ta,ed.base);const sizes=Array.from({length:text.length},(_,k)=>sizeAt(runs,k,ed.base));const cur=sizeAt(runs,a,ed.base);const fs=Math.max(4,Math.min(200,abs!=null&&abs>0?abs:cur+d));
+  for(let k=a;k<b&&k<sizes.length;k++)sizes[k]=fs;fillRich(ed.ta,text,runsFrom(sizes,ed.base),ed.base);ed.ta.focus();const g=getSelection(),r=document.createRange();r.setStart(...richPoint(ed.ta,a));r.setEnd(...richPoint(ed.ta,b));g.removeAllRanges();g.addRange(r);ed.selRange=[a,b];ed.tools.querySelector('input').value=fs;}
+document.addEventListener('selectionchange',()=>{const ed=editing;if(!ed||!ed.rich)return;const g=getSelection();if(!g.rangeCount||!ed.ta.contains(g.anchorNode))return;const r=g.getRangeAt(0);if(!ed.ta.contains(r.startContainer)&&r.startContainer!==ed.ta)return;
+  const a=richOffset(ed.ta,r.startContainer,r.startOffset),b=richOffset(ed.ta,r.endContainer,r.endOffset);ed.selRange=[a,b];const {runs}=readRich(ed.ta,ed.base);ed.tools.querySelector('input').value=sizeAt(runs,a,ed.base);});
+function commitEdit(){if(!editing)return;const {id,ta,rich,base}=editing;const it=anyById(id);let v,runs=[];if(rich){const r=readRich(ta,base);v=r.text.replace(/\s+$/,'');runs=r.runs.filter(x=>x.s<v.length).map(x=>({s:x.s,e:Math.min(x.e,v.length),fs:x.fs}));}else v=ta.value.replace(/\s+$/,'');endEdit();
+  if(it&&(v!==(it.label||'')||JSON.stringify(runs)!==JSON.stringify(it.runs||[]))){mutate(()=>{it.label=v;if(runs.length)it.runs=runs;else delete it.runs;});renderInspector();}}
 
 /* ---------- sketch recognition ---------- */
 function rdp(pts,eps){if(pts.length<3)return pts.slice();let md=0,idx=0;const a=pts[0],b=pts[pts.length-1];for(let i=1;i<pts.length-1;i++){const d=perp(pts[i],a,b);if(d>md){md=d;idx=i;}}if(md>eps){const l=rdp(pts.slice(0,idx+1),eps),r=rdp(pts.slice(idx),eps);return l.slice(0,-1).concat(r);}return [a,b];}
@@ -1148,7 +1178,7 @@ $('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className=
 
 /* ---------- keyboard ---------- */
 window.addEventListener('keydown',ev=>{
-  if(editing){if(ev.target!==editing.ta){editing.ta.focus();if(ev.key==='Escape'){editing.ta.remove();editing=null;}else if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();commitEdit();}}return;}
+  if(editing){if(editing.tools&&editing.tools.contains(ev.target))return;if(!editing.ta.contains(ev.target)){editing.ta.focus();if(ev.key==='Escape'){endEdit();}else if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();commitEdit();}}return;}
   const tag=(ev.target.tagName||'').toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select')return;
   const k=ev.key.toLowerCase();const mod=ev.ctrlKey||ev.metaKey;
   if(k===' '){if(!spaceDown){spaceDown=true;stage.classList.add('tool-hand');}ev.preventDefault();return;}

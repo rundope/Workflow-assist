@@ -80,6 +80,7 @@ button{cursor:pointer}
 .stage.tool-pen{cursor:crosshair}
 .stage.tool-text,.stage.tool-shape,.stage.tool-connect{cursor:crosshair}
 .stage.panning{cursor:grabbing}
+.stage.moving,.stage.moving *{cursor:grabbing!important}
 .edit-box{position:absolute;z-index:20;border:1.5px solid var(--accent);background:#fff;color:#1A1A1A;padding:2px 6px;resize:none;overflow:hidden;line-height:1.25;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.18);border-radius:3px;outline:none}
 .edit-box.rich{white-space:pre-wrap;word-break:break-word;cursor:text}
 .edit-tools{position:absolute;z-index:21;display:flex;align-items:center;gap:4px;padding:4px 6px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35);font-size:12px;color:var(--muted);white-space:nowrap}
@@ -294,7 +295,7 @@ const I18N_EN={
   'Helvetica / Arial (Nature·Science 기본)':'Helvetica / Arial (Nature·Science default)','Times New Roman (세리프)':'Times New Roman (serif)','각진 · 흑백':'Square · greyscale',
   '채움색':'fill','테두리·선 색':'border / line','글자색':'text',
   // status bar hints
-  '노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Shift+클릭/영역 드래그로 다중 선택':'Drag nodes to move · drag a port to connect (drop on empty space for a new node) · double-click to edit text · Shift+click or drag an area to multi-select',
+  '노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Ctrl+클릭(하나씩)·Shift+클릭(범위)·영역 드래그로 다중 선택':'Drag nodes to move · drag a port to connect (drop on empty space for a new node) · double-click to edit text · Ctrl+click (one by one), Shift+click (range) or drag an area to multi-select',
   '드래그해서 화면 이동 · Ctrl+휠로 확대/축소':'Drag to pan · Ctrl+wheel to zoom','출발 노드를 클릭한 뒤 도착 노드를 클릭하세요':'Click the start node, then the end node',
   '도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)':'Draw a shape or arrow by hand and it becomes a standard shape (a line between two nodes becomes a connector)',
   '캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)':'Click the canvas to place text (panel labels a, b, c …)','캔버스를 클릭해 도형을 놓으세요':'Click the canvas to place the shape',
@@ -337,7 +338,7 @@ const I18N_EN={
   '"길이 통일"은 각 연결선의 도착 노드를 출발 노드로부터 지정 거리에 다시 놓습니다. 직선화를 켜면 중심선도 맞춰 꺾임이 사라집니다.':'"Equalize length" moves each connector’s end node to the given distance from its start node. With Straighten on, center lines are aligned too, so the bends disappear.',
   // shortcuts dialog
   '선택 · 이동':'Select · move','화면 이동 (Space 누른 채 드래그도 가능)':'Pan (or drag while holding Space)','프로세스 노드':'Process node','판단(마름모) 노드':'Decision (diamond) node','연결선 (노드 → 노드 클릭)':'Connector (click node → node)','손그림 인식':'Sketch recognition',
-  'Shift+클릭':'Shift+click','다중 선택 추가/해제':'Add to / remove from selection','드래그':'Drag','빈 곳에서 영역 선택':'Marquee-select from empty space','Alt+드래그':'Alt+drag','스냅 없이 자유 이동':'Move freely without snapping','더블클릭':'Double-click','텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)':'Edit text (Enter to confirm, Shift+Enter for a new line)',
+  'Ctrl+클릭':'Ctrl+click','다중 선택 추가/해제':'Add to / remove from selection','Shift+클릭 (첫 상자 → 마지막 상자)':'Shift+click (first box → last box)','그 사이 전체 선택':'Select everything in between','드래그':'Drag','빈 곳에서 영역 선택':'Marquee-select from empty space','Alt+드래그':'Alt+drag','스냅 없이 자유 이동':'Move freely without snapping','더블클릭':'Double-click','텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)':'Edit text (Enter to confirm, Shift+Enter for a new line)',
   '실행 취소 / 다시 실행':'Undo / redo','그룹 (Shift로 해제)':'Group (with Shift: ungroup)','전체 선택':'Select all','방향키':'Arrow keys','그리드 단위 이동 (Ctrl: 1px)':'Move by grid step (Ctrl: 1px)','Shift+방향키':'Shift+arrows','크기 조절 (→ ↑ 키움, ← ↓ 줄임)':'Resize (→ ↑ larger, ← ↓ smaller)','Ctrl+휠':'Ctrl+wheel','확대/축소':'Zoom',
   '포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.':'Drag a port (the small circle on a node’s edge) to empty space to create a new node aligned at the default gap, already connected.','사용 설명서 열기':'Open user guide',
 };
@@ -778,7 +779,7 @@ function renderOverlay(){
     if(r.handle){gOv.appendChild(svgEl('circle',{cx:r.handle.x,cy:r.handle.y,r:5/z,fill:'#fff',stroke:acc,'stroke-width':1.5/z,'data-handle':'bend','data-id':id,style:'cursor:'+(r.axis==='x'?'ew-resize':'ns-resize')}));}
     for(const end of ['from','to']){const p=end==='from'?r.A:r.B;gOv.appendChild(svgEl('rect',{x:p.x-4.5/z,y:p.y-4.5/z,width:9/z,height:9/z,fill:'#fff',stroke:acc,'stroke-width':1.5/z,'data-handle':'end:'+end,'data-id':id,style:'cursor:move'}));}
   }
-  for(const id of selEls){const e=byId(id);const bb=e.type==='text'&&e._bb?e._bb:elBBox(e);gOv.appendChild(svgEl('rect',{x:bb.x,y:bb.y,width:bb.w,height:bb.h,fill:'none',stroke:acc,'stroke-width':1/z,'pointer-events':'none'}));}
+  for(const id of selEls){const e=byId(id);const bb=e.type==='text'&&e._bb?e._bb:elBBox(e);gOv.appendChild(svgEl('rect',{x:bb.x,y:bb.y,width:bb.w,height:bb.h,fill:acc,'fill-opacity':.1,stroke:acc,'stroke-width':2/z,'pointer-events':'none'}));}
   if(selEls.length===1){const e=byId(selEls[0]);if(e.type==='node'||e.type==='band'){const bb=elBBox(e);const H=[['nw',bb.x,bb.y],['n',bb.x+bb.w/2,bb.y],['ne',bb.x+bb.w,bb.y],['e',bb.x+bb.w,bb.y+bb.h/2],['se',bb.x+bb.w,bb.y+bb.h],['s',bb.x+bb.w/2,bb.y+bb.h],['sw',bb.x,bb.y+bb.h],['w',bb.x,bb.y+bb.h/2]];const cur={nw:'nwse-resize',se:'nwse-resize',ne:'nesw-resize',sw:'nesw-resize',n:'ns-resize',s:'ns-resize',e:'ew-resize',w:'ew-resize'};const t=10/z;for(const [k,x,y,w,h] of [['n',bb.x,bb.y-t/2,bb.w,t],['s',bb.x,bb.y+bb.h-t/2,bb.w,t],['w',bb.x-t/2,bb.y,t,bb.h],['e',bb.x+bb.w-t/2,bb.y,t,bb.h]])gOv.appendChild(svgEl('rect',{x,y,width:w,height:h,fill:'transparent','data-handle':k,'data-id':e.id,style:'cursor:'+cur[k]}));for(const [k,x,y] of H)gOv.appendChild(svgEl('rect',{x:x-hs/2,y:y-hs/2,width:hs,height:hs,fill:'#fff',stroke:acc,'stroke-width':1/z,'data-handle':k,'data-id':e.id,style:'cursor:'+cur[k]}));}}
   else if(selEls.length>1){const bb=selBBox(selEls);if(bb)gOv.appendChild(svgEl('rect',{x:bb.x-4/z,y:bb.y-4/z,width:bb.w+8/z,height:bb.h+8/z,fill:'none',stroke:acc,'stroke-width':1/z,'stroke-dasharray':`${4/z} ${3/z}`,'pointer-events':'none'}));}
   // ports
@@ -809,12 +810,17 @@ $('#zoom-in').onclick=()=>zoomAt(1.2);$('#zoom-out').onclick=()=>zoomAt(1/1.2);$
 function groupOf(id){return state.groups.find(g=>g.members.includes(id));}
 function expandGroups(ids){const out=new Set(ids);for(const id of ids){const g=groupOf(id);if(g)g.members.forEach(m=>out.add(m));}return out;}
 function select(ids){sel=expandGroups(ids);}
+// Shift+클릭 범위 선택: 기준(마지막으로 그냥 클릭하거나 Ctrl+클릭한 요소)과 이번 요소를 감싸는 사각형 안의 요소를 모두 고른다.
+let selAnchor=null;
+function rangeSelect(a,b){const A=byId(a),B=byId(b);if(!A||!B)return false;const bx=e=>e.type==='text'&&e._bb?e._bb:elBBox(e);const r1=bx(A),r2=bx(B);const x1=Math.min(r1.x,r2.x),y1=Math.min(r1.y,r2.y),x2=Math.max(r1.x+r1.w,r2.x+r2.w),y2=Math.max(r1.y+r1.h,r2.y+r2.h);
+  const ids=[];for(const e of state.elements){const r=bx(e);if(!r)continue;const cx=r.x+r.w/2,cy=r.y+r.h/2;if(e.type==='band'?(r.x>=x1&&r.y>=y1&&r.x+r.w<=x2&&r.y+r.h<=y2):(cx>=x1&&cx<=x2&&cy>=y1&&cy<=y2))ids.push(e.id);}
+  const s=new Set(ids);for(const ed of state.edges)if(s.has(ed.from.node)&&s.has(ed.to.node))ids.push(ed.id);sel=expandGroups(ids);return true;}
 function toggleSelect(id){const g=groupOf(id);const ids=g?g.members:[id];if(sel.has(id))ids.forEach(i=>sel.delete(i));else ids.forEach(i=>sel.add(i));}
 function selectedNodes(){return [...sel].map(byId).filter(e=>e&&(e.type==='node'||e.type==='band'||e.type==='text'));}
 function selectedEdges(){return [...sel].map(edgeById).filter(Boolean);}
 
 /* ---------- tools ---------- */
-function setTool(t){tool=t;connectSrc=null;$$('.rb[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));stage.className='stage '+((t.startsWith('shape:')||t.startsWith('image:'))?'tool-shape':'tool-'+t);const hints={select:'노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Shift+클릭/영역 드래그로 다중 선택',hand:'드래그해서 화면 이동 · Ctrl+휠로 확대/축소',connect:'출발 노드를 클릭한 뒤 도착 노드를 클릭하세요',pen:'도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)',text:'캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)'};$('#st-hint').textContent=L(hints[t]||'캔버스를 클릭해 도형을 놓으세요');renderOverlay();}
+function setTool(t){tool=t;connectSrc=null;$$('.rb[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===t));stage.className='stage '+((t.startsWith('shape:')||t.startsWith('image:'))?'tool-shape':'tool-'+t);const hints={select:'노드를 드래그해 이동 · 포트를 드래그해 연결(빈 곳에 놓으면 새 노드) · 더블클릭으로 텍스트 편집 · Ctrl+클릭(하나씩)·Shift+클릭(범위)·영역 드래그로 다중 선택',hand:'드래그해서 화면 이동 · Ctrl+휠로 확대/축소',connect:'출발 노드를 클릭한 뒤 도착 노드를 클릭하세요',pen:'도형이나 화살표를 손으로 그리면 규격 도형으로 변환됩니다 (두 노드 사이에 선을 그으면 연결선)',text:'캔버스를 클릭해 텍스트를 놓으세요 (패널 라벨 a, b, c 등)'};$('#st-hint').textContent=L(hints[t]||'캔버스를 클릭해 도형을 놓으세요');renderOverlay();}
 $$('.rb[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(b.dataset.tool)));
 $$('[data-act="upload-image"]').forEach(b=>b.addEventListener('click',()=>$('#img-in').click()));
 $('#img-in').addEventListener('change',async ev=>{const files=Array.from(ev.target.files||[]);ev.target.value='';let last=null;for(const f of files){try{const it=await importImageFile(f);imageLib.push(it);last=it;}catch(e){toast(L('{name}: 이미지를 읽을 수 없습니다',{name:f.name}));}}if(last){saveImages();sel.clear();renderInspector();setTool('image:'+last.id);toast(L('캔버스를 클릭해 이미지를 배치하세요 (라이브러리에 저장됨)'));}});
@@ -861,13 +867,14 @@ svg.addEventListener('pointerdown',ev=>{
     const now=performance.now();
     if(lastClick&&lastClick.id===id&&now-lastClick.t<450&&dist(lastClick.p,p)*view.zoom<6){lastClick=null;sel=new Set([id]);renderAll();startEdit(id);return;}
     lastClick={id,t:now,p};
-    if(ev.shiftKey){toggleSelect(id);renderOverlay();renderInspector();return;}
+    if(ev.ctrlKey||ev.metaKey){toggleSelect(id);selAnchor=id;renderOverlay();renderInspector();updateStatus();return;}
+    if(ev.shiftKey){if(!(selAnchor&&selAnchor!==id&&sel.has(selAnchor)&&rangeSelect(selAnchor,id)))toggleSelect(id);renderOverlay();renderInspector();updateStatus();return;}
     const it=byId(id);
     if(it&&it.type==='band'&&!sel.has(id)&&!nearBandEdge(it,p)){sel.clear();drag={mode:'marquee',sp:p,cur:p,base:new Set(),bandCandidate:id};renderOverlay();renderInspector();return;}
-    if(!sel.has(id))select([id]);
-    const ids=movingSet();drag={mode:'move',sp:p,moved:false,ids,orig:captureOrig(ids),primary:byId(id)?id:null,obb:selBBox([...ids])};renderOverlay();renderInspector();return;
+    if(!sel.has(id))select([id]);selAnchor=id;
+    const ids=movingSet();drag={mode:'move',sp:p,moved:false,ids,orig:captureOrig(ids),primary:byId(id)?id:null,obb:selBBox([...ids])};stage.classList.add('moving');renderOverlay();renderInspector();return;
   }
-  if(!ev.shiftKey)sel.clear();
+  if(!ev.shiftKey&&!ev.ctrlKey&&!ev.metaKey)sel.clear();
   drag={mode:'marquee',sp:p,cur:p,base:new Set(sel)};renderOverlay();renderInspector();
 });
 svg.addEventListener('pointermove',ev=>{
@@ -890,7 +897,7 @@ svg.addEventListener('pointermove',ev=>{
   }
 });
 svg.addEventListener('pointerup',ev=>{
-  if(!drag)return;const p=toCanvas(ev);const d=drag;drag=null;guides=[];stage.classList.remove('panning');
+  if(!drag)return;const p=toCanvas(ev);const d=drag;drag=null;guides=[];stage.classList.remove('panning','moving');
   switch(d.mode){
     case 'move':if(d.moved){renderAll();persist();}else{if(d.primary&&sel.size>1&&!ev.shiftKey&&!groupOf(d.primary)){}renderAll();}break;
     case 'resize':renderAll();persist();break;
@@ -1173,7 +1180,7 @@ let toastT=null;function toast(msg){let t=$('.toast');if(!t){t=document.createEl
 $('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;$('#btn-lang').onclick=()=>setLang(lang==='en'?'ko':'en');
 $('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>${L('단축키')}</h3><div class="keys">
 <kbd>V</kbd><span>${L('선택 · 이동')}</span><kbd>H</kbd><span>${L('화면 이동 (Space 누른 채 드래그도 가능)')}</span><kbd>R</kbd><span>${L('프로세스 노드')}</span><kbd>D</kbd><span>${L('판단(마름모) 노드')}</span><kbd>T</kbd><span>${L('텍스트')}</span><kbd>C</kbd><span>${L('연결선 (노드 → 노드 클릭)')}</span><kbd>P</kbd><span>${L('손그림 인식')}</span>
-<kbd>${L('Shift+클릭')}</kbd><span>${L('다중 선택 추가/해제')}</span><kbd>${L('드래그')}</kbd><span>${L('빈 곳에서 영역 선택')}</span><kbd>${L('Alt+드래그')}</kbd><span>${L('스냅 없이 자유 이동')}</span><kbd>${L('더블클릭')}</kbd><span>${L('텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)')}</span>
+<kbd>${L('Ctrl+클릭')}</kbd><span>${L('다중 선택 추가/해제')}</span><kbd>${L('Shift+클릭 (첫 상자 → 마지막 상자)')}</kbd><span>${L('그 사이 전체 선택')}</span><kbd>${L('드래그')}</kbd><span>${L('빈 곳에서 영역 선택')}</span><kbd>${L('Alt+드래그')}</kbd><span>${L('스냅 없이 자유 이동')}</span><kbd>${L('더블클릭')}</kbd><span>${L('텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)')}</span>
 <kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+C / V</kbd><span>${L('복사 / 붙여넣기')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Ctrl: 1px)')}</span><kbd>${L('Shift+방향키')}</kbd><span>${L('크기 조절 (→ ↑ 키움, ← ↓ 줄임)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
 </div><p class="note" style="margin-top:14px">${L('포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.')}</p><div class="row" style="justify-content:space-between;margin-top:10px"><a class="btn" href="manual_${lang==='en'?'en':'kr'}.html" target="_blank" rel="noopener">${L('사용 설명서 열기')}</a><button class="btn" id="close-keys">${L('닫기')}</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});};
 

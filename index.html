@@ -1205,7 +1205,7 @@ const listeners={};
 function emit(ev,data){(listeners[ev]||[]).forEach(f=>{try{f(data);}catch(e){}});if(window.parent!==window){try{window.parent.postMessage(Object.assign({source:'workflow-assist',type:ev},data||{}),'*');}catch(e){}}}
 function loadDoc(doc){if(!doc||!Array.isArray(doc.elements)||!Array.isArray(doc.edges))throw new Error('invalid document: elements[] and edges[] are required');snapshot();state=Object.assign(newDoc(),JSON.parse(JSON.stringify(doc)));state.style=Object.assign(defaultStyle(),doc.style||{});sel.clear();renderAll();fitPage();persist();}
 window.WorkflowAssist={
-  version:'1.0.0',
+  version:'1.2.0',
   load:loadDoc,
   getDoc(){return JSON.parse(JSON.stringify(state));},
   exportSVG(){return buildExportSVG();},

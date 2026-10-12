@@ -83,11 +83,11 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 | 909 | inline editing | 더블클릭 텍스트 편집. 노드·텍스트는 contenteditable(`fillRich`/`readRich`, 선택 글자 크기 도구 `editTools`), 밴드·연결선 라벨은 textarea |
 | 948 | sketch recognition | 손그림 → 도형 인식 (`rdp` 단순화 + 모서리 수 + 축/대각선 비율) |
 | 993 | actions | 삭제·복제·복사/붙여넣기(앱 내부 클립보드 `clip`)·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
-| 1014 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
-| 1150 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
-| 1179 | keyboard | 단축키 |
-| 1201 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
-| 1231 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 |
+| 1015 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
+| 1151 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
+| 1180 | keyboard | 단축키 (방향키 이동, Shift+방향키 크기 조절 `resizeSel`) |
+| 1203 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
+| 1233 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 |
 
 **코드 스타일 메모**: 한 줄에 여러 문장을 쓴 압축된 스타일입니다. 읽기 편하게 만들려면 Prettier를 한 번 돌리면 됩니다: `npx prettier --write index.html` (동작은 바뀌지 않습니다).
 

@@ -338,7 +338,7 @@ const I18N_EN={
   // shortcuts dialog
   '선택 · 이동':'Select · move','화면 이동 (Space 누른 채 드래그도 가능)':'Pan (or drag while holding Space)','프로세스 노드':'Process node','판단(마름모) 노드':'Decision (diamond) node','연결선 (노드 → 노드 클릭)':'Connector (click node → node)','손그림 인식':'Sketch recognition',
   'Shift+클릭':'Shift+click','다중 선택 추가/해제':'Add to / remove from selection','드래그':'Drag','빈 곳에서 영역 선택':'Marquee-select from empty space','Alt+드래그':'Alt+drag','스냅 없이 자유 이동':'Move freely without snapping','더블클릭':'Double-click','텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)':'Edit text (Enter to confirm, Shift+Enter for a new line)',
-  '실행 취소 / 다시 실행':'Undo / redo','그룹 (Shift로 해제)':'Group (with Shift: ungroup)','전체 선택':'Select all','방향키':'Arrow keys','그리드 단위 이동 (Shift: 10배)':'Move by grid step (Shift: 10×)','Ctrl+휠':'Ctrl+wheel','확대/축소':'Zoom',
+  '실행 취소 / 다시 실행':'Undo / redo','그룹 (Shift로 해제)':'Group (with Shift: ungroup)','전체 선택':'Select all','방향키':'Arrow keys','그리드 단위 이동 (Ctrl: 1px)':'Move by grid step (Ctrl: 1px)','Shift+방향키':'Shift+arrows','크기 조절 (→ ↑ 키움, ← ↓ 줄임)':'Resize (→ ↑ larger, ← ↓ smaller)','Ctrl+휠':'Ctrl+wheel','확대/축소':'Zoom',
   '포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.':'Drag a port (the small circle on a node’s edge) to empty space to create a new node aligned at the default gap, already connected.','사용 설명서 열기':'Open user guide',
 };
 function L(s,p){let r=lang==='en'?((p&&p.n===1&&I18N_EN[s+'|1'])||I18N_EN[s]||s):s;if(p)r=r.replace(/\{(\w+)\}/g,(m,k)=>p[k]!=null?p[k]:m);return r;}
@@ -779,7 +779,7 @@ function renderOverlay(){
     for(const end of ['from','to']){const p=end==='from'?r.A:r.B;gOv.appendChild(svgEl('rect',{x:p.x-4.5/z,y:p.y-4.5/z,width:9/z,height:9/z,fill:'#fff',stroke:acc,'stroke-width':1.5/z,'data-handle':'end:'+end,'data-id':id,style:'cursor:move'}));}
   }
   for(const id of selEls){const e=byId(id);const bb=e.type==='text'&&e._bb?e._bb:elBBox(e);gOv.appendChild(svgEl('rect',{x:bb.x,y:bb.y,width:bb.w,height:bb.h,fill:'none',stroke:acc,'stroke-width':1/z,'pointer-events':'none'}));}
-  if(selEls.length===1){const e=byId(selEls[0]);if(e.type==='node'||e.type==='band'){const bb=elBBox(e);const H=[['nw',bb.x,bb.y],['n',bb.x+bb.w/2,bb.y],['ne',bb.x+bb.w,bb.y],['e',bb.x+bb.w,bb.y+bb.h/2],['se',bb.x+bb.w,bb.y+bb.h],['s',bb.x+bb.w/2,bb.y+bb.h],['sw',bb.x,bb.y+bb.h],['w',bb.x,bb.y+bb.h/2]];const cur={nw:'nwse-resize',se:'nwse-resize',ne:'nesw-resize',sw:'nesw-resize',n:'ns-resize',s:'ns-resize',e:'ew-resize',w:'ew-resize'};for(const [k,x,y] of H)gOv.appendChild(svgEl('rect',{x:x-hs/2,y:y-hs/2,width:hs,height:hs,fill:'#fff',stroke:acc,'stroke-width':1/z,'data-handle':k,'data-id':e.id,style:'cursor:'+cur[k]}));}}
+  if(selEls.length===1){const e=byId(selEls[0]);if(e.type==='node'||e.type==='band'){const bb=elBBox(e);const H=[['nw',bb.x,bb.y],['n',bb.x+bb.w/2,bb.y],['ne',bb.x+bb.w,bb.y],['e',bb.x+bb.w,bb.y+bb.h/2],['se',bb.x+bb.w,bb.y+bb.h],['s',bb.x+bb.w/2,bb.y+bb.h],['sw',bb.x,bb.y+bb.h],['w',bb.x,bb.y+bb.h/2]];const cur={nw:'nwse-resize',se:'nwse-resize',ne:'nesw-resize',sw:'nesw-resize',n:'ns-resize',s:'ns-resize',e:'ew-resize',w:'ew-resize'};const t=10/z;for(const [k,x,y,w,h] of [['n',bb.x,bb.y-t/2,bb.w,t],['s',bb.x,bb.y+bb.h-t/2,bb.w,t],['w',bb.x-t/2,bb.y,t,bb.h],['e',bb.x+bb.w-t/2,bb.y,t,bb.h]])gOv.appendChild(svgEl('rect',{x,y,width:w,height:h,fill:'transparent','data-handle':k,'data-id':e.id,style:'cursor:'+cur[k]}));for(const [k,x,y] of H)gOv.appendChild(svgEl('rect',{x:x-hs/2,y:y-hs/2,width:hs,height:hs,fill:'#fff',stroke:acc,'stroke-width':1/z,'data-handle':k,'data-id':e.id,style:'cursor:'+cur[k]}));}}
   else if(selEls.length>1){const bb=selBBox(selEls);if(bb)gOv.appendChild(svgEl('rect',{x:bb.x-4/z,y:bb.y-4/z,width:bb.w+8/z,height:bb.h+8/z,fill:'none',stroke:acc,'stroke-width':1/z,'stroke-dasharray':`${4/z} ${3/z}`,'pointer-events':'none'}));}
   // ports
   const portNode=(tool==='select'&&!drag)?(hoverId&&byId(hoverId)&&byId(hoverId).type==='node'?byId(hoverId):(selEls.length===1&&byId(selEls[0]).type==='node'?byId(selEls[0]):null)):null;
@@ -1001,6 +1001,7 @@ function pasteClip(){if(!clip)return false;pasteN++;placeCopies(clip.els,clip.ed
 function selectAll(){sel=new Set([...state.elements.map(e=>e.id),...state.edges.map(e=>e.id)]);renderAll();}
 function groupSel(){if(sel.size<2)return;mutate(()=>{const ids=[...sel];state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));state.groups.push({id:uid(),members:ids});});renderInspector();toast(L('그룹으로 묶었습니다 (Ctrl+Shift+G로 해제)'));}
 function ungroupSel(){mutate(()=>{state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));});renderInspector();}
+function resizeSel(dw,dh){const els=selectedNodes().filter(e=>e.type==='node'||e.type==='band');if(!els.length)return;mutate(()=>{for(const e of els){e.w=Math.max(20,e.w+dw);e.h=Math.max(20,e.h+dh);}});}
 function nudge(dx,dy){const els=selectedNodes();if(!els.length)return;mutate(()=>{for(const e of els){e.x+=dx;e.y+=dy;}});}
 function alignSel(mode){const els=selectedNodes();if(els.length<2)return;const bbs=els.map(e=>e.type==='text'&&e._bb?e._bb:elBBox(e));const x1=Math.min(...bbs.map(b=>b.x)),x2=Math.max(...bbs.map(b=>b.x+b.w)),y1=Math.min(...bbs.map(b=>b.y)),y2=Math.max(...bbs.map(b=>b.y+b.h));
   mutate(()=>{els.forEach((e,i)=>{const b=bbs[i];const offx=e.type==='text'?e.x-b.x:0,offy=e.type==='text'?e.y-b.y:0;switch(mode){case 'left':e.x=x1+offx;break;case 'right':e.x=x2-b.w+offx;break;case 'hcenter':e.x=(x1+x2)/2-b.w/2+offx;break;case 'top':e.y=y1+offy;break;case 'bottom':e.y=y2-b.h+offy;break;case 'vcenter':e.y=(y1+y2)/2-b.h/2+offy;break;}});});}
@@ -1173,7 +1174,7 @@ $('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;$('#btn-lang').onclick=(
 $('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>${L('단축키')}</h3><div class="keys">
 <kbd>V</kbd><span>${L('선택 · 이동')}</span><kbd>H</kbd><span>${L('화면 이동 (Space 누른 채 드래그도 가능)')}</span><kbd>R</kbd><span>${L('프로세스 노드')}</span><kbd>D</kbd><span>${L('판단(마름모) 노드')}</span><kbd>T</kbd><span>${L('텍스트')}</span><kbd>C</kbd><span>${L('연결선 (노드 → 노드 클릭)')}</span><kbd>P</kbd><span>${L('손그림 인식')}</span>
 <kbd>${L('Shift+클릭')}</kbd><span>${L('다중 선택 추가/해제')}</span><kbd>${L('드래그')}</kbd><span>${L('빈 곳에서 영역 선택')}</span><kbd>${L('Alt+드래그')}</kbd><span>${L('스냅 없이 자유 이동')}</span><kbd>${L('더블클릭')}</kbd><span>${L('텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)')}</span>
-<kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+C / V</kbd><span>${L('복사 / 붙여넣기')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Shift: 10배)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
+<kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+C / V</kbd><span>${L('복사 / 붙여넣기')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Ctrl: 1px)')}</span><kbd>${L('Shift+방향키')}</kbd><span>${L('크기 조절 (→ ↑ 키움, ← ↓ 줄임)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
 </div><p class="note" style="margin-top:14px">${L('포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.')}</p><div class="row" style="justify-content:space-between;margin-top:10px"><a class="btn" href="manual_${lang==='en'?'en':'kr'}.html" target="_blank" rel="noopener">${L('사용 설명서 열기')}</a><button class="btn" id="close-keys">${L('닫기')}</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});};
 
 /* ---------- keyboard ---------- */
@@ -1189,11 +1190,12 @@ window.addEventListener('keydown',ev=>{
   if(mod&&k==='c'){if(copySel())ev.preventDefault();return;}
   if(mod&&k==='v'){if(pasteClip())ev.preventDefault();return;}
   if(mod&&k==='g'){ev.preventDefault();ev.shiftKey?ungroupSel():groupSel();return;}
+  // 방향키: 그리드 단위 이동, Shift는 크기 조절(→ ↑ 키움, ← ↓ 줄임, 파워포인트와 같은 방향), Ctrl은 1px 단위
+  if(k.startsWith('arrow')){ev.preventDefault();const g=mod?1:st().grid,dx=k==='arrowleft'?-g:k==='arrowright'?g:0,dy=k==='arrowup'?-g:k==='arrowdown'?g:0;ev.shiftKey?resizeSel(dx,-dy):nudge(dx,dy);return;}
   if(mod)return;
   if(k==='delete'||k==='backspace'){ev.preventDefault();deleteSel();return;}
   if(k==='escape'){sel.clear();connectSrc=null;sketch=null;hideSketchPop();setTool('select');renderAll();return;}
   if(k==='enter'&&sel.size===1){ev.preventDefault();startEdit([...sel][0]);return;}
-  if(k.startsWith('arrow')){ev.preventDefault();const g=(ev.shiftKey?10:1)*st().grid;nudge(k==='arrowleft'?-g:k==='arrowright'?g:0,k==='arrowup'?-g:k==='arrowdown'?g:0);return;}
   const map={v:'select',h:'hand',r:'shape:rounded',d:'shape:diamond',t:'text',c:'connect',p:'pen'};if(map[k])setTool(map[k]);
 });
 window.addEventListener('keyup',ev=>{if(ev.key===' '){spaceDown=false;if(tool!=='hand')stage.classList.remove('tool-hand');}});

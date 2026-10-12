@@ -76,7 +76,7 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 
 <h2 id="first">5 分钟画出第一张图</h2>
 <ol>
-<li>在左侧工具栏点击 <b>圆角矩形</b>（<kbd>R</kbd>），再点击画布。直接输入文字，按 <kbd>Enter</kbd> 确认（换行用 <kbd>Shift</kbd>+<kbd>Enter</kbd>）。</li>
+<li>在左侧工具栏点击 <b>圆角矩形</b>（<kbd>R</kbd>），再点击画布。直接输入文字，按 <kbd>Enter</kbd> 确认（换行用 <kbd>Shift</kbd>+<kbd>Enter</kbd>）。如只想改变部分文字的大小，请在编辑时拖动选中这些文字，然后使用编辑框上方出现的 <b>Selected text size / 선택 글자 크기</b>（点击 −/+ 或输入数值）。右侧面板中的字号是整个框的基本字号。</li>
 <li>把鼠标移到节点上，四条边上会出现小圆点（端口）。抓住右侧端口 <b>拖到空白处</b>，就会在标准间距处生成一个新节点并自动连接。重复此操作即可完成整齐的流程。</li>
 <li>需要分支时，放置一个 <b>菱形</b>（<kbd>D</kbd>），把它的端口拖到另一个节点上连接，然后双击连接线输入 <code>Yes</code>/<code>No</code> 标签。</li>
 <li>在右侧面板中选择填充颜色，需要时用 <b>阶段带</b> 把一段流程框在一起。</li>
@@ -87,10 +87,10 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <p>13 种图形：圆角矩形（处理）、矩形、开始/结束（胶囊形）、菱形（判断）、椭圆、平行四边形（输入/输出）、圆柱（数据）、六边形（准备）、箭头块（阶段）、三角形、星形（强调）、文档、云形（外部系统）。选中后，可随时在右侧面板的图形网格中换成其他形状。</p>
 <ul>
 <li><b>移动</b>：拖动。与其他节点的中心线或边缘对齐时，会出现粉色参考线并像磁铁一样吸附。按住 <kbd>Alt</kbd> 拖动即可自由放置。</li>
-<li><b>大小</b>：选中后拖动 8 个控制点之一，或在面板的 W/H 中输入数值。</li>
+<li><b>大小</b>：选中后拖动 8 个控制点之一或边框（鼠标移上去会变成 ↔），按 <kbd>Shift</kbd>+方向键（→ ↑ 放大，← ↓ 缩小），或在面板的 W/H 中输入数值。</li>
 <li><b>文字</b>：双击（或按 <kbd>Enter</kbd>）编辑。在面板中设置字号、加粗、左对齐（适合列表式文字）和 <b>文字颜色</b> <span class="ko">(Text color / 글자 색)</span>。</li>
 <li><b>文字工具</b>（<kbd>T</kbd>）：不带图形、只放置文字，用于面板字母 <b>a</b>、<b>b</b> 或图标题。</li>
-<li><b>复制</b> <kbd>Ctrl</kbd>+<kbd>D</kbd>，<b>复制 / 粘贴</b> <kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd>（仅复制两端都被选中的连接线，每次粘贴会再稍微错开一些），<b>删除</b> <kbd>Delete</kbd>，<b>微调</b> 用方向键（按住 <kbd>Shift</kbd> 为 10 倍）。</li>
+<li><b>复制</b> <kbd>Ctrl</kbd>+<kbd>D</kbd>，<b>复制 / 粘贴</b> <kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd>（仅复制两端都被选中的连接线，每次粘贴会再稍微错开一些），<b>删除</b> <kbd>Delete</kbd>，<b>微调</b> 用方向键（同时按住 <kbd>Ctrl</kbd> 则以 1px 为单位）。</li>
 </ul>
 
 <h2 id="connect">连接线</h2>
@@ -196,7 +196,8 @@ th{font-size:11.5px;letter-spacing:.05em;color:var(--faint);font-weight:600}
 <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Y</kbd></td><td>撤销 / 重做</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>复制</td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd></td><td>复制 / 粘贴</td><td></td><td></td></tr>
 <tr><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td><td>编组（加 <kbd>Shift</kbd> 取消）</td><td><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>全选</td></tr>
-<tr><td>方向键</td><td>按网格步长移动（<kbd>Shift</kbd>：10 倍）</td><td><kbd>Delete</kbd></td><td>删除</td></tr>
+<tr><td>方向键</td><td>按网格步长移动（<kbd>Ctrl</kbd>：1px）</td><td><kbd>Delete</kbd></td><td>删除</td></tr>
+<tr><td><kbd>Shift</kbd>+方向键</td><td>调整大小（→ ↑ 放大，← ↓ 缩小）</td><td></td><td></td></tr>
 <tr><td><kbd>Ctrl</kbd>+滚轮</td><td>缩放</td><td>滚轮</td><td>滚动画面</td></tr>
 <tr><td><kbd>Shift</kbd>+点击</td><td>多选</td><td><kbd>Alt</kbd>+拖动</td><td>不吸附移动</td></tr>
 </table></div>

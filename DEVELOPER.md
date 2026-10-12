@@ -63,7 +63,7 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 
 ## 3. index.html 코드 구조
 
-파일 안에서 `/* ---------- 이름 ---------- */` 주석으로 구역이 나뉩니다. (줄 번호는 2026-09-27, v1.1.0 기준)
+파일 안에서 `/* ---------- 이름 ---------- */` 주석으로 구역이 나뉩니다. (줄 번호는 2026-10-12 기준)
 
 | 줄 | 구역 | 내용 |
 |---|---|---|
@@ -82,12 +82,12 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 | 828 | pointer interaction | 단일 `pointerdown/move/up` 상태 머신 (`drag.mode`: move / resize / connect / reattach / bend / marquee / ink / pan) |
 | 901 | inline editing | 더블클릭 텍스트 편집 (textarea 오버레이) |
 | 918 | sketch recognition | 손그림 → 도형 인식 (`rdp` 단순화 + 모서리 수 + 축/대각선 비율) |
-| 963 | actions | 삭제·복제·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
-| 979 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
-| 1115 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
-| 1144 | keyboard | 단축키 |
-| 1164 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
-| 1194 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 |
+| 963 | actions | 삭제·복제·복사/붙여넣기(앱 내부 클립보드 `clip`)·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
+| 984 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
+| 1120 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
+| 1149 | keyboard | 단축키 |
+| 1171 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
+| 1201 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 |
 
 **코드 스타일 메모**: 한 줄에 여러 문장을 쓴 압축된 스타일입니다. 읽기 편하게 만들려면 Prettier를 한 번 돌리면 됩니다: `npx prettier --write index.html` (동작은 바뀌지 않습니다).
 

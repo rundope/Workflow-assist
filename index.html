@@ -80,6 +80,7 @@ button{cursor:pointer}
 .stage.tool-pen{cursor:crosshair}
 .stage.tool-text,.stage.tool-shape,.stage.tool-connect{cursor:crosshair}
 .stage.panning{cursor:grabbing}
+.stage.moving,.stage.moving *{cursor:grabbing!important}
 .edit-box{position:absolute;z-index:20;border:1.5px solid var(--accent);background:#fff;color:#1A1A1A;padding:2px 6px;resize:none;overflow:hidden;line-height:1.25;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.18);border-radius:3px;outline:none}
 .edit-box.rich{white-space:pre-wrap;word-break:break-word;cursor:text}
 .edit-tools{position:absolute;z-index:21;display:flex;align-items:center;gap:4px;padding:4px 6px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35);font-size:12px;color:var(--muted);white-space:nowrap}
@@ -865,7 +866,7 @@ svg.addEventListener('pointerdown',ev=>{
     const it=byId(id);
     if(it&&it.type==='band'&&!sel.has(id)&&!nearBandEdge(it,p)){sel.clear();drag={mode:'marquee',sp:p,cur:p,base:new Set(),bandCandidate:id};renderOverlay();renderInspector();return;}
     if(!sel.has(id))select([id]);
-    const ids=movingSet();drag={mode:'move',sp:p,moved:false,ids,orig:captureOrig(ids),primary:byId(id)?id:null,obb:selBBox([...ids])};renderOverlay();renderInspector();return;
+    const ids=movingSet();drag={mode:'move',sp:p,moved:false,ids,orig:captureOrig(ids),primary:byId(id)?id:null,obb:selBBox([...ids])};stage.classList.add('moving');renderOverlay();renderInspector();return;
   }
   if(!ev.shiftKey)sel.clear();
   drag={mode:'marquee',sp:p,cur:p,base:new Set(sel)};renderOverlay();renderInspector();
@@ -890,7 +891,7 @@ svg.addEventListener('pointermove',ev=>{
   }
 });
 svg.addEventListener('pointerup',ev=>{
-  if(!drag)return;const p=toCanvas(ev);const d=drag;drag=null;guides=[];stage.classList.remove('panning');
+  if(!drag)return;const p=toCanvas(ev);const d=drag;drag=null;guides=[];stage.classList.remove('panning','moving');
   switch(d.mode){
     case 'move':if(d.moved){renderAll();persist();}else{if(d.primary&&sel.size>1&&!ev.shiftKey&&!groupOf(d.primary)){}renderAll();}break;
     case 'resize':renderAll();persist();break;

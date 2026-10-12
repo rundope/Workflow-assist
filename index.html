@@ -319,7 +319,7 @@ const I18N_EN={
   '올린 이미지는 이 브라우저에 저장되어 언제든 도형처럼 배치할 수 있습니다. 배치 후 "단색화"를 켜면 그림 스타일에 맞게 회색조로 바뀝니다.':'Uploaded images are saved in this browser and can be placed like shapes at any time. Turn on "Monochrome" after placing to switch to grayscale to match the figure style.',
   '규격의 원칙':'Principle','<b>기본값은 통일, 예외는 자유.</b> 새 노드는 그리드·기본 간격·대칭 연결선으로 배치되고, 드래그하면 다른 노드의 중심선에 자석처럼 맞춰집니다(분홍 가이드). 직접 옮기거나 수치를 입력하면 그 값이 우선합니다.':'<b>Consistent defaults, free exceptions.</b> New nodes are placed on the grid with the default gap and symmetric connectors, and snap to other nodes’ center lines while dragging (pink guides). Anything you move or type yourself takes priority.',
   // inspector — selection
-  '선택':'Selection','{n} 요소':'{n} elements','{n} 요소|1':'1 element','{n} 연결선':'{n} connectors','{n} 연결선|1':'1 connector','복제':'Duplicate','삭제':'Delete','그룹 만들기':'Group','그룹 해제':'Ungroup',
+  '선택':'Selection','{n} 요소':'{n} elements','{n} 요소|1':'1 element','{n} 연결선':'{n} connectors','{n} 연결선|1':'1 connector','복제':'Duplicate','복사 / 붙여넣기':'Copy / paste','{n}개 요소를 복사했습니다':'Copied {n} elements','{n}개 요소를 복사했습니다|1':'Copied 1 element','삭제':'Delete','그룹 만들기':'Group','그룹 해제':'Ungroup',
   '정렬 · 분배':'Align · distribute','왼쪽':'Left','가로 중앙':'Center horizontally','오른쪽':'Right','위':'Top','세로 중앙':'Center vertically','아래':'Bottom',
   '현재 범위 안에서 가로 균등':'Distribute evenly within the current span','가로 균등':'Distribute H','세로 균등':'Distribute V','간격 고정 (px)':'Fixed gap (px)','가로 적용':'Apply H','세로 적용':'Apply V','너비 길이 맞춤':'Match width','높이 길이 맞춤':'Match height',
   '"간격 고정"은 선택한 노드들을 순서대로 같은 간격으로 재배치해 사이의 연결선 길이를 통일합니다. "길이 맞춤"은 <b>첫 번째로 선택한 도형</b>의 너비 또는 높이로 나머지를 맞춥니다.':'"Fixed gap" rearranges the selected nodes in order with the same gap, so the connectors between them become equal. "Match width / height" resizes the rest to the width or height of the <b>first selected shape</b>.',
@@ -962,7 +962,12 @@ function hideSketchPop(){const p=$('#sketch-pop');if(p)p.remove();}
 
 /* ---------- actions ---------- */
 function deleteSel(){if(!sel.size)return;mutate(()=>{const ids=new Set(sel);state.elements=state.elements.filter(e=>!ids.has(e.id));state.edges=state.edges.filter(e=>!ids.has(e.id)&&!(e.from.node&&ids.has(e.from.node))&&!(e.to.node&&ids.has(e.to.node)));state.groups=state.groups.map(g=>({id:g.id,members:g.members.filter(m=>!ids.has(m))})).filter(g=>g.members.length>1);});sel.clear();sketch=null;hideSketchPop();renderAll();}
-function duplicateSel(){const els=selectedNodes();if(!els.length)return;const map={};mutate(()=>{const g=st().gap/2;for(const e of els){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.x+=g;c.y+=g;delete c._bb;map[e.id]=c.id;state.elements.push(c);}for(const ed of state.edges.slice()){if(ed.from.node&&ed.to.node&&map[ed.from.node]&&map[ed.to.node]){const c=JSON.parse(JSON.stringify(ed));c.id=uid();c.from.node=map[ed.from.node];c.to.node=map[ed.to.node];state.edges.push(c);}}});sel=new Set(Object.values(map));renderAll();}
+function placeCopies(els,edges,d){const map={};mutate(()=>{for(const e of els){const c=JSON.parse(JSON.stringify(e));c.id=uid();c.x+=d;c.y+=d;delete c._bb;map[e.id]=c.id;state.elements.push(c);}for(const ed of edges){if(ed.from.node&&ed.to.node&&map[ed.from.node]&&map[ed.to.node]){const c=JSON.parse(JSON.stringify(ed));c.id=uid();c.from.node=map[ed.from.node];c.to.node=map[ed.to.node];state.edges.push(c);}}});sel=new Set(Object.values(map));renderAll();}
+function duplicateSel(){const els=selectedNodes();if(!els.length)return;placeCopies(els,state.edges.slice(),st().gap/2);}
+// 앱 내부 클립보드: 선택한 요소와, 양 끝이 모두 선택된 연결선을 복사한다. 붙여넣을 때마다 조금씩 더 비켜 놓는다.
+let clip=null,pasteN=0;
+function copySel(){const els=selectedNodes();if(!els.length)return false;const ids=new Set(els.map(e=>e.id));clip=JSON.parse(JSON.stringify({els,edges:state.edges.filter(ed=>ids.has(ed.from.node)&&ids.has(ed.to.node))}));pasteN=0;toast(L('{n}개 요소를 복사했습니다',{n:els.length}));return true;}
+function pasteClip(){if(!clip)return false;pasteN++;placeCopies(clip.els,clip.edges,st().gap/2*pasteN);return true;}
 function selectAll(){sel=new Set([...state.elements.map(e=>e.id),...state.edges.map(e=>e.id)]);renderAll();}
 function groupSel(){if(sel.size<2)return;mutate(()=>{const ids=[...sel];state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));state.groups.push({id:uid(),members:ids});});renderInspector();toast(L('그룹으로 묶었습니다 (Ctrl+Shift+G로 해제)'));}
 function ungroupSel(){mutate(()=>{state.groups=state.groups.filter(g=>!g.members.some(m=>sel.has(m)));});renderInspector();}
@@ -1138,7 +1143,7 @@ $('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;$('#btn-lang').onclick=(
 $('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>${L('단축키')}</h3><div class="keys">
 <kbd>V</kbd><span>${L('선택 · 이동')}</span><kbd>H</kbd><span>${L('화면 이동 (Space 누른 채 드래그도 가능)')}</span><kbd>R</kbd><span>${L('프로세스 노드')}</span><kbd>D</kbd><span>${L('판단(마름모) 노드')}</span><kbd>T</kbd><span>${L('텍스트')}</span><kbd>C</kbd><span>${L('연결선 (노드 → 노드 클릭)')}</span><kbd>P</kbd><span>${L('손그림 인식')}</span>
 <kbd>${L('Shift+클릭')}</kbd><span>${L('다중 선택 추가/해제')}</span><kbd>${L('드래그')}</kbd><span>${L('빈 곳에서 영역 선택')}</span><kbd>${L('Alt+드래그')}</kbd><span>${L('스냅 없이 자유 이동')}</span><kbd>${L('더블클릭')}</kbd><span>${L('텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)')}</span>
-<kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Shift: 10배)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
+<kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+C / V</kbd><span>${L('복사 / 붙여넣기')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Shift: 10배)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
 </div><p class="note" style="margin-top:14px">${L('포트(노드 가장자리의 작은 원)를 드래그해 빈 곳에 놓으면 기본 간격으로 정렬된 새 노드가 만들어져 연결됩니다.')}</p><div class="row" style="justify-content:space-between;margin-top:10px"><a class="btn" href="manual_${lang==='en'?'en':'kr'}.html" target="_blank" rel="noopener">${L('사용 설명서 열기')}</a><button class="btn" id="close-keys">${L('닫기')}</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});};
 
 /* ---------- keyboard ---------- */
@@ -1151,6 +1156,8 @@ window.addEventListener('keydown',ev=>{
   if(mod&&k==='y'){ev.preventDefault();redo();return;}
   if(mod&&k==='a'){ev.preventDefault();selectAll();return;}
   if(mod&&k==='d'){ev.preventDefault();duplicateSel();return;}
+  if(mod&&k==='c'){if(copySel())ev.preventDefault();return;}
+  if(mod&&k==='v'){if(pasteClip())ev.preventDefault();return;}
   if(mod&&k==='g'){ev.preventDefault();ev.shiftKey?ungroupSel():groupSel();return;}
   if(mod)return;
   if(k==='delete'||k==='backspace'){ev.preventDefault();deleteSel();return;}

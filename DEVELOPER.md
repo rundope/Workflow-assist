@@ -87,8 +87,8 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 | 1293 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
 | 1324 | keyboard | 단축키 (방향키 이동, Shift+방향키 크기 조절 `resizeSel`) |
 | 1348 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
-| 1378 | mind map mode | 마인드맵 화면: 문서 `mm`, 배치 `mmLayout`(양쪽 균형 트리), 가지 `mmBranch`(굵기가 줄어드는 베지어 다각형), 편집·단축키 `mmKeydown`, 드래그 이동 `mmDrop`, 내보내기 `mmExportSVG`, 화면 전환 `setMode` |
-| 1596 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 → 마지막 화면이 마인드맵이면 전환 |
+| 1378 | mind map mode | 마인드맵 화면: 문서 `mm`, 배치 `mmLayout`(양쪽 균형 트리), 가지 `mmBranch`(굵기가 줄어드는 곡선 리본 + 글씨 밑줄), 그림·클립보드(`mmReadImage`, copy/cut/paste 이벤트), 편집·단축키 `mmKeydown`, 드래그 이동 `mmDrop`, 내보내기 `mmExportSVG`, 화면 전환 `setMode` |
+| 1647 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 → 마지막 화면이 마인드맵이면 전환 |
 
 **코드 스타일 메모**: 한 줄에 여러 문장을 쓴 압축된 스타일입니다. 읽기 편하게 만들려면 Prettier를 한 번 돌리면 됩니다: `npx prettier --write index.html` (동작은 바뀌지 않습니다).
 
@@ -189,14 +189,15 @@ id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위�
 워크플로우 문서와 따로 저장됩니다. JSON 불러오기는 `root`가 있으면 마인드맵으로 판단해 화면을 바꿉니다.
 
 ```jsonc
-{ "style":"pastel",         // "classic" | "pastel" | "notebook" | "doodle" | "bubble" (MM_STYLES)
-  "layout":"balanced",      // "balanced"(양쪽) | "right"
-  "line":"tapered",         // "tapered"(점점 가늘게) | "even"
+{ "layout":"balanced",      // "balanced"(양쪽) | "right"
+  "shape":"text",           // 주제 기본 모양: "text"(글씨 + 밑줄) | "box"
   "theme":"colorful",       // "colorful" | "mono"
   "font":"helvetica",       // FONTS의 id
   "root":{ "id":"t1", "text":"중심 주제", "collapsed":false, "children":[
     { "id":"t2", "text":"주요 주제", "side":"R", "ci":0,   // side: 1단계만 "L"|"R", ci: 가지 색 번호
-      "color":"#2F6DB5", "fs":15, "bold":true,             // 선택: 색·글자 크기·굵게 직접 지정
+      "color":"#2F6DB5", "fs":24, "bold":false,            // 선택: 색·글자 크기·굵게 직접 지정
+      "shape":"circle",                                    // 선택: "text"|"box"|"ellipse"|"circle"|"shadow" (중심 주제 기본은 ellipse)
+      "img":{ "src":"data:image/png;base64,...", "w":110, "h":80, "nw":480, "nh":350 },  // 선택: 붙인 그림(긴 변 480px 이하로 저장), w·h는 화면 크기
       "children":[ { "id":"t3", "text":"하위 주제", "children":[] } ] } ] } }
 ```
 

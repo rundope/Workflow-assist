@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workflow-assist</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600&family=Gaegu:wght@400;700&family=Jua&family=Gowun+Dodum&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap">
 <style>
 :root{
   --bg:#E6E9EE; --chrome:#F8F9FB; --chrome-2:#EEF0F4; --chrome-3:#E3E6EC;
@@ -97,12 +97,6 @@ button{cursor:pointer}
 #mm-stage .mm-tog{cursor:pointer}
 #mm-stage .mm-tog.exp{opacity:0;transition:opacity .12s}
 #mm-stage .mm-node:hover .mm-tog.exp,#mm-stage .mm-node.sel .mm-tog.exp{opacity:1}
-.mm-styles{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.mm-styles button{border:1px solid var(--line);border-radius:var(--r-s);background:var(--chrome-2);padding:5px;display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;color:var(--ink);cursor:pointer}
-.mm-styles button:hover{border-color:var(--line-strong)}
-.mm-styles button.on{border-color:var(--accent);background:var(--accent-soft)}
-.mm-styles svg{width:100%;height:auto;border-radius:3px;border:1px solid var(--line);margin-bottom:3px}
-.mm-styles b{font-size:11.5px}.mm-styles small{font-size:10px;color:var(--muted);line-height:1.25}
 .mm-edit{white-space:pre-wrap;word-break:break-word;cursor:text;line-height:1.3;text-align:center;box-sizing:border-box}
 .sketch-pop{position:absolute;z-index:22;display:flex;align-items:center;gap:3px;padding:5px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35)}
 .sketch-pop .lbl{font-size:10.5px;color:var(--faint);padding:0 6px 0 4px;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
@@ -337,7 +331,7 @@ const I18N_EN={
   // top bar · menus
   '파일':'File','문서':'Document','새 문서':'New document','빈 캔버스':'blank canvas','JSON 불러오기…':'Open JSON…',
   '논문용 예제':'Templates for papers','실험 워크플로우 (패널 a·b·c)':'Experimental workflow (panels a·b·c)','CONSORT 참가자 흐름도':'CONSORT participant flow','PRISMA 2020 문헌 선별 흐름도':'PRISMA 2020 study selection','연구 설계 (무작위 배정 · 추적)':'Study design (randomization · follow-up)','ML 파이프라인 (판단 루프)':'ML pipeline (decision loop)',
-  '보고서용 예제':'Templates for reports','파스텔 구름':'Pastel clouds','구름 모양 · 점선 연결':'Cloud shapes · dashed links','노트 낙서':'Notebook doodle','줄 노트 · 손글씨 · 굵은 화살표':'Lined paper · handwriting · bold arrows','모눈 카드':'Grid cards','모눈종이 · 손그림 화살표':'Grid paper · hand-drawn arrows','버블':'Bubbles','동그란 말풍선 · 파란 화살표':'Round bubbles · blue arrows','기본':'Classic','깔끔한 곡선 가지':'Clean curved branches','글꼴을 내려받지 못해 기본 글꼴로 내보냅니다':'Could not download the font; exporting with a fallback font','워크플로우':'Workflow','마인드맵':'Mind map','새 마인드맵':'New mind map','중심 주제 + 가지 4개':'central topic + 4 branches','마인드맵 예제':'Mind map examples','연구 계획 정리':'Research plan','프로젝트 기획':'Project plan','하위 주제 추가 (Tab)':'Add subtopic (Tab)','같은 수준 주제 추가 (Enter)':'Add sibling topic (Enter)','가지 접기 / 펼치기 (Ctrl+/)':'Collapse / expand branch (Ctrl+/)','주제 삭제 (Delete)':'Delete topic (Delete)','전체 보기':'Fit to screen','Tab: 하위 주제 · Enter: 같은 수준 주제 · 더블클릭·F2·바로 입력: 글자 편집 · 주제를 끌어 다른 주제에 놓으면 이동 · 빈 곳 드래그: 화면 이동':'Tab: subtopic · Enter: sibling · double-click, F2 or just type: edit text · drag a topic onto another to move it · drag empty space to pan','주제 {n}개':'{n} topics','주제 {n}개|1':'1 topic','배치':'Layout','양쪽 균형':'Balanced','오른쪽으로':'To the right','가지 선':'Branch lines','점점 가늘게':'Tapered','일정한 굵기':'Even','색 구성':'Colors','컬러':'Colorful','단색':'Mono','주제':'Topic','하위 주제':'Subtopic','같은 수준':'Sibling','접기 / 펼치기':'Collapse / expand','가지 색':'Branch color','자동':'Automatic','사용법':'How to use','<b>Tab</b> 하위 주제 · <b>Enter</b> 같은 수준 주제 · <b>Delete</b> 삭제<br>더블클릭·F2 또는 주제를 고른 채 바로 입력하면 글자를 고칩니다 (Shift+Enter 줄바꿈).<br>주제를 끌어 다른 주제 위에 놓으면 그 아래로 옮겨지고, 빈 곳에 놓으면 순서·방향이 바뀝니다.<br>방향키로 주제 사이를 이동하고, Alt+↑/↓로 순서를 바꿉니다. 가지 끝의 동그라미를 누르면 접히고 펼쳐집니다.':'<b>Tab</b> subtopic · <b>Enter</b> sibling topic · <b>Delete</b> delete<br>Double-click, press F2, or just start typing on a selected topic to edit its text (Shift+Enter for a new line).<br>Drag a topic onto another topic to move it under that topic; drop it on empty space to change its order or side.<br>Use the arrow keys to move between topics and Alt+↑/↓ to reorder. Click the circle at the end of a branch to collapse or expand it.','주제 {n}개를 복사했습니다':'Copied {n} topics','주제 {n}개를 복사했습니다|1':'Copied 1 topic','마인드맵 단축키':'Mind map shortcuts','하위 주제 추가':'Add subtopic','같은 수준 주제 추가':'Add sibling topic','F2 · Space':'F2 · Space','글자 편집 (바로 입력해도 됨)':'Edit text (or just start typing)','편집 중 줄바꿈':'New line while editing','주제 삭제':'Delete topic','주제 사이 이동':'Move between topics','Alt+↑ / ↓':'Alt+↑ / ↓','순서 바꾸기':'Reorder','가지 접기 / 펼치기':'Collapse / expand branch','여러 주제 선택':'Select several topics','Ctrl+C / X / V':'Ctrl+C / X / V','복사 / 잘라내기 / 붙여넣기':'Copy / cut / paste','주제 위에 놓기: 이동 · 빈 곳: 순서/방향':'Drop on a topic: move · on empty space: order/side','일반 예제':'General templates','기본 순서도 (시작 · 판단 · 종료)':'Basic flowchart (start · decision · end)','조직도':'Organization chart','PDCA 순환도':'PDCA cycle','동물실험 타임라인':'In vivo study timeline','관찰 코호트 참가자 흐름 (STROBE)':'Observational cohort flow (STROBE)','AS-IS / TO-BE 비교':'AS-IS / TO-BE comparison','로드맵 (분기별 마일스톤)':'Roadmap (quarterly milestones)','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
+  '보고서용 예제':'Templates for reports','주제 기본 모양':'Default topic shape','글씨 + 밑줄':'Text + underline','모양':'Shape','글씨':'Text','상자':'Box','원':'Circle','그림자':'Shadow box','그림':'Picture','그림 넣기…':'Add picture…','빼기':'Remove','그림을 복사해 Ctrl+V로 붙이거나, 파일을 주제 위로 끌어다 놓아도 됩니다.':'You can also copy a picture and press Ctrl+V, or drag an image file onto a topic.','그림을 읽을 수 없습니다':'Could not read the picture','그림을 넣었습니다':'Picture added','<b>Tab</b> 하위 주제 · <b>Enter</b> 같은 수준 주제 · <b>Delete</b> 삭제<br>더블클릭·F2 또는 주제를 고른 채 바로 입력하면 글자를 고칩니다 (Shift+Enter 줄바꿈).<br>주제를 끌어 다른 주제 위에 놓으면 그 아래로 옮겨지고, 빈 곳에 놓으면 순서·방향이 바뀝니다.<br>그림은 복사해서 Ctrl+V로 붙이거나 파일을 끌어다 놓습니다. 다른 곳의 글을 붙이면 줄마다 주제가 됩니다(들여쓰기는 하위 주제).<br>방향키로 주제 사이를 이동하고, Alt+↑/↓로 순서를 바꿉니다. 가지 끝의 동그라미를 누르면 접히고 펼쳐집니다.':'<b>Tab</b> subtopic · <b>Enter</b> sibling topic · <b>Delete</b> delete<br>Double-click, press F2, or just start typing on a selected topic to edit its text (Shift+Enter for a new line).<br>Drag a topic onto another topic to move it under that topic; drop it on empty space to change its order or side.<br>Copy a picture and press Ctrl+V, or drag an image file in. Pasting text from elsewhere makes one topic per line (indentation = subtopics).<br>Use the arrow keys to move between topics and Alt+↑/↓ to reorder. Click the circle at the end of a branch to collapse or expand it.','기본':'Classic','워크플로우':'Workflow','마인드맵':'Mind map','새 마인드맵':'New mind map','중심 주제 + 가지 4개':'central topic + 4 branches','마인드맵 예제':'Mind map examples','연구 계획 정리':'Research plan','프로젝트 기획':'Project plan','하위 주제 추가 (Tab)':'Add subtopic (Tab)','같은 수준 주제 추가 (Enter)':'Add sibling topic (Enter)','가지 접기 / 펼치기 (Ctrl+/)':'Collapse / expand branch (Ctrl+/)','주제 삭제 (Delete)':'Delete topic (Delete)','전체 보기':'Fit to screen','Tab: 하위 주제 · Enter: 같은 수준 주제 · 더블클릭·F2·바로 입력: 글자 편집 · 주제를 끌어 다른 주제에 놓으면 이동 · 빈 곳 드래그: 화면 이동':'Tab: subtopic · Enter: sibling · double-click, F2 or just type: edit text · drag a topic onto another to move it · drag empty space to pan','주제 {n}개':'{n} topics','주제 {n}개|1':'1 topic','배치':'Layout','양쪽 균형':'Balanced','오른쪽으로':'To the right','색 구성':'Colors','컬러':'Colorful','단색':'Mono','주제':'Topic','하위 주제':'Subtopic','같은 수준':'Sibling','접기 / 펼치기':'Collapse / expand','가지 색':'Branch color','자동':'Automatic','사용법':'How to use','주제 {n}개를 복사했습니다':'Copied {n} topics','주제 {n}개를 복사했습니다|1':'Copied 1 topic','마인드맵 단축키':'Mind map shortcuts','하위 주제 추가':'Add subtopic','같은 수준 주제 추가':'Add sibling topic','F2 · Space':'F2 · Space','글자 편집 (바로 입력해도 됨)':'Edit text (or just start typing)','편집 중 줄바꿈':'New line while editing','주제 삭제':'Delete topic','주제 사이 이동':'Move between topics','Alt+↑ / ↓':'Alt+↑ / ↓','순서 바꾸기':'Reorder','가지 접기 / 펼치기':'Collapse / expand branch','여러 주제 선택':'Select several topics','Ctrl+C / X / V':'Ctrl+C / X / V','복사 / 잘라내기 / 붙여넣기':'Copy / cut / paste','주제 위에 놓기: 이동 · 빈 곳: 순서/방향':'Drop on a topic: move · on empty space: order/side','일반 예제':'General templates','기본 순서도 (시작 · 판단 · 종료)':'Basic flowchart (start · decision · end)','조직도':'Organization chart','PDCA 순환도':'PDCA cycle','동물실험 타임라인':'In vivo study timeline','관찰 코호트 참가자 흐름 (STROBE)':'Observational cohort flow (STROBE)','AS-IS / TO-BE 비교':'AS-IS / TO-BE comparison','로드맵 (분기별 마일스톤)':'Roadmap (quarterly milestones)','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
   '내보내기':'Export','SVG (벡터)':'SVG (vector)','JSON (편집용)':'JSON (editable)','SVG 코드 복사':'Copy SVG code',
   '실행 취소 (Ctrl+Z)':'Undo (Ctrl+Z)','다시 실행 (Ctrl+Shift+Z)':'Redo (Ctrl+Shift+Z)','축소':'Zoom out','확대':'Zoom in','페이지 맞춤':'Fit page','맞춤':'Fit','단축키':'Shortcuts','자동 저장':'Auto-saved',
   // toolbar · shapes
@@ -1383,7 +1377,7 @@ window.addEventListener('message',ev=>{
 
 /* ---------- mind map mode ---------- */
 // 마인드맵 모드: 워크플로우와 따로 저장되는 문서(mm). XMind식 양쪽 균형 배치 + MindNode식으로 점점 가늘어지는 곡선 가지.
-// 문서 형식: {root:{id,text,children[],collapsed,side('L'|'R', 1단계만),color,fs,bold}, layout, line, theme, font}
+// 문서 형식: {root:{id,text,children[],collapsed,side('L'|'R', 1단계만),ci,color,fs,bold,shape,img}, layout, shape, theme, font}
 let mode='workflow';try{if(localStorage.getItem('figureassist.mode')==='mindmap')mode='mindmap';}catch(e){}
 const mmStage=$('#mm-stage'),mmSvg=$('#mm-svg'),gMM=$('#mm-fig'),gMMov=$('#mm-ov'),mmInsp=$('#mm-insp');
 let mm=null,mmSel=new Set(),mmView={x:0,y:0,zoom:1},mmHist=[],mmFut=[],mmEdit=null,mmDrag=null,mmClip=null,mmLay=new Map(),mmLast=null,mmFitted=false;
@@ -1391,7 +1385,7 @@ const MM_COLORS=['#2F6DB5','#DE7A1C','#3A8C4E','#C2477E','#6F52A6','#1F8C82','#D
 const MM_HINT='Tab: 하위 주제 · Enter: 같은 수준 주제 · 더블클릭·F2·바로 입력: 글자 편집 · 주제를 끌어 다른 주제에 놓으면 이동 · 빈 곳 드래그: 화면 이동';
 const mmUid=()=>'t'+Math.random().toString(36).slice(2,10);
 function mmTopic(text,children=[],o={}){return Object.assign({id:mmUid(),text,children,collapsed:false},o);}
-function mmNorm(d){d=Object.assign({style:'pastel',layout:'balanced',line:'tapered',theme:'colorful',font:'helvetica'},d);if(!MM_STYLES[d.style])d.style='classic';const walk=t=>{t.id=t.id||mmUid();t.text=t.text==null?'':String(t.text);t.children=Array.isArray(t.children)?t.children:[];t.children.forEach(walk);};walk(d.root);
+function mmNorm(d){d=Object.assign({layout:'balanced',shape:'text',theme:'colorful',font:'helvetica'},d);delete d.style;delete d.line;const walk=t=>{t.id=t.id||mmUid();t.text=t.text==null?'':String(t.text);t.children=Array.isArray(t.children)?t.children:[];t.children.forEach(walk);};walk(d.root);
   let r=0,l=0;for(const c of d.root.children){if(c.side!=='L'&&c.side!=='R'){c.side=r<=l?'R':'L';}c.side==='R'?r++:l++;}
   const used=new Set();for(const c of d.root.children){if(c.ci==null||used.has(c.ci))c.ci=null;else used.add(c.ci);}for(const c of d.root.children)if(c.ci==null){let i=0;while(used.has(i))i++;c.ci=i;used.add(i);}return d;}
 // 1단계 주제의 가지 색 번호: 순서를 바꿔도 색이 유지되도록 주제에 저장한다
@@ -1422,82 +1416,55 @@ function mmParentOf(id){let r=null;mmWalk(mm.root,(t,p)=>{if(t.id===id)r=p;});re
 function mmContains(t,id){let f=false;mmWalk(t,x=>{if(x.id===id)f=true;});return f;}
 
 /* layout */
+// 유기적 마인드맵(토니 부잔식): 주제는 기본적으로 '글씨 + 밑줄'이고, 밑줄이 곧 가지가 되어 다음 주제로 이어진다.
+// 주제마다 모양(상자·타원·원·그림자 상자)으로 바꿀 수 있고, 그림을 붙일 수 있다.
 const mmCtx=document.createElement('canvas').getContext('2d');
-// 마인드맵 스타일: classic(기본) 외에 손그림 느낌의 4종. 노드 모양(shape), 손그림 테두리(sketch), 그림자, 형광펜, 가지 종류(link), 배경 무늬(pattern)를 정한다.
-const MM_STYLES={
-  classic:{name:'기본',sub:'깔끔한 곡선 가지'},
-  pastel:{name:'파스텔 구름',sub:'구름 모양 · 점선 연결',api:'Gowun+Dodum',font:'"Gowun Dodum","Noto Sans KR",sans-serif',fsk:1.1,bg:'#FFFFFF',ink:'#3D4450',link:'elbow',lc:'#6B7280',
-    colors:['#BFE3E0','#F3E7A6','#D6EAC4','#F1D2C2','#C7DCF0','#B9BDD6','#EAD4E1','#CBEBDD'],root:{shape:'blob',fill:'#F3F4F5',stroke:'#7FB2C9',sw:3},n1:{shape:'blob'},n2:{shape:'blob',tint:.4}},
-  notebook:{name:'노트 낙서',sub:'줄 노트 · 손글씨 · 굵은 화살표',api:'Gaegu:wght@400;700',font:'"Gaegu","Noto Sans KR",cursive',fsk:1.3,bg:'#FFF6CC',pattern:'lines',ink:'#3A2E2A',link:'fat',lc:'#C5E1A0',
-    colors:['#F7C948','#9ED8E0','#F4A6A0','#B9E4C9','#C7B8EA','#F9B98F'],root:{shape:'ellipse',fill:'#F07FA8',sketch:1,shadow:1},n1:{shape:'rect',sketch:1,shadow:1},n2:{shape:'none',mark:1}},
-  doodle:{name:'모눈 카드',sub:'모눈종이 · 손그림 화살표',api:'Gaegu:wght@400;700',font:'"Gaegu","Noto Sans KR",cursive',fsk:1.3,bg:'#FFFFFF',pattern:'grid',ink:'#222222',link:'arrow',lc:'#2A2A2A',
-    colors:['#FBE38E','#F8C8DC','#C9D4F6','#FFD3A8','#CDEFC3','#D8C8F2'],root:{shape:'ellipse',fill:'#CDEB9C',sketch:1,stroke:'#222222'},n1:{shape:'rounded'},n2:{shape:'rounded',tint:.45}},
-  bubble:{name:'버블',sub:'동그란 말풍선 · 파란 화살표',api:'Jua',font:'"Jua","Noto Sans KR",sans-serif',fsd:[1.4,1.45,1.05],bg:'#FFFFFF',ink:'#FFFFFF',link:'arrow',lc:'#8FB0E0',mono:1,
-    colors:['#F0A01E'],root:{shape:'ellipse',fill:'#B5401E',ring:1},n1:{shape:'ellipse',ring:1},n2:{shape:'ellipse',fill:'#F7B83F',ring:1,ink:'#4A2C05'}}
-};
-const mmSt=()=>MM_STYLES[mm.style]||MM_STYLES.classic;
-const mmFamily=()=>mmSt().font||(FONTS.find(f=>f.id===mm.font)||FONTS[0]).family;
-function mmLook(d){const S=mmSt();return d===0?S.root||{}:d===1?S.n1||{}:S.n2||{};}
-function mmMeasure(t,d){const S=mmSt(),k=S.fsd?S.fsd[Math.min(d,2)]:S.fsk||1,fs=t.fs||Math.round((d===0?20:d===1?15:13)*k),bold=t.bold!=null?t.bold:d<=1;mmCtx.font=`${bold?'bold ':''}${fs}px ${mmFamily()}`;const lines=(t.text||'').split('\n');
-  const tw=Math.max(...lines.map(l=>mmCtx.measureText(l||' ').width));const px=d===0?26:d===1?16:11,py=d===0?14:d===1?9:6;let w=Math.max(d===0?110:44,Math.ceil(tw)+px*2),h=Math.ceil(lines.length*fs*1.3)+py*2;
-  const sh=mmLook(d).shape;if(sh==='ellipse'||sh==='blob'){w=Math.round(w*1.22+10);h=Math.round(h*1.45);}else if(sh==='none'){w=Math.ceil(tw)+12;h=Math.ceil(lines.length*fs*1.3)+6;}
-  return {w,h,fs,bold,lines};}
-// 손그림 도구: 주제 id로 고정된 난수라 다시 그려도 모양이 흔들리지 않는다
-function mmRng(str){let s=2166136261;for(const c of String(str))s=Math.imul(s^c.charCodeAt(0),16777619);return ()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return ((s>>>0)%100000)/100000;};}
-function mmSmooth(p,closed){const n=p.length,P=i=>closed?p[(i+n)%n]:p[Math.max(0,Math.min(n-1,i))];let d=`M${R(p[0][0])} ${R(p[0][1])}`;const m=closed?n:n-1;
-  for(let i=0;i<m;i++){const a=P(i-1),b=P(i),c=P(i+1),e=P(i+2);d+=` C${R(b[0]+(c[0]-a[0])/6)} ${R(b[1]+(c[1]-a[1])/6)} ${R(c[0]-(e[0]-b[0])/6)} ${R(c[1]-(e[1]-b[1])/6)} ${R(c[0])} ${R(c[1])}`;}return d+(closed?'Z':'');}
-function mmBlob(cx,cy,rx,ry,rnd,v){const n=9,p=[],o=rnd()*6.28;for(let i=0;i<n;i++){const a=o+i/n*6.283,k=1+(rnd()-.5)*v;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k]);}return mmSmooth(p,true);}
-function mmSketchEllipse(cx,cy,rx,ry,rnd,amp){const n=14,p=[],o=rnd()*6.28,turn=1.06+rnd()*.05;for(let i=0;i<=n;i++){const a=o+i/n*6.283*turn,k=1+(rnd()-.5)*amp;p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k]);}return mmSmooth(p,false);}
-function mmSketchRect(x,y,w,h,rnd,amp){const j=()=>(rnd()-.5)*2*amp,L=(x1,y1,x2,y2)=>`M${R(x1+j())} ${R(y1+j())} Q${R((x1+x2)/2+j())} ${R((y1+y2)/2+j())} ${R(x2+j())} ${R(y2+j())}`;
-  return [L(x-3,y,x+w+3,y),L(x+w,y-3,x+w,y+h+3),L(x+w+3,y+h,x-3,y+h),L(x,y+h+3,x,y-3)].join(' ');}
-function mmShape(sh,x,y,w,h,rnd,o){const cx=x+w/2,cy=y+h/2;if(sh==='ellipse')return svgEl('ellipse',Object.assign({cx:R(cx),cy:R(cy),rx:R(w/2),ry:R(h/2)},o));
-  if(sh==='blob')return svgEl('path',Object.assign({d:mmBlob(cx,cy,w/2,h/2,rnd,.16)},o));const rx=sh==='rect'?2:sh==='pill'?h/2:8;return svgEl('rect',Object.assign({x:R(x),y:R(y),width:R(w),height:R(h),rx},o));}
-
-function mmSub(t,d){t._m=mmMeasure(t,d);if(t.collapsed||!t.children.length)return t._sh=t._m.h;const g=d===1?12:8;const s=t.children.reduce((a,c)=>a+mmSub(c,d+1),0)+g*(t.children.length-1);return t._sh=Math.max(t._m.h,s);}
-function mmColorAt(i){const S=mmSt();if(S.colors)return S.colors[(i||0)%S.colors.length];return mm.theme==='mono'?'#4A5361':MM_COLORS[(i||0)%MM_COLORS.length];}
-function mmPlace(t,d,s,edge,cy,pid,col){const m=t._m,c=t.color||col;const x=s>0?edge:edge-m.w;mmLay.set(t.id,Object.assign({t,depth:d,side:s,x,y:cy-m.h/2,cx:x+m.w/2,cy,parent:pid,color:c},m));
-  if(t.collapsed||!t.children.length)return;const g=d===1?12:8;const tot=t.children.reduce((a,k)=>a+k._sh,0)+g*(t.children.length-1);let y=cy-tot/2;const H=d===1?40:30;
-  for(const k of t.children){mmPlace(k,d+1,s,s>0?x+m.w+H:x-H,y+k._sh/2,t.id,c);y+=k._sh+g;}}
-function mmLayout(){mmLay=new Map();const R=mm.root;mmSub(R,0);const m=R._m;mmLay.set(R.id,Object.assign({t:R,depth:0,side:0,x:-m.w/2,y:-m.h/2,cx:0,cy:0,parent:null,color:'#23324A'},m));if(R.collapsed)return;
+const mmFamily=()=>(FONTS.find(f=>f.id===mm.font)||FONTS[0]).family;
+const MM_SHAPES=[['text','글씨'],['box','상자'],['ellipse','타원'],['circle','원'],['shadow','그림자']];
+function mmShapeOf(t,d){return t.shape||(d===0?'ellipse':mm.shape||'text');}
+function mmMeasure(t,d){const fs=t.fs||(d===0?30:d===1?24:d===2?17:14),bold=t.bold!=null?t.bold:d===2,sh=mmShapeOf(t,d);mmCtx.font=`${bold?'bold ':''}${fs}px ${mmFamily()}`;
+  const lines=(t.text||'').split('\n'),hasText=!!(t.text||'').trim(),tw=hasText?Math.max(...lines.map(l=>mmCtx.measureText(l||' ').width)):0,th=hasText?lines.length*fs*1.25:0;
+  const iw=t.img?t.img.w:0,ih=t.img?t.img.h:0,gap=iw&&hasText?8:0,cw=Math.max(iw+gap+tw,8),ch=Math.max(ih,th,fs*.6);let w,h;
+  if(sh==='text'){w=cw+8;h=ch+8;}else if(sh==='box'||sh==='shadow'){w=cw+28;h=ch+18;}else{w=(cw+(d===0?44:24))*1.22;h=(ch+(d===0?30:16))*1.42;if(sh==='circle')w=h=Math.max(w,h);}
+  return {w:Math.ceil(w),h:Math.ceil(h),fs,bold,lines,hasText,tw,th,iw,ih,gap,cw,ch,shape:sh};}
+function mmSub(t,d){t._m=mmMeasure(t,d);if(t.collapsed||!t.children.length)return t._sh=t._m.h;const g=d===1?10:4;const s=t.children.reduce((a,c)=>a+mmSub(c,d+1),0)+g*(t.children.length-1);return t._sh=Math.max(t._m.h,s);}
+function mmColorAt(i){return mm.theme==='mono'?'#4A5361':MM_COLORS[(i||0)%MM_COLORS.length];}
+function mmAnchor(L){const s=L.side||1;L.ay=L.shape==='text'?L.y+L.h:L.cy;L.ix=s>0?L.x:L.x+L.w;L.ox=s>0?L.x+L.w:L.x;return L;}
+function mmPlace(t,d,s,edge,cy,pid,col){const m=t._m,c=t.color||col;const x=s>0?edge:edge-m.w;const L=mmAnchor(Object.assign({t,depth:d,side:s,x,y:cy-m.h/2,cx:x+m.w/2,cy,parent:pid,color:c},m));mmLay.set(t.id,L);
+  if(t.collapsed||!t.children.length)return;const g=d===1?10:4;const tot=t.children.reduce((a,k)=>a+k._sh,0)+g*(t.children.length-1);let y=cy-tot/2;const H=d===1?42:30;
+  for(const k of t.children){mmPlace(k,d+1,s,s>0?L.ox+H:L.ox-H,y+k._sh/2,t.id,c);y+=k._sh+g;}}
+function mmLayout(){mmLay=new Map();const R=mm.root;mmSub(R,0);const m=R._m;mmLay.set(R.id,mmAnchor(Object.assign({t:R,depth:0,side:0,x:-m.w/2,y:-m.h/2,cx:0,cy:0,parent:null,color:'#333333'},m)));if(R.collapsed)return;
   const kids=R.children,right=mm.layout==='right'?kids:kids.filter(c=>c.side!=='L'),left=mm.layout==='right'?[]:kids.filter(c=>c.side==='L');
-  for(const [arr,s] of [[right,1],[left,-1]]){const g=22;const tot=arr.reduce((a,c)=>a+c._sh,0)+g*Math.max(0,arr.length-1);let y=-tot/2;for(const c of arr){mmPlace(c,1,s,s*(m.w/2+64),y+c._sh/2,R.id,mmColorAt(c.ci));y+=c._sh+g;}}}
+  for(const [arr,s] of [[right,1],[left,-1]]){const g=26;const tot=arr.reduce((a,c)=>a+c._sh,0)+g*Math.max(0,arr.length-1);let y=-tot/2;for(const c of arr){mmPlace(c,1,s,s*(m.w/2+70),y+c._sh/2,R.id,mmColorAt(c.ci));y+=c._sh+g;}}}
 
 /* rendering */
-function mmBranch(P,C){const S=mmSt(),s=C.side,x0=P.depth===0?P.cx+s*(P.w/2-(S.link?4:12)):(s>0?P.x+P.w:P.x),y0=P.cy,x1=s>0?C.x:C.x+C.w,y1=C.cy;const k=Math.max(18,Math.abs(x1-x0)*.55);
-  const B=t=>{const u=1-t;return {x:u*u*u*x0+3*u*u*t*(x0+s*k)+3*u*t*t*(x1-s*k)+t*t*t*x1,y:u*u*u*y0+3*u*u*t*y0+3*u*t*t*y1+t*t*t*y1};};
-  if(S.link==='elbow'){const xm=(x0+x1)/2;return svgEl('path',{d:`M${R(x0)} ${R(y0)} H${R(xm)} V${R(y1)} H${R(x1)}`,fill:'none',stroke:S.lc,'stroke-width':1.5,'stroke-dasharray':'5 4'});}
-  if(S.link==='arrow'||(S.link==='fat'&&P.depth>0)){const g=svgEl('g'),rnd=mmRng(C.t.id),gap=S.link==='fat'?2:7,ex=x1-s*gap,col=S.link==='fat'?S.ink:S.lc,w=S.link==='fat'?1.6:P.depth===0?2.6:P.depth===1?2:1.6;
-    for(let pass=0;pass<2;pass++){const j=()=>(rnd()-.5)*5;g.appendChild(svgEl('path',{d:`M${R(x0+j()/2)} ${R(y0+j()/2)} C${R(x0+s*k+j())} ${R(y0+j())} ${R(ex-s*k+j())} ${R(y1+j())} ${R(ex)} ${R(y1)}`,fill:'none',stroke:col,'stroke-width':pass?w*.6:w,'stroke-linecap':'round',opacity:pass?.7:1}));}
-    if(S.link==='arrow'){const a=Math.atan2(0,s),hl=P.depth===0?11:8;for(const da of [.5,-.5])g.appendChild(svgEl('path',{d:`M${R(ex)} ${R(y1)} L${R(ex-Math.cos(a+da)*hl)} ${R(y1-Math.sin(a+da)*hl)}`,stroke:col,'stroke-width':w,'stroke-linecap':'round'}));}
-    return g;}
-  if(S.link==='fat'){const g=svgEl('g'),ex=x1-s*16,d=`M${R(x0)} ${R(y0)} C${R(x0+s*k)} ${R(y0)} ${R(ex-s*k)} ${R(y1)} ${R(ex)} ${R(y1)}`;
-    g.appendChild(svgEl('path',{d,fill:'none',stroke:S.ink,'stroke-width':15,'stroke-linecap':'round'}));g.appendChild(svgEl('path',{d,fill:'none',stroke:S.lc,'stroke-width':11,'stroke-linecap':'round'}));
-    g.appendChild(svgEl('path',{d:`M${R(ex-s*2)} ${R(y1-13)} L${R(x1-s*1)} ${R(y1)} L${R(ex-s*2)} ${R(y1+13)}Z`,fill:S.lc,stroke:S.ink,'stroke-width':2,'stroke-linejoin':'round'}));return g;}
-  if(mm.line==='even'){return svgEl('path',{d:`M${R(x0)} ${R(y0)} C${R(x0+s*k)} ${R(y0)} ${R(x1-s*k)} ${R(y1)} ${R(x1)} ${R(y1)}`,fill:'none',stroke:C.color,'stroke-width':P.depth===0?2.4:P.depth===1?1.8:1.3,'stroke-linecap':'round'});}
-  const w0=P.depth===0?9:P.depth===1?4.2:2.6,w1=P.depth===0?2.8:P.depth===1?1.8:1.3,N=24,a=[],b=[];
-  for(let i=0;i<=N;i++){const t=i/N,p=B(t),q=B(Math.min(1,t+.01)),r=B(Math.max(0,t-.01));let dx=q.x-r.x,dy=q.y-r.y;const l=Math.hypot(dx,dy)||1;const w=(w0+(w1-w0)*Math.pow(t,.7))/2;a.push(`${R(p.x-dy/l*w)} ${R(p.y+dx/l*w)}`);b.push(`${R(p.x+dy/l*w)} ${R(p.y-dx/l*w)}`);}
-  return svgEl('path',{d:'M'+a.join(' L')+' L'+b.reverse().join(' L')+'Z',fill:C.color});}
-function mmNodeEl(L){const g=svgEl('g',{'data-mid':L.t.id,class:'mm-node'+(mmSel.has(L.t.id)?' sel':'')});const d=L.depth,S=mmSt(),t=L.t;let ink;
-  if(!S.root){const fill=d===0?'#23324A':d===1?L.color:mixWhite(L.color,.86);ink=d<=1?'#FFFFFF':'#1A1A1A';g.appendChild(svgEl('rect',{x:R(L.x),y:R(L.y),width:R(L.w),height:R(L.h),rx:d===0?L.h/2:d===1?8:6,fill}));}
-  else{const lk=mmLook(d),rnd=mmRng(t.id);let fill=t.color&&d>0?t.color:(lk.fill||L.color);if(lk.tint&&!t.color)fill=mixWhite(L.color,lk.tint);ink=lk.ink||S.ink;
-    if(lk.shape==='none'){if(lk.mark){const hl=svgEl('path',{d:`M${R(L.x-2)} ${R(L.cy-L.fs*.15)} L${R(L.x+L.w+2)} ${R(L.cy-L.fs*.25)} L${R(L.x+L.w)} ${R(L.cy+L.fs*.55)} L${R(L.x)} ${R(L.cy+L.fs*.6)}Z`,fill:L.color,opacity:.55});g.appendChild(hl);}
-      g.appendChild(svgEl('rect',{x:R(L.x),y:R(L.y),width:R(L.w),height:R(L.h),fill:'transparent'}));}
-    else{if(lk.shadow)g.appendChild(mmShape(lk.shape,L.x+5,L.y+5,L.w,L.h,mmRng(t.id),{fill:S.ink}));
-      g.appendChild(mmShape(lk.shape,L.x,L.y,L.w,L.h,mmRng(t.id),{fill,stroke:lk.stroke&&!lk.sketch?lk.stroke:'none','stroke-width':lk.sw||0}));
-      if(lk.sketch){const sc=lk.stroke||S.ink;for(let pass=0;pass<2;pass++){const d2=lk.shape==='ellipse'?mmSketchEllipse(L.cx,L.cy,L.w/2,L.h/2,rnd,.05):mmSketchRect(L.x,L.y,L.w,L.h,rnd,1.6);g.appendChild(svgEl('path',{d:d2,fill:'none',stroke:sc,'stroke-width':pass?1.2:2,'stroke-linecap':'round',opacity:pass?.75:1}));}}
-      if(lk.ring)for(let pass=0;pass<2;pass++)g.appendChild(svgEl('path',{d:mmSketchEllipse(L.cx+2,L.cy+1,L.w/2+3,L.h/2+3,rnd,.05),fill:'none',stroke:S.lc,'stroke-width':pass?1.4:2.6,'stroke-linecap':'round',opacity:pass?.6:1}));}}
-  const lh=L.fs*1.3,n=L.lines.length;const tx=svgEl('text',{'font-family':mmFamily(),'font-size':L.fs,'font-weight':L.bold?'bold':'normal',fill:ink,'text-anchor':'middle'});
-  L.lines.forEach((ln,i)=>tx.appendChild(svgEl('tspan',{x:R(L.cx),y:R(L.cy-(n-1)/2*lh+i*lh+L.fs*.36)},[ln||' '])));g.appendChild(tx);
-  if(d>0&&t.children.length){const ox=L.side>0?L.x+L.w+10:L.x-10;const tc=S.root?S.ink==='#FFFFFF'?S.lc:S.ink:L.color;const tg=svgEl('g',{class:'mm-tog'+(t.collapsed?'':' exp'),'data-mm-tog':t.id});
-    tg.appendChild(svgEl('circle',{cx:R(ox),cy:R(L.cy),r:8,fill:t.collapsed?tc:'#FFFFFF',stroke:tc,'stroke-width':1.4}));
-    if(t.collapsed){let n2=0;mmWalk(t,()=>n2++);tg.appendChild(svgEl('text',{x:R(ox),y:R(L.cy+3.2),'font-size':9,'font-family':'Arial, sans-serif','font-weight':'bold',fill:'#FFFFFF','text-anchor':'middle'},[String(n2-1)]));}
-    else tg.appendChild(svgEl('path',{d:`M${R(ox-4)} ${R(L.cy)}h8`,stroke:tc,'stroke-width':1.6}));g.appendChild(tg);}
+// 가지: 부모 끝 → 자식 시작까지 곡선, 자식이 '글씨'면 글씨 밑으로 밑줄이 이어진다. 깊이에 따라 굵기가 줄어드는 리본으로 그린다.
+function mmBranch(P,C){const s=C.side,d=C.depth;let x0,y0;
+  if(P.depth===0){const rx=P.w/2,ry=P.h/2,a=Math.atan2((C.ay-P.cy)/ry,s);x0=P.cx+Math.cos(a)*rx*.86;y0=P.cy+Math.sin(a)*ry*.86;}else{x0=P.ox;y0=P.ay;}
+  const x1=C.ix,y1=C.ay,k=Math.max(14,Math.abs(x1-x0)*.5),W=d===1?[11,5.5]:d===2?[4.4,2.8]:d===3?[2.4,1.7]:[1.6,1.2];
+  const B=t=>{const u=1-t;return [u*u*u*x0+3*u*u*t*(x0+s*k)+3*u*t*t*(x1-s*k)+t*t*t*x1,u*u*u*y0+3*u*u*t*y0+3*u*t*t*y1+t*t*t*y1];};
+  const pts=[];for(let i=0;i<=20;i++){const t=i/20;pts.push([...B(t),W[0]+(W[1]-W[0])*Math.pow(t,.8)]);}
+  if(C.shape==='text'){pts.push([C.ox,y1,W[1]*.75]);}
+  const a=[],b=[];pts.forEach((p,i)=>{const q=pts[Math.min(pts.length-1,i+1)],r=pts[Math.max(0,i-1)];const dx=q[0]-r[0],dy=q[1]-r[1],l=Math.hypot(dx,dy)||1,w=p[2]/2;a.push(`${R(p[0]-dy/l*w)} ${R(p[1]+dx/l*w)}`);b.push(`${R(p[0]+dy/l*w)} ${R(p[1]-dx/l*w)}`);});
+  const g=svgEl('g');g.appendChild(svgEl('path',{d:'M'+a.join(' L')+' L'+b.reverse().join(' L')+'Z',fill:C.color}));const e=pts[pts.length-1];g.appendChild(svgEl('circle',{cx:R(e[0]),cy:R(e[1]),r:R(e[2]/2),fill:C.color}));return g;}
+function mmNodeEl(L){const g=svgEl('g',{'data-mid':L.t.id,class:'mm-node'+(mmSel.has(L.t.id)?' sel':'')});const d=L.depth,t=L.t,sh=L.shape,col=L.color;
+  const ink=d===0?'#3A3A3A':d===1?col:'#1D2754';
+  if(sh==='text')g.appendChild(svgEl('rect',{x:R(L.x),y:R(L.y),width:R(L.w),height:R(L.h),fill:'transparent'}));
+  else{const base=d===0?{fill:t.color?mixWhite(t.color,.55):'#FFE08A',stroke:'#333333','stroke-width':5}:{fill:mixWhite(col,.86),stroke:col,'stroke-width':1.6};
+    if(sh==='shadow')g.appendChild(svgEl('rect',{x:R(L.x+6),y:R(L.y+6),width:R(L.w),height:R(L.h),rx:2,fill:mixWhite(col,.45)}));
+    if(sh==='box'||sh==='shadow')g.appendChild(svgEl('rect',Object.assign({x:R(L.x),y:R(L.y),width:R(L.w),height:R(L.h),rx:sh==='box'?8:2},base,sh==='shadow'?{fill:'#FFFFFF'}:{})));
+    else g.appendChild(svgEl('ellipse',Object.assign({cx:R(L.cx),cy:R(L.cy),rx:R(L.w/2),ry:R(L.h/2)},base)));}
+  // 내용(그림 + 글씨)은 가운데 정렬. 글씨 모양이면 밑줄 바로 위에 앉힌다.
+  const cy=sh==='text'?L.y+L.h-4-L.ch/2:L.cy,x0=L.cx-L.cw/2;
+  if(t.img)g.appendChild(svgEl('image',{href:t.img.src,x:R(x0),y:R(cy-L.ih/2),width:R(L.iw),height:R(L.ih),preserveAspectRatio:'xMidYMid meet'}));
+  if(L.hasText){const lh=L.fs*1.25,n=L.lines.length,tx=svgEl('text',{'font-family':mmFamily(),'font-size':L.fs,'font-weight':L.bold?'bold':'normal',fill:ink,'text-anchor':'middle'}),tcx=x0+L.iw+L.gap+L.tw/2;
+    L.lines.forEach((ln,i)=>tx.appendChild(svgEl('tspan',{x:R(tcx),y:R(cy-(n-1)/2*lh+i*lh+L.fs*.35)},[ln||' '])));g.appendChild(tx);}
+  if(d>0&&t.children.length){const ox=L.ox+L.side*10,oy=L.ay;const tg=svgEl('g',{class:'mm-tog'+(t.collapsed?'':' exp'),'data-mm-tog':t.id});
+    tg.appendChild(svgEl('circle',{cx:R(ox),cy:R(oy),r:8,fill:t.collapsed?col:'#FFFFFF',stroke:col,'stroke-width':1.4}));
+    if(t.collapsed){let n2=0;mmWalk(t,()=>n2++);tg.appendChild(svgEl('text',{x:R(ox),y:R(oy+3.2),'font-size':9,'font-family':'Arial, sans-serif','font-weight':'bold',fill:'#FFFFFF','text-anchor':'middle'},[String(n2-1)]));}
+    else tg.appendChild(svgEl('path',{d:`M${R(ox-4)} ${R(oy)}h8`,stroke:col,'stroke-width':1.6}));g.appendChild(tg);}
   return g;}
-function mmBgEl(x,y,w,h){const S=mmSt();const g=svgEl('g');g.appendChild(svgEl('rect',{x,y,width:w,height:h,fill:S.bg||'#FFFFFF'}));if(S.pattern){const pid='mmpat-'+S.pattern+'-'+Math.random().toString(36).slice(2,6);const pt=svgEl('pattern',{id:pid,width:S.pattern==='lines'?40:24,height:S.pattern==='lines'?32:24,patternUnits:'userSpaceOnUse'});
-  pt.appendChild(S.pattern==='lines'?svgEl('path',{d:'M0 31.5H40',stroke:'#D8CE9C','stroke-width':1}):svgEl('path',{d:'M24 0V24H0',fill:'none',stroke:'#E3E7EC','stroke-width':1}));const df=svgEl('defs');df.appendChild(pt);g.appendChild(df);g.appendChild(svgEl('rect',{x,y,width:w,height:h,fill:`url(#${pid})`}));}return g;}
-let mmFontWait=null;const mmFontTried=new Set();
-function mmRender(){const S=mmSt();if(S.font&&!mmFontWait&&!mmFontTried.has(S.font)&&document.fonts&&!document.fonts.check(`16px ${S.font}`,'가A')){mmFontTried.add(S.font);mmFontWait=Promise.all(['400','700'].map(w=>document.fonts.load(`${w} 16px ${S.font}`,'가나다ABC'))).catch(()=>{}).then(()=>{mmFontWait=null;if(mode==='mindmap')mmRender();});}
-  mmLayout();gMM.textContent='';gMM.appendChild(mmBgEl(-50000,-50000,100000,100000));const br=svgEl('g'),nd=svgEl('g');gMM.append(br,nd);for(const L of mmLay.values()){if(L.parent)br.appendChild(mmBranch(mmLay.get(L.parent),L));nd.appendChild(mmNodeEl(L));}mmRenderOverlay();mmStatus();}
+function mmRender(){mmLayout();gMM.textContent='';const br=svgEl('g'),nd=svgEl('g');gMM.append(br,nd);for(const L of mmLay.values()){if(L.parent)br.appendChild(mmBranch(mmLay.get(L.parent),L));nd.appendChild(mmNodeEl(L));}mmRenderOverlay();mmStatus();}
 function mmRenderOverlay(){gMMov.textContent='';const z=mmView.zoom,acc='var(--accent)';
   for(const id of mmSel){const L=mmLay.get(id);if(L)gMMov.appendChild(svgEl('rect',{x:L.x-4,y:L.y-4,width:L.w+8,height:L.h+8,rx:(L.depth===0?L.h/2:8)+4,fill:'none',stroke:acc,'stroke-width':2/z,'pointer-events':'none'}));}
   const D=mmDrag;if(D&&D.mode==='node'&&D.moved){const L=mmLay.get(D.id);
@@ -1591,9 +1558,7 @@ function mmKeydown(ev){if(mmEdit)return;const tag=(ev.target.tagName||'').toLowe
   if(mod&&k==='z'){ev.preventDefault();ev.shiftKey?mmRedo():mmUndo();return;}
   if(mod&&k==='y'){ev.preventDefault();mmRedo();return;}
   if(mod&&k==='a'){ev.preventDefault();mmSel=new Set();mmWalk(mm.root,t=>mmSel.add(t.id));mmRenderOverlay();mmRenderInsp();mmStatus();return;}
-  if(mod&&k==='c'){if(mmCopy())ev.preventDefault();return;}
-  if(mod&&k==='x'){if(mmCopy()){ev.preventDefault();mmDelete();}return;}
-  if(mod&&k==='v'){if(mmPaste())ev.preventDefault();return;}
+  if(mod&&(k==='c'||k==='x'||k==='v'))return; // copy·cut·paste 이벤트에서 처리(외부 그림·글 붙여넣기 포함)
   if(mod&&k==='d'){ev.preventDefault();mmDuplicate();return;}
   if(mod&&(k==='/'||ev.code==='Slash')){ev.preventDefault();mmToggle();return;}
   if(mod)return;
@@ -1606,43 +1571,69 @@ function mmKeydown(ev){if(mmEdit)return;const tag=(ev.target.tagName||'').toLowe
   if(k.startsWith('arrow')){ev.preventDefault();mmNav(k);return;}
   if(cur&&mmSel.size===1&&!ev.altKey&&(ev.key.length===1||ev.key==='Process'))mmStartEdit(cur,true);}
 
+/* images · clipboard */
+// 그림은 긴 변 480px 이하로 줄여 dataURL로 문서 안에 저장한다(자동 저장·내보내기에 그대로 들어감). 화면 크기는 긴 변 110px로 시작한다.
+function mmReadImage(file){return new Promise((ok,no)=>{const rd=new FileReader();rd.onerror=no;rd.onload=()=>{const img=new Image();img.onerror=no;img.onload=()=>{const k=Math.min(1,480/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(img.naturalWidth*k));c.height=Math.max(1,Math.round(img.naturalHeight*k));
+  c.getContext('2d').drawImage(img,0,0,c.width,c.height);const png=/png|gif|svg|webp/.test(file.type);const src=c.toDataURL(png?'image/png':'image/jpeg',.88),r=110/Math.max(c.width,c.height);ok({src,w:Math.round(c.width*r),h:Math.round(c.height*r),nw:c.width,nh:c.height});};img.src=rd.result;};rd.readAsDataURL(file);});}
+async function mmAddImage(file,targetId){let im;try{im=await mmReadImage(file);}catch(e){toast(L('그림을 읽을 수 없습니다'));return;}
+  const t=targetId&&mmFind(targetId);if(t){mmMutate(()=>{t.img=im;});mmSel=new Set([t.id]);}
+  else{const n=mmTopic('',[],{img:im});mmMutate(()=>{n.side=mmSideFor();n.ci=mmNextCi();mm.root.children.push(n);});mmSel=new Set([n.id]);}
+  mmRender();mmRenderInsp();toast(L('그림을 넣었습니다'));}
+function mmOutline(ts){const out=[];const w=(t,d)=>{out.push('\t'.repeat(d)+(t.text||'').replace(/\n/g,' '));t.children.forEach(c=>w(c,d+1));};ts.forEach(t=>w(t,0));return out.join('\n');}
+let mmClipText='';
+function mmCopyTo(ev,cut){if(mode!=='mindmap'||mmEdit)return;const tag=(document.activeElement&&document.activeElement.tagName||'').toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select')return;if(!mmCopy())return;
+  mmClipText=mmOutline(mmTop().map(mmFind));ev.clipboardData.setData('text/plain',mmClipText);ev.preventDefault();if(cut)mmDelete();}
+document.addEventListener('copy',ev=>mmCopyTo(ev,false));document.addEventListener('cut',ev=>mmCopyTo(ev,true));
+// 붙여넣기: 외부 그림 → 고른 주제에 붙이기(없으면 새 주제), 이 앱에서 복사한 주제 → 가지째, 다른 곳의 글 → 줄마다 주제(들여쓰기는 단계)
+document.addEventListener('paste',ev=>{if(mode!=='mindmap'||mmEdit)return;const tag=(document.activeElement&&document.activeElement.tagName||'').toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select')return;
+  const cd=ev.clipboardData;if(!cd)return;const file=[...cd.items||[]].map(i=>i.kind==='file'&&i.type.startsWith('image/')?i.getAsFile():null).find(Boolean);
+  if(file){ev.preventDefault();mmAddImage(file,mmPick().pop());return;}
+  const text=(cd.getData('text/plain')||'').replace(/\r/g,'');
+  if(mmClip&&(!text||text===mmClipText)){ev.preventDefault();mmPaste();return;}
+  if(text.trim()){ev.preventDefault();mmPasteText(text);}});
+function mmPasteText(text){const p=mmFind(mmPick()[0])||mm.root;const top=[],stack=[];
+  for(const raw of text.split('\n')){if(!raw.trim())continue;const ind=(raw.match(/^[\t ]*/)[0]).replace(/ {2}/g,'\t').length;const t=mmTopic(raw.trim().replace(/^[-*•·]\s+/,''));while(stack.length&&stack[stack.length-1].ind>=ind)stack.pop();
+    (stack.length?stack[stack.length-1].t.children:top).push(t);stack.push({t,ind});}
+  if(!top.length)return;mmMutate(()=>{p.collapsed=false;for(const c of top){if(p===mm.root){c.side=mmSideFor();c.ci=mmNextCi();}p.children.push(c);}});mmSel=new Set(top.map(c=>c.id));mmRender();mmEnsureVisible(top[0].id);}
+mmStage.addEventListener('dragover',ev=>{if([...ev.dataTransfer.types].includes('Files')){ev.preventDefault();ev.dataTransfer.dropEffect='copy';}});
+mmStage.addEventListener('drop',ev=>{const f=[...ev.dataTransfer.files].find(x=>x.type.startsWith('image/'));if(!f)return;ev.preventDefault();const el=document.elementFromPoint(ev.clientX,ev.clientY),g=el&&el.closest&&el.closest('[data-mid]');mmAddImage(f,g?g.dataset.mid:mmPick().pop());});
+const mmImgIn=document.createElement('input');mmImgIn.type='file';mmImgIn.accept='image/*';mmImgIn.addEventListener('change',()=>{const f=mmImgIn.files[0];if(f)mmAddImage(f,mmPick().pop());mmImgIn.value='';});
+
 /* inspector + rail */
-function mmThumb(k){const S=MM_STYLES[k],c=S.colors||MM_COLORS,r=S.root||{fill:'#23324A'},n1=(S.n1||{}).shape||'rounded',nd=(x,y,col,sh)=>sh==='ellipse'||sh==='blob'?`<ellipse cx="${x}" cy="${y}" rx="11" ry="6" fill="${col}"/>`:`<rect x="${x-11}" y="${y-5}" width="22" height="10" rx="${sh==='rect'?1:3}" fill="${col}"/>`;
-  const ln=(x1,y1,x2,y2)=>S.link==='elbow'?`<path d="M${x1} ${y1}H${(x1+x2)/2}V${y2}H${x2}" stroke="${S.lc}" stroke-dasharray="2 2" fill="none"/>`:`<path d="M${x1} ${y1}C${(x1+x2)/2} ${y1} ${(x1+x2)/2} ${y2} ${x2} ${y2}" stroke="${S.link==='fat'?S.lc:S.link?S.lc:c[0]}" stroke-width="${S.link==='fat'?4:1.6}" fill="none"/>`;
-  return `<svg viewBox="0 0 120 44"><rect width="120" height="44" fill="${S.bg||'#FFFFFF'}"/>${S.pattern==='lines'?'<path d="M0 14H120M0 28H120M0 42H120" stroke="#D8CE9C" stroke-width=".6"/>':S.pattern==='grid'?'<path d="M0 11H120M0 22H120M0 33H120M20 0V44M40 0V44M60 0V44M80 0V44M100 0V44" stroke="#E3E7EC" stroke-width=".6"/>':''}${ln(70,22,92,11)}${ln(70,22,92,33)}${ln(50,22,28,22)}${nd(98,11,c[0%c.length],n1)}${nd(98,33,c[1%c.length],n1)}${nd(20,22,c[2%c.length],n1)}<ellipse cx="60" cy="22" rx="15" ry="9" fill="${r.fill||'#23324A'}" ${r.stroke||r.sketch?`stroke="${r.stroke||S.ink}" stroke-width="1.2"`:''}/></svg>`;}
-function mmRenderInsp(){if(mode!=='mindmap')return;const seg=(key,opts)=>`<div class="seg">${opts.map(([v,t])=>`<button data-mm="${key}:${v}" class="${mm[key]===v?'on':''}">${L(t)}</button>`).join('')}</div>`;
+function mmRenderInsp(){if(mode!=='mindmap')return;const seg=(key,opts,cur)=>`<div class="seg">${opts.map(([v,t])=>`<button data-mm="${key}:${v}" class="${cur===v?'on':''}">${L(t)}</button>`).join('')}</div>`;
   const ids=mmPick(),t=ids.length?mmFind(ids[ids.length-1]):null,Lt=t&&mmLay.get(t.id);
-  const cls=!mmSt().root;let h=`<div class="sec"><h4>${L('스타일')}</h4><div class="mm-styles">${Object.entries(MM_STYLES).map(([k,v])=>`<button data-mm="style:${k}" class="${(mm.style||'classic')===k?'on':''}">${mmThumb(k)}<b>${L(v.name)}</b><small>${L(v.sub)}</small></button>`).join('')}</div></div><div class="sec"><h4>${L('마인드맵')}</h4>
-  <div class="fld"><label>${L('배치')}</label>${seg('layout',[['balanced','양쪽 균형'],['right','오른쪽으로']])}</div>
-  ${cls?`<div class="fld"><label>${L('가지 선')}</label>${seg('line',[['tapered','점점 가늘게'],['even','일정한 굵기']])}</div>
-  <div class="fld"><label>${L('색 구성')}</label>${seg('theme',[['colorful','컬러'],['mono','단색']])}</div>
-  <div class="fld"><label>${L('글꼴')}</label><select class="in" data-mm-font>${FONTS.map(f=>`<option value="${f.id}" ${mm.font===f.id?'selected':''}>${L(f.label)}</option>`).join('')}</select></div>`:''}</div>`;
-  if(t){h+=`<div class="sec"><h4>${L('주제')}<span class="sub">${L('{n}개 선택',{n:ids.length})}</span></h4>
+  let h=`<div class="sec"><h4>${L('마인드맵')}</h4>
+  <div class="fld"><label>${L('배치')}</label>${seg('layout',[['balanced','양쪽 균형'],['right','오른쪽으로']],mm.layout)}</div>
+  <div class="fld"><label>${L('주제 기본 모양')}</label>${seg('shape',[['text','글씨 + 밑줄'],['box','상자']],mm.shape||'text')}</div>
+  <div class="fld"><label>${L('색 구성')}</label>${seg('theme',[['colorful','컬러'],['mono','단색']],mm.theme)}</div>
+  <div class="fld"><label>${L('글꼴')}</label><select class="in" data-mm-font>${FONTS.map(f=>`<option value="${f.id}" ${mm.font===f.id?'selected':''}>${L(f.label)}</option>`).join('')}</select></div></div>`;
+  if(t){const d=Lt?Lt.depth:1;h+=`<div class="sec"><h4>${L('주제')}<span class="sub">${L('{n}개 선택',{n:ids.length})}</span></h4>
   <div class="row"><button class="btn grow" data-mm="add-child">${L('하위 주제')} <small>Tab</small></button><button class="btn grow" data-mm="add-sib">${L('같은 수준')} <small>Enter</small></button></div>
   <div class="row"><button class="btn grow" data-mm="toggle">${L('접기 / 펼치기')}</button><button class="btn grow danger" data-mm="delete" ${t===mm.root&&ids.length===1?'disabled':''}>${L('삭제')} <small>Del</small></button></div>
-  <div class="row"><div class="fld"><label>${L('글자 크기')}</label><input class="in" type="number" min="8" max="60" step="1" data-mm-fs value="${Lt?Lt.fs:14}"></div><div class="fld"><label>${L('스타일')}</label><button class="btn ${Lt&&Lt.bold?'on':''}" data-mm="bold"><b>B</b></button></div></div>
-  ${t!==mm.root?`<div class="fld"><label>${L('가지 색')}</label><div class="sw">${MM_COLORS.concat(['#4A5361']).map(c=>`<button data-mm="color:${c}" class="${t.color===c?'on':''}" style="background:${c}" title="${c}"></button>`).join('')}<button class="none ${t.color?'':'on'}" data-mm="color:" title="${L('자동')}"></button></div></div>`:''}</div>`;}
-  h+=`<div class="sec"><h4>${L('사용법')}</h4><p class="note">${L('<b>Tab</b> 하위 주제 · <b>Enter</b> 같은 수준 주제 · <b>Delete</b> 삭제<br>더블클릭·F2 또는 주제를 고른 채 바로 입력하면 글자를 고칩니다 (Shift+Enter 줄바꿈).<br>주제를 끌어 다른 주제 위에 놓으면 그 아래로 옮겨지고, 빈 곳에 놓으면 순서·방향이 바뀝니다.<br>방향키로 주제 사이를 이동하고, Alt+↑/↓로 순서를 바꿉니다. 가지 끝의 동그라미를 누르면 접히고 펼쳐집니다.')}</p></div>`;
+  <div class="fld"><label>${L('모양')}</label>${seg('tshape',MM_SHAPES,Lt?Lt.shape:'text')}</div>
+  <div class="row"><div class="fld"><label>${L('글자 크기')}</label><input class="in" type="number" min="8" max="72" step="1" data-mm-fs value="${Lt?Lt.fs:14}"></div><div class="fld"><label>${L('스타일')}</label><button class="btn ${Lt&&Lt.bold?'on':''}" data-mm="bold"><b>B</b></button></div></div>
+  <div class="fld"><label>${L('그림')}</label><div class="row"><button class="btn grow" data-mm="img-add">${L(t.img?'그림 바꾸기…':'그림 넣기…')}</button>${t.img?`<button class="btn danger" data-mm="img-del">${L('빼기')}</button>`:''}</div>
+  ${t.img?`<input type="range" min="24" max="320" step="2" value="${Math.max(t.img.w,t.img.h)}" data-mm-imgsize style="width:100%">`:`<p class="note" style="margin:2px 0 0">${L('그림을 복사해 Ctrl+V로 붙이거나, 파일을 주제 위로 끌어다 놓아도 됩니다.')}</p>`}</div>
+  ${d>0?`<div class="fld"><label>${L('가지 색')}</label><div class="sw">${MM_COLORS.concat(['#4A5361']).map(c=>`<button data-mm="color:${c}" class="${t.color===c?'on':''}" style="background:${c}" title="${c}"></button>`).join('')}<button class="none ${t.color?'':'on'}" data-mm="color:" title="${L('자동')}"></button></div></div>`:''}</div>`;}
+  h+=`<div class="sec"><h4>${L('사용법')}</h4><p class="note">${L('<b>Tab</b> 하위 주제 · <b>Enter</b> 같은 수준 주제 · <b>Delete</b> 삭제<br>더블클릭·F2 또는 주제를 고른 채 바로 입력하면 글자를 고칩니다 (Shift+Enter 줄바꿈).<br>주제를 끌어 다른 주제 위에 놓으면 그 아래로 옮겨지고, 빈 곳에 놓으면 순서·방향이 바뀝니다.<br>그림은 복사해서 Ctrl+V로 붙이거나 파일을 끌어다 놓습니다. 다른 곳의 글을 붙이면 줄마다 주제가 됩니다(들여쓰기는 하위 주제).<br>방향키로 주제 사이를 이동하고, Alt+↑/↓로 순서를 바꿉니다. 가지 끝의 동그라미를 누르면 접히고 펼쳐집니다.')}</p></div>`;
   mmInsp.innerHTML=h;}
 function mmAction(a){const ids=mmPick(),cur=ids[ids.length-1];
-  if(a.startsWith('layout:')||a.startsWith('line:')||a.startsWith('theme:')||a.startsWith('style:')){const [k,v]=a.split(':');mmMutate(()=>{mm[k]=v;});requestAnimationFrame(mmFit);return;}
+  if(a.startsWith('layout:')||a.startsWith('theme:')||a.startsWith('shape:')){const [k,v]=a.split(':');mmMutate(()=>{mm[k]=v;});requestAnimationFrame(mmFit);return;}
+  if(a.startsWith('tshape:')){const v=a.slice(7);mmMutate(()=>ids.forEach(id=>{mmFind(id).shape=v;}));return;}
   if(a==='add-child')mmAddChild(cur||mm.root.id);else if(a==='add-sib')cur?mmAddSibling(cur):mmAddChild(mm.root.id);else if(a==='delete')mmDelete();else if(a==='toggle')mmToggle();else if(a==='fit')mmFit();
+  else if(a==='img-add')mmImgIn.click();else if(a==='img-del')mmMutate(()=>ids.forEach(id=>{delete mmFind(id).img;}));
   else if(a==='bold'){const L0=mmLay.get(cur);const to=!(L0&&L0.bold);mmMutate(()=>ids.forEach(id=>{mmFind(id).bold=to;}));}
-  else if(a.startsWith('color:')){const c=a.slice(6);mmMutate(()=>ids.forEach(id=>{const t=mmFind(id);if(t!==mm.root){if(c)t.color=c;else delete t.color;}}));}}
+  else if(a.startsWith('color:')){const c=a.slice(6);mmMutate(()=>ids.forEach(id=>{const t=mmFind(id);if(c)t.color=c;else delete t.color;}));}}
 mmInsp.addEventListener('click',ev=>{const b=ev.target.closest('[data-mm]');if(b&&!b.disabled)mmAction(b.dataset.mm);});
-mmInsp.addEventListener('change',ev=>{const t=ev.target;if(t.matches('[data-mm-font]'))mmMutate(()=>{mm.font=t.value;});else if(t.matches('[data-mm-fs]')){const v=clamp(+t.value||14,8,60);mmMutate(()=>mmPick().forEach(id=>{mmFind(id).fs=v;}));}});
+mmInsp.addEventListener('change',ev=>{const t=ev.target;if(t.matches('[data-mm-font]'))mmMutate(()=>{mm.font=t.value;});else if(t.matches('[data-mm-fs]')){const v=clamp(+t.value||14,8,72);mmMutate(()=>mmPick().forEach(id=>{mmFind(id).fs=v;}));}
+  else if(t.matches('[data-mm-imgsize]')){const v=+t.value;mmMutate(()=>mmPick().forEach(id=>{const im=mmFind(id).img;if(im){const k=v/Math.max(im.nw||im.w,im.nh||im.h);im.w=Math.round((im.nw||im.w)*k);im.h=Math.round((im.nh||im.h)*k);}}));}});
+mmInsp.addEventListener('input',ev=>{const t=ev.target;if(!t.matches('[data-mm-imgsize]'))return;const v=+t.value;for(const id of mmPick()){const im=mmFind(id).img;if(im){const k=v/Math.max(im.nw||im.w,im.nh||im.h);im.w=Math.round((im.nw||im.w)*k);im.h=Math.round((im.nh||im.h)*k);}}mmRender();});
 $('#mm-rail').addEventListener('click',ev=>{const b=ev.target.closest('[data-mm]');if(b)mmAction(b.dataset.mm);});
 
 /* export · mode switch */
-// 내보내기: 배경을 그림 크기에 맞추고, 손글씨 글꼴은 쓰인 글자만 Google Fonts에서 받아 SVG 안에 넣는다(PNG 변환·다른 PC에서도 같은 글꼴).
-async function mmFontCSS(chars){const S=mmSt();if(!S.api)return '';const css=await (await fetch(`https://fonts.googleapis.com/css2?family=${S.api}&text=${encodeURIComponent(chars)}`)).text();let out='';
-  for(const blk of css.match(/@font-face\s*{[^}]*}/g)||[]){const u=(blk.match(/url\(([^)]+)\)/)||[])[1];if(!u)continue;const buf=new Uint8Array(await (await fetch(u)).arrayBuffer());let bin='';for(let i=0;i<buf.length;i+=32768)bin+=String.fromCharCode.apply(null,buf.subarray(i,i+32768));
-    const sig=bin.slice(0,4),fmt=sig==='wOF2'?'woff2':sig==='wOFF'?'woff':'truetype';out+=blk.replace(/src:[^;]+;/,`src: url(data:font/${fmt==='truetype'?'ttf':fmt};base64,${btoa(bin)}) format('${fmt}');`);}return out;}
-async function mmExportSVG(){mmLayout();mmRender();const b=mmBBox(),m=40,w=Math.ceil(b.w+m*2),h=Math.ceil(b.h+m*2),x=Math.floor(b.x-m),y=Math.floor(b.y-m);const out=svgEl('svg',{xmlns:NS,viewBox:`${x} ${y} ${w} ${h}`,width:w,height:h});
-  const fig=gMM.cloneNode(true);fig.removeAttribute('id');fig.firstChild.remove();fig.querySelectorAll('.mm-tog.exp').forEach(e=>e.remove());fig.querySelectorAll('[data-mid],[data-mm-tog]').forEach(e=>{e.removeAttribute('data-mid');e.removeAttribute('data-mm-tog');e.removeAttribute('class');});
-  out.appendChild(mmBgEl(x,y,w,h));out.appendChild(fig);
-  if(mmSt().api){try{const chars=[...new Set(fig.textContent.replace(/\s/g,''))].join('');const css=await mmFontCSS(chars);if(css){const df=svgEl('defs'),st=svgEl('style');st.textContent=css;df.appendChild(st);out.insertBefore(df,out.firstChild);}}catch(e){toast(L('글꼴을 내려받지 못해 기본 글꼴로 내보냅니다'));}}
-  return {svg:'<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(out),w,h};}
+async function mmExportSVG(){mmLayout();mmRender();const b=mmBBox(),m=40,w=Math.ceil(b.w+m*2),h=Math.ceil(b.h+m*2),x=Math.floor(b.x-m),y=Math.floor(b.y-m);const out=svgEl('svg',{xmlns:NS,'xmlns:xlink':'http://www.w3.org/1999/xlink',viewBox:`${x} ${y} ${w} ${h}`,width:w,height:h});
+  const fig=gMM.cloneNode(true);fig.removeAttribute('id');fig.querySelectorAll('.mm-tog.exp,[fill="transparent"]').forEach(e=>e.remove());fig.querySelectorAll('[data-mid],[data-mm-tog]').forEach(e=>{e.removeAttribute('data-mid');e.removeAttribute('data-mm-tog');e.removeAttribute('class');});
+  out.appendChild(svgEl('rect',{x,y,width:w,height:h,fill:'#FFFFFF'}));out.appendChild(fig);return {svg:'<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(out),w,h};}
 function mmLoadDoc(d,keepHist){if(!keepHist){mmHist=[];mmFut=[];}else mmSnap();mm=mmNorm(d);mmSel.clear();mmPersist();mmRender();mmRenderInsp();mmUndoBtns();requestAnimationFrame(mmFit);}
 function setMode(m,force){if(m===mode&&!force)return;if(editing)commitEdit();mmCommit();mode=m;try{localStorage.setItem('figureassist.mode',m);}catch(e){}
   $('.app').classList.toggle('mm-on',m==='mindmap');$$('#modesw button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));closeMenus();

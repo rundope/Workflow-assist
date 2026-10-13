@@ -179,16 +179,24 @@ select.in{font-family:"IBM Plex Sans KR",sans-serif;font-size:12px}
         <div class="dd-title" data-i18n>문서</div>
         <button data-act="new"><span data-i18n>새 문서</span> <small data-i18n>빈 캔버스</small></button>
         <button data-act="import" data-i18n>JSON 불러오기…</button>
+        <div class="dd-title" data-i18n>일반 예제</div>
+        <button data-act="tpl:flowchart" data-i18n>기본 순서도 (시작 · 판단 · 종료)</button>
+        <button data-act="tpl:orgchart" data-i18n>조직도</button>
+        <button data-act="tpl:pdca" data-i18n>PDCA 순환도</button>
         <div class="dd-title" data-i18n>논문용 예제</div>
         <button data-act="tpl:rnaseq" data-i18n>실험 워크플로우 (패널 a·b·c)</button>
         <button data-act="tpl:consort" data-i18n>CONSORT 참가자 흐름도</button>
         <button data-act="tpl:prisma" data-i18n>PRISMA 2020 문헌 선별 흐름도</button>
         <button data-act="tpl:studydesign" data-i18n>연구 설계 (무작위 배정 · 추적)</button>
         <button data-act="tpl:ml" data-i18n>ML 파이프라인 (판단 루프)</button>
+        <button data-act="tpl:invivo" data-i18n>동물실험 타임라인</button>
+        <button data-act="tpl:cohort" data-i18n>관찰 코호트 참가자 흐름 (STROBE)</button>
         <div class="dd-title" data-i18n>보고서용 예제</div>
         <button data-act="tpl:approval" data-i18n>업무 승인 프로세스 (스윔레인)</button>
         <button data-act="tpl:phases" data-i18n>프로젝트 단계 (Phase-gate)</button>
         <button data-act="tpl:dataflow" data-i18n>시스템 데이터 흐름도</button>
+        <button data-act="tpl:asistobe" data-i18n>AS-IS / TO-BE 비교</button>
+        <button data-act="tpl:roadmap" data-i18n>로드맵 (분기별 마일스톤)</button>
       </div>
     </div>
     <div class="menu" id="menu-export">
@@ -286,7 +294,7 @@ const I18N_EN={
   // top bar · menus
   '파일':'File','문서':'Document','새 문서':'New document','빈 캔버스':'blank canvas','JSON 불러오기…':'Open JSON…',
   '논문용 예제':'Templates for papers','실험 워크플로우 (패널 a·b·c)':'Experimental workflow (panels a·b·c)','CONSORT 참가자 흐름도':'CONSORT participant flow','PRISMA 2020 문헌 선별 흐름도':'PRISMA 2020 study selection','연구 설계 (무작위 배정 · 추적)':'Study design (randomization · follow-up)','ML 파이프라인 (판단 루프)':'ML pipeline (decision loop)',
-  '보고서용 예제':'Templates for reports','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
+  '보고서용 예제':'Templates for reports','일반 예제':'General templates','기본 순서도 (시작 · 판단 · 종료)':'Basic flowchart (start · decision · end)','조직도':'Organization chart','PDCA 순환도':'PDCA cycle','동물실험 타임라인':'In vivo study timeline','관찰 코호트 참가자 흐름 (STROBE)':'Observational cohort flow (STROBE)','AS-IS / TO-BE 비교':'AS-IS / TO-BE comparison','로드맵 (분기별 마일스톤)':'Roadmap (quarterly milestones)','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
   '내보내기':'Export','SVG (벡터)':'SVG (vector)','JSON (편집용)':'JSON (editable)','SVG 코드 복사':'Copy SVG code',
   '실행 취소 (Ctrl+Z)':'Undo (Ctrl+Z)','다시 실행 (Ctrl+Shift+Z)':'Redo (Ctrl+Shift+Z)','축소':'Zoom out','확대':'Zoom in','페이지 맞춤':'Fit page','맞춤':'Fit','단축키':'Shortcuts','자동 저장':'Auto-saved',
   // toolbar · shapes
@@ -423,6 +431,8 @@ function E(from,to,opts={}){return Object.assign({id:uid(),from:typeof from==='s
 function band(x,y,w,h,label,opts={}){return Object.assign({id:uid(),type:'band',x,y,w,h,label,fill:null},opts);}
 function T(x,y,label,opts={}){return Object.assign({id:uid(),type:'text',x,y,label,fontSize:14,bold:true},opts);}
 
+// 예제 속 글자: 불러올 때의 화면 언어로 고른다.
+const TL=(ko,en)=>lang==='en'?en:ko;
 const TEMPLATES={
   rnaseq(){
     const d=newDoc(); d.page={w:1200,h:640};
@@ -505,38 +515,38 @@ const TEMPLATES={
   },
   approval(){
     const d=newDoc();d.page={w:1100,h:600};d.style.fontSize=12;
-    const lanes=[band(40,40,340,520,'신청자'),band(390,40,340,520,'팀장'),band(740,40,320,520,'재무팀')];
-    const s1=N('pill',140,110,140,44,'시작',{fill:'#DCE8F6'});
-    const s2=N('rounded',140,194,140,48,'지출 품의서\n작성');
-    const s3=N('rounded',140,290,140,48,'증빙 서류 첨부\n· 제출');
-    const t1=N('diamond',490,282,140,64,'검토 결과',{fill:'#FBF0C8'});
-    const t2=N('rounded',490,410,140,48,'반려 사유\n작성',{fill:'#F8DADA'});
-    const f1=N('rounded',830,290,140,48,'예산 확인');
-    const f2=N('rounded',830,390,140,48,'지급 처리');
-    const f3=N('pill',830,490,140,44,'완료',{fill:'#DCEFDF'});
+    const lanes=[band(40,40,340,520,TL('신청자','Requester')),band(390,40,340,520,TL('팀장','Team lead')),band(740,40,320,520,TL('재무팀','Finance'))];
+    const s1=N('pill',140,110,140,44,TL('시작','Start'),{fill:'#DCE8F6'});
+    const s2=N('rounded',140,194,140,48,TL('지출 품의서\n작성','Write expense\nrequest'));
+    const s3=N('rounded',140,290,140,48,TL('증빙 서류 첨부\n· 제출','Attach receipts\n· submit'));
+    const t1=N('diamond',490,282,140,64,TL('검토 결과','Review'),{fill:'#FBF0C8'});
+    const t2=N('rounded',490,410,140,48,TL('반려 사유\n작성','Write reason\nfor rejection'),{fill:'#F8DADA'});
+    const f1=N('rounded',830,290,140,48,TL('예산 확인','Check budget'));
+    const f2=N('rounded',830,390,140,48,TL('지급 처리','Process payment'));
+    const f3=N('pill',830,490,140,44,TL('완료','Done'),{fill:'#DCEFDF'});
     d.elements.push(...lanes,s1,s2,s3,t1,t2,f1,f2,f3);
-    d.edges.push(E(s1.id,s2.id),E(s2.id,s3.id),E({node:s3.id,port:'r'},{node:t1.id,port:'l'}),E({node:t1.id,port:'r'},{node:f1.id,port:'l'},{label:'승인'}),E({node:t1.id,port:'b'},{node:t2.id,port:'t'},{label:'반려'}),E({node:t2.id,port:'l'},{node:s2.id,port:'r'},{label:'수정 후 재제출'}),E(f1.id,f2.id),E(f2.id,f3.id));
+    d.edges.push(E(s1.id,s2.id),E(s2.id,s3.id),E({node:s3.id,port:'r'},{node:t1.id,port:'l'}),E({node:t1.id,port:'r'},{node:f1.id,port:'l'},{label:TL('승인','Approved')}),E({node:t1.id,port:'b'},{node:t2.id,port:'t'},{label:TL('반려','Rejected')}),E({node:t2.id,port:'l'},{node:s2.id,port:'r'},{label:TL('수정 후 재제출','Revise & resubmit')}),E(f1.id,f2.id),E(f2.id,f3.id));
     return d;
   },
   phases(){
     const d=newDoc();d.page={w:1200,h:440};d.style.fontSize=12;
-    const names=['기획','설계','개발','검증','배포'];const fills=['#2F6DB5','#1F8C82','#3A8C4E','#DE7A1C','#6F52A6'];
-    const notes=['• 요구사항 정의\n• 범위 · 일정 · 예산 확정\n• 이해관계자 승인','• 아키텍처 설계\n• 화면 · 데이터 설계\n• 설계 검토(DR)','• 기능 구현\n• 단위 테스트\n• 코드 리뷰','• 통합 · 성능 테스트\n• 사용자 수용 테스트\n• 결함 수정','• 운영 이관\n• 사용자 교육\n• 안정화 모니터링'];
-    d.elements.push(T(60,70,'프로젝트 추진 단계 (Phase-gate)',{fontSize:15}));
+    const names=lang==='en'?['Planning','Design','Development','Testing','Deployment']:['기획','설계','개발','검증','배포'];const fills=['#2F6DB5','#1F8C82','#3A8C4E','#DE7A1C','#6F52A6'];
+    const notes=lang==='en'?['• Define requirements\n• Fix scope · schedule · budget\n• Stakeholder sign-off','• Architecture design\n• UI · data design\n• Design review','• Build features\n• Unit tests\n• Code review','• Integration · load tests\n• User acceptance test\n• Fix defects','• Hand over to operations\n• User training\n• Stabilization monitoring']:['• 요구사항 정의\n• 범위 · 일정 · 예산 확정\n• 이해관계자 승인','• 아키텍처 설계\n• 화면 · 데이터 설계\n• 설계 검토(DR)','• 기능 구현\n• 단위 테스트\n• 코드 리뷰','• 통합 · 성능 테스트\n• 사용자 수용 테스트\n• 결함 수정','• 운영 이관\n• 사용자 교육\n• 안정화 모니터링'];
+    d.elements.push(T(60,70,TL('프로젝트 추진 단계 (Phase-gate)','Project phases (phase-gate)'),{fontSize:15}));
     names.forEach((nm,i)=>{const x=60+i*220;d.elements.push(N('chevron',x,120,210,64,nm,{fill:fills[i],fontSize:14,bold:true}));d.elements.push(N('rounded',x,210,196,84,notes[i],{align:'left',fontSize:11}));d.elements.push(T(x+8,332,`Gate ${i+1}`,{fontSize:11,bold:true,color:'#5C6672'}));});
-    d.elements.push(T(60,392,'각 단계 종료 시 Gate 심의를 통과해야 다음 단계로 진행합니다.',{fontSize:11,bold:false,color:'#5C6672'}));
+    d.elements.push(T(60,392,TL('각 단계 종료 시 Gate 심의를 통과해야 다음 단계로 진행합니다.','Each phase must pass its gate review before the next one starts.'),{fontSize:11,bold:false,color:'#5C6672'}));
     return d;
   },
   dataflow(){
     const d=newDoc();d.page={w:1100,h:560};d.style.fontSize=12;
-    const src=N('cylinder',60,236,150,60,'센서 · 로그\n(원천 데이터)',{fill:'#EEF0F3'});
-    const api=N('cloud',270,84,150,80,'외부 API\n(기상 · 환율)',{fill:'#EEF0F3'});
-    const etl=N('rounded',270,242,150,48,'수집 서버\n(ETL)');
-    const dw=N('cylinder',480,236,150,60,'데이터\n웨어하우스',{fill:'#DCE8F6'});
-    const an=N('rounded',690,242,150,48,'분석 엔진\n(집계 · 예측)',{fill:'#DCE8F6'});
-    const dash=N('rounded',900,242,150,48,'대시보드\n(사용자)',{fill:'#DCEFDF'});
-    const alert=N('rounded',690,390,150,48,'알림\n(이메일 · 메신저)',{fill:'#FCE4D0'});
-    d.elements.push(T(60,60,'시스템 데이터 흐름도',{fontSize:15}),src,api,etl,dw,an,dash,alert);
+    const src=N('cylinder',60,236,150,60,TL('센서 · 로그\n(원천 데이터)','Sensors · logs\n(raw data)'),{fill:'#EEF0F3'});
+    const api=N('cloud',270,84,150,80,TL('외부 API\n(기상 · 환율)','External APIs\n(weather · FX)'),{fill:'#EEF0F3'});
+    const etl=N('rounded',270,242,150,48,TL('수집 서버\n(ETL)','Ingestion\n(ETL)'));
+    const dw=N('cylinder',480,236,150,60,TL('데이터\n웨어하우스','Data\nwarehouse'),{fill:'#DCE8F6'});
+    const an=N('rounded',690,242,150,48,TL('분석 엔진\n(집계 · 예측)','Analytics\n(aggregate · forecast)'),{fill:'#DCE8F6'});
+    const dash=N('rounded',900,242,150,48,TL('대시보드\n(사용자)','Dashboard\n(users)'),{fill:'#DCEFDF'});
+    const alert=N('rounded',690,390,150,48,TL('알림\n(이메일 · 메신저)','Alerts\n(email · chat)'),{fill:'#FCE4D0'});
+    d.elements.push(T(60,60,TL('시스템 데이터 흐름도','System data flow'),{fontSize:15}),src,api,etl,dw,an,dash,alert);
     d.edges.push(E(src.id,etl.id,{label:'stream'}),E({node:api.id,port:'b'},{node:etl.id,port:'t'},{label:'batch (1 h)'}),E(etl.id,dw.id),E(dw.id,an.id,{label:'query'}),E(an.id,dash.id),E({node:an.id,port:'b'},{node:alert.id,port:'t'},{label:'threshold'}),E({node:dash.id,port:'b'},{node:dw.id,port:'b'},{label:'user feedback',dash:true}));
     return d;
   },
@@ -557,6 +567,94 @@ const TEMPLATES={
     d.edges.push(E(n1.id,n2.id),E(n2.id,n3.id),E(n3.id,n4.id),E(n4.id,n5.id),E(n5.id,n6.id),E(n6.id,n7.id),
       E(n7.id,n8.id,{label:'Yes'}),E({node:n7.id,port:'l'},{node:n9.id,port:'r'},{label:'No'}),
       E({node:n9.id,port:'t'},{node:n5.id,port:'b'},{bend:-158}));
+    return d;
+  },
+  flowchart(){
+    const d=newDoc();d.page={w:900,h:700};d.style.fontSize=12;
+    const s=N('pill',360,50,180,44,TL('시작','Start'),{fill:'#DCE8F6'});
+    const i=N('parallelogram',360,140,180,52,TL('데이터 입력','Enter data'));
+    const p=N('rounded',360,240,180,52,TL('데이터 처리','Process data'));
+    const q=N('diamond',360,340,180,84,TL('유효한가?','Valid?'),{fill:'#FBF0C8'});
+    const r=N('rounded',360,474,180,52,TL('결과 저장','Save result'));
+    const e=N('pill',360,576,180,44,TL('종료','End'),{fill:'#DCEFDF'});
+    const er=N('rounded',640,356,170,52,TL('오류 안내','Show error'),{fill:'#F8DADA'});
+    d.elements.push(T(60,60,TL('기본 순서도','Basic flowchart'),{fontSize:15}),s,i,p,q,r,e,er);
+    d.edges.push(E(s.id,i.id),E(i.id,p.id),E(p.id,q.id),E(q.id,r.id,{label:TL('예','Yes')}),E(r.id,e.id),
+      E({node:q.id,port:'r'},{node:er.id,port:'l'},{label:TL('아니요','No')}),E({node:er.id,port:'t'},{node:i.id,port:'r'}));
+    return d;
+  },
+  orgchart(){
+    const d=newDoc();d.page={w:1100,h:480};d.style.fontSize=12;
+    const ceo=N('rounded',470,60,160,56,TL('대표이사','CEO'),{fill:'#2F6DB5',bold:true,fontSize:14});
+    const heads=[[150,TL('연구소','Research'),[TL('연구 1팀','R&D team 1'),TL('연구 2팀','R&D team 2')]],[470,TL('경영지원본부','Operations'),[TL('인사팀','HR'),TL('재무팀','Finance')]],[790,TL('사업본부','Business'),[TL('영업팀','Sales'),TL('마케팅팀','Marketing')]]];
+    d.elements.push(T(60,60,TL('조직도','Organization chart'),{fontSize:15}),ceo);
+    for(const [x,nm,teams] of heads){const h=N('rounded',x,200,160,52,nm,{fill:'#DCE8F6',bold:true});d.elements.push(h);d.edges.push(E({node:ceo.id,port:'b'},{node:h.id,port:'t'},{endHead:'none'}));
+      teams.forEach((t,k)=>{const c=N('rounded',x+80-155+k*170,340,140,48,t);d.elements.push(c);d.edges.push(E({node:h.id,port:'b'},{node:c.id,port:'t'},{endHead:'none'}));});}
+    return d;
+  },
+  pdca(){
+    const d=newDoc();d.page={w:900,h:700};d.style.fontSize=12;
+    const o={bold:true,fontSize:14,textColor:'#FFFFFF'};
+    const P=N('rounded',360,70,180,72,TL('Plan\n계획','Plan\nset goals'),Object.assign({fill:'#2F6DB5'},o));
+    const D=N('rounded',640,300,180,72,TL('Do\n실행','Do\ncarry out'),Object.assign({fill:'#1F8C82'},o));
+    const C=N('rounded',360,530,180,72,TL('Check\n평가','Check\nmeasure'),Object.assign({fill:'#DE7A1C'},o));
+    const A=N('rounded',80,300,180,72,TL('Act\n개선','Act\nimprove'),Object.assign({fill:'#6F52A6'},o));
+    const mid=N('ellipse',350,296,200,80,TL('지속적 개선\n(PDCA)','Continuous\nimprovement'),{fill:'#EEF0F3'});
+    d.elements.push(P,D,C,A,mid);
+    const cv={route:'curve',strokeWidth:2};
+    d.edges.push(E({node:P.id,port:'r'},{node:D.id,port:'t'},cv),E({node:D.id,port:'b'},{node:C.id,port:'r'},cv),E({node:C.id,port:'l'},{node:A.id,port:'b'},cv),E({node:A.id,port:'t'},{node:P.id,port:'l'},cv));
+    return d;
+  },
+  asistobe(){
+    const d=newDoc();d.page={w:1200,h:560};d.style.fontSize=12;
+    const L1=band(40,40,520,480,TL('AS-IS · 현재','AS-IS · current')),R1=band(640,40,520,480,TL('TO-BE · 개선 후','TO-BE · improved'));
+    const arrow=N('chevron',572,250,56,60,'',{fill:'#2F6DB5',stroke:'none'});
+    const a=[TL('종이 신청서 작성','Fill in a paper form'),TL('이메일로 제출','Submit by email'),TL('담당자가 수기 입력','Staff re-enter data by hand'),TL('처리까지 평균 5일','5 days to complete on average')];
+    const b=[TL('온라인 신청','Apply online'),TL('입력값 자동 검증','Automatic validation'),TL('결재 시스템 자동 연동','Linked to approval system'),TL('처리까지 평균 1일','1 day to complete on average')];
+    const ys=[110,200,290,390];const la=[],lb=[];
+    a.forEach((t,k)=>la.push(N('rounded',150,ys[k],300,52,t,k===3?{fill:'#F8DADA',bold:true}:{fill:'#EEF0F3'})));
+    b.forEach((t,k)=>lb.push(N('rounded',750,ys[k],300,52,t,k===3?{fill:'#DCEFDF',bold:true}:{fill:'#DCE8F6'})));
+    d.elements.push(L1,R1,arrow,...la,...lb);
+    for(let k=0;k<3;k++){d.edges.push(E(la[k].id,la[k+1].id),E(lb[k].id,lb[k+1].id));}
+    return d;
+  },
+  roadmap(){
+    const d=newDoc();d.page={w:1200,h:460};d.style.fontSize=12;
+    const q=['2026 Q1','2026 Q2','2026 Q3','2026 Q4'];const fills=['#2F6DB5','#1F8C82','#3A8C4E','#DE7A1C'];
+    const notes=[TL('• 요구사항 조사\n• 핵심 기능 설계','• Requirements study\n• Core design'),TL('• 프로토타입 개발\n• 내부 시험','• Prototype build\n• Internal testing'),TL('• 파일럿 운영\n• 피드백 반영','• Pilot run\n• Apply feedback'),TL('• 정식 출시\n• 성과 평가','• Launch\n• Review results')];
+    d.elements.push(T(60,70,TL('추진 로드맵','Roadmap'),{fontSize:15}));
+    q.forEach((nm,i)=>{const x=60+i*280;d.elements.push(N('chevron',x,110,270,52,nm,{fill:fills[i],bold:true,fontSize:14}));d.elements.push(N('rounded',x,190,250,84,notes[i],{align:'left'}));});
+    const ms=[[1,TL('MVP 완성','MVP ready')],[3,TL('정식 출시','Launch')]];
+    for(const [i,t] of ms){const x=60+i*280;d.elements.push(N('star',x+10,306,36,36,'',{fill:'#FBF0C8',stroke:'#DE7A1C'}),T(x+56,330,t,{fontSize:12}));}
+    d.elements.push(T(60,400,TL('★ 주요 마일스톤','★ Key milestones'),{fontSize:11,bold:false,color:'#5C6672'}));
+    return d;
+  },
+  invivo(){
+    const d=newDoc();d.page={w:940,h:340};d.style.fontSize=11;
+    const wx=w=>100+80*(w+1);
+    d.elements.push(T(60,50,TL('동물실험 타임라인','In vivo study timeline'),{fontSize:14}));
+    d.elements.push(N('rect',wx(-1),170,80,40,TL('적응','Acclimation'),{fill:'#EEF0F3'}),N('rect',wx(0),170,320,40,TL('투여 (주 3회)','Dosing (3× / week)'),{fill:'#DCE8F6'}),N('rect',wx(4),170,160,40,TL('관찰','Follow-up'),{fill:'#DCEFDF'}));
+    for(let w=-1;w<=6;w++)d.elements.push(T(wx(w)-(w<0?7:4),236,(w<0?'−1':String(w)),{fontSize:11,bold:false,color:'#5C6672'}));
+    d.elements.push(T(wx(-1),262,TL('주차','Week'),{fontSize:11,bold:false,color:'#5C6672'}));
+    const ev=[[0,TL('무작위 배정','Randomization')],[2,TL('채혈','Blood sampling')],[4,TL('채혈','Blood sampling')],[6,TL('조직 채취','Tissue harvest')]];
+    for(const [w,t] of ev){d.elements.push(N('diamond',wx(w)-8,140,16,16,'',{fill:'#2F6DB5',stroke:'none'}),T(wx(w)-40,124,t,{fontSize:11,bold:false}));}
+    d.elements.push(N('rounded',720,150,180,110,TL('군 구성 (군당 n = 10)\n• 대조군 (vehicle)\n• 저용량 (5 mg/kg)\n• 고용량 (20 mg/kg)\n• 양성 대조군','Groups (n = 10 each)\n• Vehicle\n• Low dose (5 mg/kg)\n• High dose (20 mg/kg)\n• Positive control'),{align:'left'}));
+    return d;
+  },
+  cohort(){
+    const d=newDoc();d.page={w:960,h:760};d.style.fontSize=11;
+    const a=N('rounded',330,50,260,48,TL('적격성 평가\n(n = 5,230)','Assessed for eligibility\n(n = 5,230)'));
+    const ex=N('rounded',640,100,270,80,TL('제외 (n = 1,110)\n• 18세 미만 (n = 420)\n• 기존 진단 (n = 510)\n• 기저 자료 누락 (n = 180)','Excluded (n = 1,110)\n• Age < 18 (n = 420)\n• Prior diagnosis (n = 510)\n• Missing baseline data (n = 180)'),{align:'left',fill:'#EEF0F3'});
+    const en=N('rounded',330,210,260,48,TL('코호트 등록\n(n = 4,120)','Enrolled in cohort\n(n = 4,120)'),{fill:'#DCE8F6'});
+    const g1=N('rounded',130,340,280,48,TL('노출군\n(n = 1,530)','Exposed\n(n = 1,530)'),{fill:'#DCE8F6'});
+    const g2=N('rounded',510,340,280,48,TL('비노출군\n(n = 2,590)','Unexposed\n(n = 2,590)'),{fill:'#EEF0F3'});
+    const l1=N('rounded',130,460,280,64,TL('추적 소실 (n = 120)\n• 연락 두절 (n = 85)\n• 동의 철회 (n = 35)','Lost to follow-up (n = 120)\n• Unreachable (n = 85)\n• Withdrew consent (n = 35)'),{align:'left'});
+    const l2=N('rounded',510,460,280,64,TL('추적 소실 (n = 180)\n• 연락 두절 (n = 130)\n• 동의 철회 (n = 50)','Lost to follow-up (n = 180)\n• Unreachable (n = 130)\n• Withdrew consent (n = 50)'),{align:'left'});
+    const f1=N('rounded',130,600,280,48,TL('분석 포함\n(n = 1,410)','Included in analysis\n(n = 1,410)'),{fill:'#DCEFDF'});
+    const f2=N('rounded',510,600,280,48,TL('분석 포함\n(n = 2,410)','Included in analysis\n(n = 2,410)'),{fill:'#DCEFDF'});
+    d.elements.push(a,ex,en,g1,g2,l1,l2,f1,f2);
+    d.edges.push(E({node:a.id,port:'b'},{node:ex.id,port:'l'}),E({node:a.id,port:'b'},{node:en.id,port:'t'}),E({node:en.id,port:'b'},{node:g1.id,port:'t'}),E({node:en.id,port:'b'},{node:g2.id,port:'t'}),
+      E({node:g1.id,port:'b'},{node:l1.id,port:'t'}),E({node:g2.id,port:'b'},{node:l2.id,port:'t'}),E({node:l1.id,port:'b'},{node:f1.id,port:'t'}),E({node:l2.id,port:'b'},{node:f2.id,port:'t'}));
     return d;
   }
 };

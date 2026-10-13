@@ -24,7 +24,7 @@ A web editor for drawing journal-grade workflows and flowcharts for papers and r
 - **Sketch recognition** — rough strokes become standard shapes; switch instantly if the guess is wrong
 - **Image library** — upload PNG/JPG/SVG and reuse them like shapes, background removal, grayscale
 - **Journal-style presets** — Nature / Cell / Mono, Okabe–Ito-based palettes plus your own colors
-- **8 templates** — for papers (experimental workflow, CONSORT, PRISMA 2020, study design, ML pipeline) and reports (approval process, phase-gate, data flow)
+- **15 templates** — general (basic flowchart, organization chart, PDCA cycle), papers (experimental workflow, CONSORT, PRISMA 2020, study design, ML pipeline, in vivo timeline, observational cohort/STROBE) and reports (approval process, phase-gate, data flow, AS-IS/TO-BE, roadmap)
 - **Embed API** — put the editor into another website with an iframe and exchange documents through `postMessage` (see `embed-example.html`, `DEVELOPER.md`)
 
 ### Run locally
@@ -93,7 +93,7 @@ MIT — see `LICENSE`.
 - **손그림 인식** — 대충 그린 도형·선을 규격 도형으로 변환하고, 틀리면 즉시 다른 도형으로 전환
 - **이미지 라이브러리** — PNG/JPG/SVG 업로드 후 도형처럼 재사용, 배경 제거(누끼), 회색조 변환
 - **학술지 스타일 프리셋** — Nature / Cell / Mono, Okabe–Ito 계열 팔레트 + 사용자 색 추가
-- **예제 8종** — 논문용(실험 워크플로우, CONSORT, PRISMA 2020, 연구 설계, ML 파이프라인), 보고서용(승인 프로세스, Phase-gate, 데이터 흐름도)
+- **예제 15종** — 일반(기본 순서도, 조직도, PDCA 순환도), 논문용(실험 워크플로우, CONSORT, PRISMA 2020, 연구 설계, ML 파이프라인, 동물실험 타임라인, 관찰 코호트/STROBE), 보고서용(승인 프로세스, Phase-gate, 데이터 흐름도, AS-IS/TO-BE, 로드맵)
 - **임베드 API** — 다른 웹사이트에 iframe으로 넣고 `postMessage`로 문서를 주고받기 (`embed-example.html`, `DEVELOPER.md` 참고)
 
 ### 로컬에서 실행
@@ -163,7 +163,7 @@ MIT — `LICENSE` 참고.
 - **手描き認識** — ざっと描いた図形や線を規格の図形に変換し、間違っていればすぐ別の図形に切り替え
 - **画像ライブラリ** — PNG/JPG/SVG をアップロードして図形のように再利用、背景の除去、グレースケール変換
 - **学術誌スタイルのプリセット** — Nature / Cell / Mono、Okabe–Ito 系のパレット＋ユーザー色の追加
-- **テンプレート 8 種** — 論文用（実験ワークフロー、CONSORT、PRISMA 2020、研究デザイン、ML パイプライン）、レポート用（承認プロセス、Phase-gate、データフロー図）
+- **テンプレート 15 種** — 一般（基本のフローチャート、組織図、PDCA サイクル）、論文用（実験ワークフロー、CONSORT、PRISMA 2020、研究デザイン、ML パイプライン、動物実験タイムライン、観察コホート/STROBE）、レポート用（承認プロセス、Phase-gate、データフロー図、AS-IS/TO-BE、ロードマップ）
 - **埋め込み API** — 他のウェブサイトに iframe で埋め込み、`postMessage` で文書をやり取り（`embed-example.html`、`DEVELOPER.md` 参照）
 
 ### ローカルで実行
@@ -233,7 +233,7 @@ MIT — `LICENSE` を参照。
 - **手绘识别** — 把随手画的图形和线条转换为规范图形，识别错误时可立即切换
 - **图片库** — 上传 PNG/JPG/SVG 后像图形一样重复使用，支持去除背景和灰度转换
 - **期刊风格预设** — Nature / Cell / Mono，基于 Okabe–Ito 的调色板，并可添加自定义颜色
-- **8 个示例模板** — 论文用（实验工作流程、CONSORT、PRISMA 2020、研究设计、ML 流程）和报告用（审批流程、Phase-gate、数据流图）
+- **15 个示例模板** — 通用（基本流程图、组织结构图、PDCA 循环图）、论文用（实验工作流程、CONSORT、PRISMA 2020、研究设计、ML 流程、动物实验时间线、观察性队列/STROBE）和报告用（审批流程、Phase-gate、数据流图、AS-IS/TO-BE、路线图）
 - **嵌入 API** — 用 iframe 嵌入其他网站，通过 `postMessage` 交换文档（参见 `embed-example.html`、`DEVELOPER.md`）
 
 ### 本地运行

@@ -72,7 +72,7 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 | 281 | i18n | UI 언어(한국어/영어). `I18N_EN` 번역표, `L(원문, 인자)`, `applyStaticI18n()`, `setLang()` |
 | 348 | constants | `FONTS`, `HUES`/`FILLS`/`STROKES`(팔레트), `SHAPES`, `PRESETS`, `defaultStyle()`, 사용자 색·이미지 라이브러리(localStorage) |
 | 401 | state | 문서 상태 `state`, 선택 `sel`, 뷰 `view`, 현재 도구 `tool` |
-| 419 | templates | `TEMPLATES.{rnaseq,consort,prisma,studydesign,ml,approval,phases,dataflow}` — 예제 문서 생성 함수 |
+| 419 | templates | `TEMPLATES.{rnaseq,consort,prisma,studydesign,ml,approval,phases,dataflow,flowchart,orgchart,pdca,asistobe,roadmap,invivo,cohort}` — 예제 문서 생성 함수. 글자는 `TL(한국어, 영어)`로 불러올 때의 화면 언어를 따른다 |
 | 563 | history / persistence | undo/redo 스택(`snapshot`/`undo`/`redo`), `mutate(fn)`, `persist()` |
 | 573 | geometry | 포트 좌표, 자동 포트 선택(`resolveEnds`), **직각 연결선 라우터 `routeEdge`**, 둥근 모서리 경로 |
 | 647 | rendering | 도형 SVG 생성 `nodeShapeEl`, 노드/밴드/텍스트/연결선 렌더, 오버레이(핸들·포트·가이드) |

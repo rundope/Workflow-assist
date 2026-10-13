@@ -49,7 +49,7 @@ th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--fa
   <div class="t">그리기</div>
   <a href="#shapes">도형과 텍스트</a><a href="#connect">연결선</a><a href="#align">정렬 · 간격 · 그룹</a><a href="#band">단계 밴드 · 패널 라벨</a><a href="#pen">손그림 인식</a><a href="#image">이미지 · 아이콘 라이브러리</a><a href="#color">색 팔레트</a>
   <div class="t">마무리</div>
-  <a href="#style">그림 규격(프리셋)</a><a href="#templates">예제 양식</a><a href="#export">내보내기 · 저장</a><a href="#embed">다른 웹사이트에 넣기</a><a href="#keys">단축키</a><a href="#faq">자주 묻는 질문</a>
+  <a href="#style">그림 규격(프리셋)</a><a href="#templates">예제 양식</a><a href="#mindmap">마인드맵</a><a href="#export">내보내기 · 저장</a><a href="#embed">다른 웹사이트에 넣기</a><a href="#keys">단축키</a><a href="#faq">자주 묻는 질문</a>
 </nav>
 <main>
 <div class="topline">
@@ -155,18 +155,40 @@ th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--fa
 <p>글꼴(Helvetica/Arial, Noto Sans KR, IBM Plex Sans KR, Times New Roman), 기본 글자 크기, 선 굵기, 모서리 반경, 화살표 크기, 기본 간격(gap), 그리드 간격, 캔버스 크기를 개별로 조정할 수 있습니다. 개별 요소에 준 색이나 글자 크기는 규격보다 우선합니다.</p>
 
 <h2 id="templates">예제 양식</h2>
-<p><b>파일 → 예제</b>에서 불러와 내용만 바꿔 쓰세요.</p>
+<p><b>파일 → 예제</b>에서 불러와 내용만 바꿔 쓰세요. 일반·보고서용 예제의 글자는 불러올 때의 화면 언어(한국어/영어)로 나오고, 논문용 예제는 영어입니다.</p>
 <div class="table-wrap"><table>
 <tr><th>구분</th><th>양식</th><th>쓰임</th></tr>
-<tr><td rowspan="5">논문용</td><td>실험 워크플로우 (a·b·c)</td><td>시료 채취 → 시퀀싱 → 분석처럼 단계가 패널로 나뉘는 방법론 그림</td></tr>
+<tr><td rowspan="3">일반</td><td>기본 순서도</td><td>시작 → 입력 → 처리 → 판단 → 종료의 표준 순서도</td></tr>
+<tr><td>조직도</td><td>대표 → 본부 → 팀의 3단 계층</td></tr>
+<tr><td>PDCA 순환도</td><td>Plan-Do-Check-Act 순환과 곡선 연결선</td></tr>
+<tr><td rowspan="7">논문용</td><td>실험 워크플로우 (a·b·c)</td><td>시료 채취 → 시퀀싱 → 분석처럼 단계가 패널로 나뉘는 방법론 그림</td></tr>
 <tr><td>CONSORT 흐름도</td><td>임상시험 참가자 모집·배정·추적·분석 인원 보고</td></tr>
 <tr><td>PRISMA 2020</td><td>체계적 문헌고찰의 검색·선별·포함 과정</td></tr>
 <tr><td>연구 설계</td><td>무작위 배정과 추적 시점을 보여주는 study design schematic</td></tr>
 <tr><td>ML 파이프라인</td><td>데이터 → 학습 → 평가 → 판단 루프가 있는 모델 개발 흐름</td></tr>
-<tr><td rowspan="3">보고서용</td><td>업무 승인 프로세스</td><td>담당자별 스윔레인, 승인/반려 분기</td></tr>
+<tr><td>동물실험 타임라인</td><td>적응 → 투여 → 관찰 기간과 채혈·채취 시점, 군 구성</td></tr>
+<tr><td>관찰 코호트 흐름 (STROBE)</td><td>관찰연구의 적격성 평가 → 등록 → 노출군/비노출군 → 추적 소실 → 분석 인원</td></tr>
+<tr><td rowspan="5">보고서용</td><td>업무 승인 프로세스</td><td>담당자별 스윔레인, 승인/반려 분기</td></tr>
 <tr><td>프로젝트 단계</td><td>Phase-gate 화살 블록과 단계별 활동 목록</td></tr>
 <tr><td>시스템 데이터 흐름도</td><td>원천 데이터 → 수집 → 저장 → 분석 → 사용자</td></tr>
+<tr><td>AS-IS / TO-BE 비교</td><td>현재 절차와 개선 후 절차를 나란히 비교</td></tr>
+<tr><td>로드맵</td><td>분기별 단계와 주요 마일스톤</td></tr>
 </table></div>
+
+<h2 id="mindmap">마인드맵</h2>
+<p>상단 바의 <b>마인드맵</b> 버튼을 누르면 화면 전체가 마인드맵 편집기로 바뀌고, <b>워크플로우</b>를 누르면 원래 화면으로 돌아옵니다. 두 문서는 따로 자동 저장됩니다.</p>
+<ul>
+<li><b>주제 추가</b>: <kbd>Tab</kbd> 하위 주제, <kbd>Enter</kbd> 같은 수준 주제. 중심 주제의 가지는 왼쪽·오른쪽에 자동으로 균형 있게 배치됩니다.</li>
+<li><b>글자 편집</b>: 더블클릭, <kbd>F2</kbd>, 또는 주제를 고른 채 바로 입력합니다. <kbd>Shift</kbd>+<kbd>Enter</kbd> 줄바꿈.</li>
+<li><b>옮기기</b>: 주제를 끌어 다른 주제 위에 놓으면 그 아래로 들어가고, 빈 곳에 놓으면 순서와 왼쪽/오른쪽이 바뀝니다. <kbd>Alt</kbd>+<kbd>↑</kbd>/<kbd>↓</kbd>로도 순서를 바꿉니다.</li>
+<li><b>접기 · 펼치기</b>: 가지 끝의 동그라미를 누르거나 <kbd>Ctrl</kbd>+<kbd>/</kbd>. 접힌 가지에는 숨은 주제 수가 표시됩니다.</li>
+<li><b>이동 · 선택</b>: 방향키로 주제 사이를 이동, <kbd>Ctrl</kbd>+클릭으로 여러 개 선택, 빈 곳을 드래그하면 화면 이동, <kbd>Ctrl</kbd>+휠로 확대/축소.</li>
+<li><b>편집</b>: <kbd>Ctrl</kbd>+<kbd>C</kbd>/<kbd>X</kbd>/<kbd>V</kbd>(가지째 복사·잘라내기·붙여넣기), <kbd>Ctrl</kbd>+<kbd>D</kbd> 복제, <kbd>Ctrl</kbd>+<kbd>Z</kbd>/<kbd>Y</kbd> 실행 취소.</li>
+<li><b>모양</b>: 기본은 토니 부잔식 <b>글씨 + 밑줄</b>입니다(가지가 글씨 밑으로 이어지고 중심에서 멀어질수록 가늘어짐). 주제마다 상자 · 타원 · 원 · 그림자 상자로 바꿀 수 있고, 패널의 <b>주제 기본 모양</b>으로 전체를 상자로 바꿀 수도 있습니다.</li>
+<li><b>그림</b>: 다른 곳에서 그림을 복사해 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙이면 고른 주제에 들어갑니다(고른 주제가 없으면 새 주제). 그림 파일을 주제 위로 끌어다 놓거나 패널의 <b>그림 넣기</b>를 써도 되고, 크기는 막대로 조절합니다. 다른 곳의 글을 붙이면 줄마다 주제가 되고 들여쓴 줄은 하위 주제가 됩니다.</li>
+<li><b>꾸미기</b>(오른쪽 패널): 배치(양쪽 균형 / 오른쪽으로), 색 구성(컬러 / 단색), 글꼴, 주제별 글자 크기 · 굵게 · 가지 색.</li>
+<li><b>내보내기</b>: 내보내기 메뉴의 SVG·PNG·JSON이 마인드맵 화면에서는 마인드맵을 내보냅니다. 마인드맵 JSON을 불러오면 자동으로 마인드맵 화면으로 바뀝니다.</li>
+</ul>
 
 <h2 id="export">내보내기 · 저장</h2>
 <ul>

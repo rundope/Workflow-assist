@@ -63,31 +63,32 @@ api.load(doc); const doc = api.getDoc(); const svg = api.exportSVG();
 
 ## 3. index.html 코드 구조
 
-파일 안에서 `/* ---------- 이름 ---------- */` 주석으로 구역이 나뉩니다. (줄 번호는 2026-10-12 기준, 글자별 크기 반영)
+파일 안에서 `/* ---------- 이름 ---------- */` 주석으로 구역이 나뉩니다. (줄 번호는 2026-10-13 기준)
 
 | 줄 | 구역 | 내용 |
 |---|---|---|
-| 5–170 | `<style>` | UI 크롬 스타일. CSS 변수로 라이트/다크 테마 |
-| 172–267 | HTML 마크업 | 상단 바, 왼쪽 툴바, 캔버스 `<svg>`, 오른쪽 인스펙터, 상태줄 |
-| 281 | i18n | UI 언어(한국어/영어). `I18N_EN` 번역표, `L(원문, 인자)`, `applyStaticI18n()`, `setLang()` |
-| 348 | constants | `FONTS`, `HUES`/`FILLS`/`STROKES`(팔레트), `SHAPES`, `PRESETS`, `defaultStyle()`, 사용자 색·이미지 라이브러리(localStorage) |
-| 401 | state | 문서 상태 `state`, 선택 `sel`, 뷰 `view`, 현재 도구 `tool` |
-| 419 | templates | `TEMPLATES.{rnaseq,consort,prisma,studydesign,ml,approval,phases,dataflow}` — 예제 문서 생성 함수 |
-| 563 | history / persistence | undo/redo 스택(`snapshot`/`undo`/`redo`), `mutate(fn)`, `persist()` |
-| 573 | geometry | 포트 좌표, 자동 포트 선택(`resolveEnds`), **직각 연결선 라우터 `routeEdge`**, 둥근 모서리 경로 |
-| 647 | rendering | 도형 SVG 생성 `nodeShapeEl`, 노드/밴드/텍스트/연결선 렌더, 오버레이(핸들·포트·가이드) |
-| 798 | view | viewBox 기반 확대/축소/이동, `fitPage` |
-| 816 | tools | 도구 전환 `setTool`, 도형 추가 `addNodeAt`, 연결선 생성 |
-| 829 | smart guides | 드래그 중 중심선·모서리 스냅 `smartSnap` |
-| 836 | pointer interaction | 단일 `pointerdown/move/up` 상태 머신 (`drag.mode`: move / resize / connect / reattach / bend / marquee / ink / pan) |
-| 909 | inline editing | 더블클릭 텍스트 편집. 노드·텍스트는 contenteditable(`fillRich`/`readRich`, 선택 글자 크기 도구 `editTools`), 밴드·연결선 라벨은 textarea |
-| 948 | sketch recognition | 손그림 → 도형 인식 (`rdp` 단순화 + 모서리 수 + 축/대각선 비율) |
-| 993 | actions | 삭제·복제·복사/붙여넣기(앱 내부 클립보드 `clip`)·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
-| 1015 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
-| 1151 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
-| 1180 | keyboard | 단축키 (방향키 이동, Shift+방향키 크기 조절 `resizeSel`) |
-| 1203 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
-| 1233 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 |
+| 5–184 | `<style>` | UI 크롬 스타일. CSS 변수로 라이트/다크 테마 |
+| 186–312 | HTML 마크업 | 상단 바(모드 전환 포함), 왼쪽 툴바, 캔버스 `<svg>`, 오른쪽 인스펙터, 마인드맵용 툴바·캔버스·패널, 상태줄 |
+| 327 | i18n | UI 언어(한국어/영어). `I18N_EN` 번역표, `L(원문, 인자)`, `applyStaticI18n()`, `setLang()` |
+| 394 | constants | `FONTS`, `HUES`/`FILLS`/`STROKES`(팔레트), `SHAPES`, `PRESETS`, `defaultStyle()`, 사용자 색·이미지 라이브러리(localStorage) |
+| 447 | state | 문서 상태 `state`, 선택 `sel`, 뷰 `view`, 현재 도구 `tool` |
+| 465 | templates | `TEMPLATES.{rnaseq,consort,prisma,studydesign,ml,approval,phases,dataflow,flowchart,orgchart,pdca,asistobe,roadmap,invivo,cohort}` — 예제 문서 생성 함수. 글자는 `TL(한국어, 영어)`로 불러올 때의 화면 언어를 따른다 |
+| 699 | history / persistence | undo/redo 스택(`snapshot`/`undo`/`redo`), `mutate(fn)`, `persist()` |
+| 709 | geometry | 포트 좌표, 자동 포트 선택(`resolveEnds`), **직각 연결선 라우터 `routeEdge`**, 둥근 모서리 경로 |
+| 783 | rendering | 도형 SVG 생성 `nodeShapeEl`, 노드/밴드/텍스트/연결선 렌더, 오버레이(핸들·포트·가이드) |
+| 934 | view | viewBox 기반 확대/축소/이동, `fitPage` |
+| 957 | tools | 도구 전환 `setTool`, 도형 추가 `addNodeAt`, 연결선 생성 |
+| 970 | smart guides | 드래그 중 중심선·모서리 스냅 `smartSnap` |
+| 977 | pointer interaction | 단일 `pointerdown/move/up` 상태 머신 (`drag.mode`: move / resize / connect / reattach / bend / marquee / ink / pan) |
+| 1051 | inline editing | 더블클릭 텍스트 편집. 노드·텍스트는 contenteditable(`fillRich`/`readRich`, 선택 글자 크기 도구 `editTools`), 밴드·연결선 라벨은 textarea |
+| 1090 | sketch recognition | 손그림 → 도형 인식 (`rdp` 단순화 + 모서리 수 + 축/대각선 비율) |
+| 1135 | actions | 삭제·복제·복사/붙여넣기(앱 내부 클립보드 `clip`)·정렬·분배·크기 맞춤·길이 통일·그룹·프리셋 |
+| 1157 | inspector | 오른쪽 패널 HTML 생성 `renderInspector` + 위임 이벤트 핸들러 (`data-action`, `data-prop`) |
+| 1293 | menus / export | 파일·내보내기 메뉴, `buildExportSVG`, PNG 변환, JSON 입출력, 배경 제거 |
+| 1324 | keyboard | 단축키 (방향키 이동, Shift+방향키 크기 조절 `resizeSel`) |
+| 1348 | embed API | `window.WorkflowAssist` + postMessage 브리지 (§4) |
+| 1378 | mind map mode | 마인드맵 화면: 문서 `mm`, 배치 `mmLayout`(양쪽 균형 트리), 가지 `mmBranch`(굵기가 줄어드는 곡선 리본 + 글씨 밑줄), 그림·클립보드(`mmReadImage`, copy/cut/paste 이벤트), 편집·단축키 `mmKeydown`, 드래그 이동 `mmDrop`, 내보내기 `mmExportSVG`, 화면 전환 `setMode` |
+| 1647 | boot | UI 언어 적용 → localStorage 복원 → 없으면 예제 로드 → 렌더 → 마지막 화면이 마인드맵이면 전환 |
 
 **코드 스타일 메모**: 한 줄에 여러 문장을 쓴 압축된 스타일입니다. 읽기 편하게 만들려면 Prettier를 한 번 돌리면 됩니다: `npx prettier --write index.html` (동작은 바뀌지 않습니다).
 
@@ -183,6 +184,24 @@ PNG가 필요하면 `exportSVG()` 결과를 서버에서 변환하거나(예: `s
 
 id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위는 캔버스 px (SVG user unit).
 
+### 마인드맵 문서
+
+워크플로우 문서와 따로 저장됩니다. JSON 불러오기는 `root`가 있으면 마인드맵으로 판단해 화면을 바꿉니다.
+
+```jsonc
+{ "layout":"balanced",      // "balanced"(양쪽) | "right"
+  "shape":"text",           // 주제 기본 모양: "text"(글씨 + 밑줄) | "box"
+  "theme":"colorful",       // "colorful" | "mono"
+  "font":"helvetica",       // FONTS의 id
+  "root":{ "id":"t1", "text":"중심 주제", "collapsed":false, "children":[
+    { "id":"t2", "text":"주요 주제", "side":"R", "ci":0,   // side: 1단계만 "L"|"R", ci: 가지 색 번호
+      "color":"#2F6DB5", "fs":24, "bold":false,            // 선택: 색·글자 크기·굵게 직접 지정
+      "shape":"circle",                                    // 선택: "text"|"box"|"ellipse"|"circle"|"shadow" (중심 주제 기본은 ellipse)
+      "fill":"#FFFFFF",                                    // 선택: 중심 주제 바탕색 (기본은 노란색)
+      "img":{ "src":"data:image/png;base64,...", "w":110, "h":80, "nw":480, "nh":350 },  // 선택: 붙인 그림(긴 변 480px 이하로 저장), w·h는 화면 크기
+      "children":[ { "id":"t3", "text":"하위 주제", "children":[] } ] } ] } }
+```
+
 ## 6. 브라우저 저장소 키
 
 | 키 | 내용 |
@@ -191,6 +210,8 @@ id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위�
 | `figureassist.colors.v2` | 사용자 추가 색 `{fill:[],stroke:[],text:[]}` |
 | `figureassist.images` | 이미지 라이브러리 `[{id,name,src(dataURL),w,h}]` |
 | `figureassist.lang` | UI 언어 `ko` / `en` (없으면 브라우저 언어로 결정: 한국어면 `ko`, 그 외 `en`) |
+| `figureassist.mode` | 마지막 화면 `workflow` / `mindmap` |
+| `figureassist.mindmap.v1` | 마인드맵 문서 (JSON, 아래 형식) |
 
 호스트 사이트가 문서를 서버에 저장한다면 `load()`/`getDoc()`만 쓰고 localStorage는 무시해도 됩니다.
 

@@ -85,6 +85,19 @@ button{cursor:pointer}
 .edit-box.rich{white-space:pre-wrap;word-break:break-word;cursor:text}
 .edit-tools{position:absolute;z-index:21;display:flex;align-items:center;gap:4px;padding:4px 6px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35);font-size:12px;color:var(--muted);white-space:nowrap}
 .edit-tools .btn{padding:2px 8px}.edit-tools .in{width:56px}
+.modesw{display:flex;border:1px solid var(--line);border-radius:var(--r-s);overflow:hidden;height:30px;margin-right:4px}
+.modesw button{border:none;border-right:1px solid var(--line);background:transparent;padding:0 10px;color:var(--muted);display:flex;align-items:center;gap:6px;font-weight:500;white-space:nowrap}
+.modesw button:last-child{border-right:none}
+.modesw button:hover{background:var(--chrome-2);color:var(--ink)}
+.modesw button.on{background:var(--accent-soft);color:var(--accent-ink)}
+.modesw svg{width:15px;height:15px}
+.app:not(.mm-on) .mm-only,.app.mm-on .wf-only,.app.mm-on #rail,.app.mm-on #stage,.app.mm-on #inspector{display:none!important}
+#mm-stage{background:var(--paper)}
+#mm-stage .mm-node{cursor:pointer}
+#mm-stage .mm-tog{cursor:pointer}
+#mm-stage .mm-tog.exp{opacity:0;transition:opacity .12s}
+#mm-stage .mm-node:hover .mm-tog.exp,#mm-stage .mm-node.sel .mm-tog.exp{opacity:1}
+.mm-edit{white-space:pre-wrap;word-break:break-word;cursor:text;line-height:1.3;text-align:center;box-sizing:border-box}
 .sketch-pop{position:absolute;z-index:22;display:flex;align-items:center;gap:3px;padding:5px;background:var(--chrome);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:0 8px 24px -8px rgba(0,0,0,.35)}
 .sketch-pop .lbl{font-size:10.5px;color:var(--faint);padding:0 6px 0 4px;font-family:"IBM Plex Mono",monospace;white-space:nowrap}
 .sketch-pop button{width:32px;height:30px;border:1px solid transparent;border-radius:var(--r-s);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center}
@@ -173,30 +186,38 @@ select.in{font-family:"IBM Plex Sans KR",sans-serif;font-size:12px}
 <div class="app">
   <header class="topbar">
     <div class="brand"><b>Workflow-assist</b><span class="hide-sm">journal-grade workflow figures</span></div>
+    <div class="modesw" id="modesw">
+      <button data-mode="workflow" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="7" height="5" rx="1"/><rect x="14" y="15" width="7" height="5" rx="1"/><path d="M6.5 9v4.5h11V15"/></svg><span class="hide-sm" data-i18n>워크플로우</span></button>
+      <button data-mode="mindmap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M9.2 10.8C7 9 6 6.5 4 6M9.2 13.2C7 15 6 17.5 4 18M14.8 10.8C17 9 18 6.5 20 6M14.8 13.2C17 15 18 17.5 20 18"/></svg><span class="hide-sm" data-i18n>마인드맵</span></button>
+    </div>
     <div class="menu" id="menu-file">
       <button class="tb" data-menu="file"><span data-i18n>파일</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="dd" hidden>
         <div class="dd-title" data-i18n>문서</div>
-        <button data-act="new"><span data-i18n>새 문서</span> <small data-i18n>빈 캔버스</small></button>
+        <button class="wf-only" data-act="new"><span data-i18n>새 문서</span> <small data-i18n>빈 캔버스</small></button>
+        <button class="mm-only" data-act="mm:blank"><span data-i18n>새 마인드맵</span> <small data-i18n>중심 주제 + 가지 4개</small></button>
         <button data-act="import" data-i18n>JSON 불러오기…</button>
-        <div class="dd-title" data-i18n>일반 예제</div>
-        <button data-act="tpl:flowchart" data-i18n>기본 순서도 (시작 · 판단 · 종료)</button>
-        <button data-act="tpl:orgchart" data-i18n>조직도</button>
-        <button data-act="tpl:pdca" data-i18n>PDCA 순환도</button>
-        <div class="dd-title" data-i18n>논문용 예제</div>
-        <button data-act="tpl:rnaseq" data-i18n>실험 워크플로우 (패널 a·b·c)</button>
-        <button data-act="tpl:consort" data-i18n>CONSORT 참가자 흐름도</button>
-        <button data-act="tpl:prisma" data-i18n>PRISMA 2020 문헌 선별 흐름도</button>
-        <button data-act="tpl:studydesign" data-i18n>연구 설계 (무작위 배정 · 추적)</button>
-        <button data-act="tpl:ml" data-i18n>ML 파이프라인 (판단 루프)</button>
-        <button data-act="tpl:invivo" data-i18n>동물실험 타임라인</button>
-        <button data-act="tpl:cohort" data-i18n>관찰 코호트 참가자 흐름 (STROBE)</button>
-        <div class="dd-title" data-i18n>보고서용 예제</div>
-        <button data-act="tpl:approval" data-i18n>업무 승인 프로세스 (스윔레인)</button>
-        <button data-act="tpl:phases" data-i18n>프로젝트 단계 (Phase-gate)</button>
-        <button data-act="tpl:dataflow" data-i18n>시스템 데이터 흐름도</button>
-        <button data-act="tpl:asistobe" data-i18n>AS-IS / TO-BE 비교</button>
-        <button data-act="tpl:roadmap" data-i18n>로드맵 (분기별 마일스톤)</button>
+        <div class="dd-title wf-only" data-i18n>일반 예제</div>
+        <button class="wf-only" data-act="tpl:flowchart" data-i18n>기본 순서도 (시작 · 판단 · 종료)</button>
+        <button class="wf-only" data-act="tpl:orgchart" data-i18n>조직도</button>
+        <button class="wf-only" data-act="tpl:pdca" data-i18n>PDCA 순환도</button>
+        <div class="dd-title wf-only" data-i18n>논문용 예제</div>
+        <button class="wf-only" data-act="tpl:rnaseq" data-i18n>실험 워크플로우 (패널 a·b·c)</button>
+        <button class="wf-only" data-act="tpl:consort" data-i18n>CONSORT 참가자 흐름도</button>
+        <button class="wf-only" data-act="tpl:prisma" data-i18n>PRISMA 2020 문헌 선별 흐름도</button>
+        <button class="wf-only" data-act="tpl:studydesign" data-i18n>연구 설계 (무작위 배정 · 추적)</button>
+        <button class="wf-only" data-act="tpl:ml" data-i18n>ML 파이프라인 (판단 루프)</button>
+        <button class="wf-only" data-act="tpl:invivo" data-i18n>동물실험 타임라인</button>
+        <button class="wf-only" data-act="tpl:cohort" data-i18n>관찰 코호트 참가자 흐름 (STROBE)</button>
+        <div class="dd-title wf-only" data-i18n>보고서용 예제</div>
+        <button class="wf-only" data-act="tpl:approval" data-i18n>업무 승인 프로세스 (스윔레인)</button>
+        <button class="wf-only" data-act="tpl:phases" data-i18n>프로젝트 단계 (Phase-gate)</button>
+        <button class="wf-only" data-act="tpl:dataflow" data-i18n>시스템 데이터 흐름도</button>
+        <button class="wf-only" data-act="tpl:asistobe" data-i18n>AS-IS / TO-BE 비교</button>
+        <button class="wf-only" data-act="tpl:roadmap" data-i18n>로드맵 (분기별 마일스톤)</button>
+        <div class="dd-title mm-only" data-i18n>마인드맵 예제</div>
+        <button class="mm-only" data-act="mm:research" data-i18n>연구 계획 정리</button>
+        <button class="mm-only" data-act="mm:project" data-i18n>프로젝트 기획</button>
       </div>
     </div>
     <div class="menu" id="menu-export">
@@ -262,6 +283,22 @@ select.in{font-family:"IBM Plex Sans KR",sans-serif;font-size:12px}
     </div>
 
     <aside class="inspector" id="inspector"></aside>
+
+    <aside class="rail mm-only" id="mm-rail">
+      <div class="rgrp">
+        <button class="rb" data-mm="add-child" data-i18n-title title="하위 주제 추가 (Tab)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="9" width="8" height="6" rx="2"/><rect x="15" y="15" width="7" height="5" rx="1.5"/><path d="M10 12c3 0 2 5.5 5 5.5"/><path d="M18.5 4v6M15.5 7h6"/></svg><span class="kbd">Tab</span></button>
+        <button class="rb" data-mm="add-sib" data-i18n-title title="같은 수준 주제 추가 (Enter)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="3" width="10" height="6" rx="1.5"/><rect x="7" y="15" width="10" height="6" rx="1.5" stroke-dasharray="2.5 2"/><path d="M12 10v4"/></svg><span class="kbd">↵</span></button>
+        <button class="rb" data-mm="toggle" data-i18n-title title="가지 접기 / 펼치기 (Ctrl+/)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M8 12h8"/></svg></button>
+        <button class="rb" data-mm="delete" data-i18n-title title="주제 삭제 (Delete)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button>
+      </div>
+      <div class="rgrp">
+        <button class="rb" data-mm="fit" data-i18n-title title="전체 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      </div>
+    </aside>
+    <div class="stage mm-only" id="mm-stage">
+      <svg id="mm-svg" xmlns="http://www.w3.org/2000/svg"><g id="mm-fig"></g><g id="mm-ov"></g></svg>
+    </div>
+    <aside class="inspector mm-only" id="mm-insp"></aside>
   </div>
 
   <footer class="status">
@@ -294,7 +331,7 @@ const I18N_EN={
   // top bar · menus
   '파일':'File','문서':'Document','새 문서':'New document','빈 캔버스':'blank canvas','JSON 불러오기…':'Open JSON…',
   '논문용 예제':'Templates for papers','실험 워크플로우 (패널 a·b·c)':'Experimental workflow (panels a·b·c)','CONSORT 참가자 흐름도':'CONSORT participant flow','PRISMA 2020 문헌 선별 흐름도':'PRISMA 2020 study selection','연구 설계 (무작위 배정 · 추적)':'Study design (randomization · follow-up)','ML 파이프라인 (판단 루프)':'ML pipeline (decision loop)',
-  '보고서용 예제':'Templates for reports','일반 예제':'General templates','기본 순서도 (시작 · 판단 · 종료)':'Basic flowchart (start · decision · end)','조직도':'Organization chart','PDCA 순환도':'PDCA cycle','동물실험 타임라인':'In vivo study timeline','관찰 코호트 참가자 흐름 (STROBE)':'Observational cohort flow (STROBE)','AS-IS / TO-BE 비교':'AS-IS / TO-BE comparison','로드맵 (분기별 마일스톤)':'Roadmap (quarterly milestones)','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
+  '보고서용 예제':'Templates for reports','워크플로우':'Workflow','마인드맵':'Mind map','새 마인드맵':'New mind map','중심 주제 + 가지 4개':'central topic + 4 branches','마인드맵 예제':'Mind map examples','연구 계획 정리':'Research plan','프로젝트 기획':'Project plan','하위 주제 추가 (Tab)':'Add subtopic (Tab)','같은 수준 주제 추가 (Enter)':'Add sibling topic (Enter)','가지 접기 / 펼치기 (Ctrl+/)':'Collapse / expand branch (Ctrl+/)','주제 삭제 (Delete)':'Delete topic (Delete)','전체 보기':'Fit to screen','Tab: 하위 주제 · Enter: 같은 수준 주제 · 더블클릭·F2·바로 입력: 글자 편집 · 주제를 끌어 다른 주제에 놓으면 이동 · 빈 곳 드래그: 화면 이동':'Tab: subtopic · Enter: sibling · double-click, F2 or just type: edit text · drag a topic onto another to move it · drag empty space to pan','주제 {n}개':'{n} topics','주제 {n}개|1':'1 topic','배치':'Layout','양쪽 균형':'Balanced','오른쪽으로':'To the right','가지 선':'Branch lines','점점 가늘게':'Tapered','일정한 굵기':'Even','색 구성':'Colors','컬러':'Colorful','단색':'Mono','주제':'Topic','하위 주제':'Subtopic','같은 수준':'Sibling','접기 / 펼치기':'Collapse / expand','가지 색':'Branch color','자동':'Automatic','사용법':'How to use','<b>Tab</b> 하위 주제 · <b>Enter</b> 같은 수준 주제 · <b>Delete</b> 삭제<br>더블클릭·F2 또는 주제를 고른 채 바로 입력하면 글자를 고칩니다 (Shift+Enter 줄바꿈).<br>주제를 끌어 다른 주제 위에 놓으면 그 아래로 옮겨지고, 빈 곳에 놓으면 순서·방향이 바뀝니다.<br>방향키로 주제 사이를 이동하고, Alt+↑/↓로 순서를 바꿉니다. 가지 끝의 동그라미를 누르면 접히고 펼쳐집니다.':'<b>Tab</b> subtopic · <b>Enter</b> sibling topic · <b>Delete</b> delete<br>Double-click, press F2, or just start typing on a selected topic to edit its text (Shift+Enter for a new line).<br>Drag a topic onto another topic to move it under that topic; drop it on empty space to change its order or side.<br>Use the arrow keys to move between topics and Alt+↑/↓ to reorder. Click the circle at the end of a branch to collapse or expand it.','주제 {n}개를 복사했습니다':'Copied {n} topics','주제 {n}개를 복사했습니다|1':'Copied 1 topic','마인드맵 단축키':'Mind map shortcuts','하위 주제 추가':'Add subtopic','같은 수준 주제 추가':'Add sibling topic','F2 · Space':'F2 · Space','글자 편집 (바로 입력해도 됨)':'Edit text (or just start typing)','편집 중 줄바꿈':'New line while editing','주제 삭제':'Delete topic','주제 사이 이동':'Move between topics','Alt+↑ / ↓':'Alt+↑ / ↓','순서 바꾸기':'Reorder','가지 접기 / 펼치기':'Collapse / expand branch','여러 주제 선택':'Select several topics','Ctrl+C / X / V':'Ctrl+C / X / V','복사 / 잘라내기 / 붙여넣기':'Copy / cut / paste','주제 위에 놓기: 이동 · 빈 곳: 순서/방향':'Drop on a topic: move · on empty space: order/side','일반 예제':'General templates','기본 순서도 (시작 · 판단 · 종료)':'Basic flowchart (start · decision · end)','조직도':'Organization chart','PDCA 순환도':'PDCA cycle','동물실험 타임라인':'In vivo study timeline','관찰 코호트 참가자 흐름 (STROBE)':'Observational cohort flow (STROBE)','AS-IS / TO-BE 비교':'AS-IS / TO-BE comparison','로드맵 (분기별 마일스톤)':'Roadmap (quarterly milestones)','업무 승인 프로세스 (스윔레인)':'Approval process (swimlanes)','프로젝트 단계 (Phase-gate)':'Project phases (phase-gate)','시스템 데이터 흐름도':'System data flow',
   '내보내기':'Export','SVG (벡터)':'SVG (vector)','JSON (편집용)':'JSON (editable)','SVG 코드 복사':'Copy SVG code',
   '실행 취소 (Ctrl+Z)':'Undo (Ctrl+Z)','다시 실행 (Ctrl+Shift+Z)':'Redo (Ctrl+Shift+Z)','축소':'Zoom out','확대':'Zoom in','페이지 맞춤':'Fit page','맞춤':'Fit','단축키':'Shortcuts','자동 저장':'Auto-saved',
   // toolbar · shapes
@@ -352,7 +389,7 @@ const I18N_EN={
 };
 function L(s,p){let r=lang==='en'?((p&&p.n===1&&I18N_EN[s+'|1'])||I18N_EN[s]||s):s;if(p)r=r.replace(/\{(\w+)\}/g,(m,k)=>p[k]!=null?p[k]:m);return r;}
 function applyStaticI18n(){$$('[data-i18n]').forEach(e=>{if(!e.dataset.i18n)e.dataset.i18n=e.textContent.trim();e.textContent=L(e.dataset.i18n);});$$('[data-i18n-title]').forEach(e=>{if(!e.dataset.i18nTitle)e.dataset.i18nTitle=e.title;e.title=L(e.dataset.i18nTitle);});document.documentElement.lang=lang;$('#lang-label').textContent=lang==='en'?'English':'한국어';}
-function setLang(l){lang=l;try{localStorage.setItem('figureassist.lang',l);}catch(e){}if(editing)commitEdit();hideSketchPop();applyStaticI18n();setTool(tool);renderAll();}
+function setLang(l){lang=l;try{localStorage.setItem('figureassist.lang',l);}catch(e){}if(editing)commitEdit();hideSketchPop();applyStaticI18n();setTool(tool);renderAll();if(mode==='mindmap'){mmCommit();mmRenderInsp();mmStatus();$('#st-hint').textContent=L(MM_HINT);}}
 
 /* ---------- constants ---------- */
 const FONTS=[
@@ -902,7 +939,7 @@ function zoomAt(f,cx,cy){const nz=clamp(view.zoom*f,.15,5);const r=stage.getBoun
 function fitPage(){const r=stage.getBoundingClientRect();if(r.width<80||r.height<80){requestAnimationFrame(fitPage);return;}const z=clamp(Math.min((r.width-48)/state.page.w,(r.height-48)/state.page.h,2),.15,5);view.zoom=z;view.x=(state.page.w-r.width/z)/2;view.y=(state.page.h-r.height/z)/2;applyView();}
 new ResizeObserver(()=>applyView()).observe(stage);
 stage.addEventListener('wheel',ev=>{ev.preventDefault();if(ev.ctrlKey||ev.metaKey){const r=stage.getBoundingClientRect();zoomAt(Math.exp(-ev.deltaY*.0015),ev.clientX-r.left,ev.clientY-r.top);}else{view.x+=ev.deltaX/view.zoom;view.y+=ev.deltaY/view.zoom;applyView();}},{passive:false});
-$('#zoom-in').onclick=()=>zoomAt(1.2);$('#zoom-out').onclick=()=>zoomAt(1/1.2);$('#zoom-fit').onclick=fitPage;
+$('#zoom-in').onclick=()=>mode==='mindmap'?mmZoomAt(1.2):zoomAt(1.2);$('#zoom-out').onclick=()=>mode==='mindmap'?mmZoomAt(1/1.2):zoomAt(1/1.2);$('#zoom-fit').onclick=()=>mode==='mindmap'?mmFit():fitPage();
 
 /* ---------- selection helpers ---------- */
 function groupOf(id){return state.groups.find(g=>g.members.includes(id));}
@@ -1258,6 +1295,8 @@ function closeMenus(){$$('.menu .dd').forEach(d=>d.hidden=true);}
 $$('[data-menu]').forEach(b=>b.addEventListener('click',ev=>{ev.stopPropagation();const dd=b.nextElementSibling;const open=!dd.hidden;closeMenus();dd.hidden=open;}));
 document.addEventListener('click',ev=>{if(!ev.target.closest('.menu'))closeMenus();});
 $$('.dd [data-act]').forEach(b=>b.addEventListener('click',()=>{closeMenus();const a=b.dataset.act;
+  if(a.startsWith('mm:')){mmLoadDoc(MM_EXAMPLES[a.slice(3)](),true);return;}
+  if(mode==='mindmap'&&a.startsWith('export:')){const x=mmExportSVG();if(a==='export:svg')download(new Blob([x.svg],{type:'image/svg+xml'}),'mindmap.svg');else if(a==='export:png')exportPNG(x.svg,x.w,x.h,'mindmap.png');else if(a==='export:json')download(new Blob([mmSer()],{type:'application/json'}),'mindmap.json');else navigator.clipboard.writeText(x.svg).then(()=>toast(L('SVG 코드를 클립보드에 복사했습니다. Illustrator/Inkscape/PowerPoint에 붙여넣거나 .svg로 저장하세요.'))).catch(()=>toast(L('클립보드 접근이 차단되었습니다.')));return;}
   if(a==='new'){if(state.elements.length&&!confirm(L('현재 문서를 지우고 새로 시작할까요? (실행 취소 불가)')))return;state=newDoc();sel.clear();history=[];future=[];renderAll();fitPage();persist();}
   else if(a==='import')$('#file-in').click();
   else if(a.startsWith('tpl:')){if(state.elements.length&&!confirm(L('현재 문서를 예제로 바꿀까요?')))return;loadTemplate(a.slice(4));}
@@ -1266,17 +1305,17 @@ $$('.dd [data-act]').forEach(b=>b.addEventListener('click',()=>{closeMenus();con
   else if(a==='export:json')download(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),'figure.json');
   else if(a==='export:copysvg'){navigator.clipboard.writeText(buildExportSVG()).then(()=>toast(L('SVG 코드를 클립보드에 복사했습니다. Illustrator/Inkscape/PowerPoint에 붙여넣거나 .svg로 저장하세요.'))).catch(()=>toast(L('클립보드 접근이 차단되었습니다.')));}
 }));
-$('#file-in').addEventListener('change',ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(!d.elements||!d.edges)throw 0;snapshot();state=Object.assign(newDoc(),d);state.style=Object.assign(defaultStyle(),d.style||{});sel.clear();renderAll();fitPage();persist();toast(L('불러왔습니다'));}catch(e){toast(L('JSON 파일을 읽을 수 없습니다'));}ev.target.value='';};rd.readAsText(f);});
+$('#file-in').addEventListener('change',ev=>{const f=ev.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const d=JSON.parse(rd.result);if(d&&d.root){setMode('mindmap');mmLoadDoc(d,true);toast(L('불러왔습니다'));ev.target.value='';return;}if(mode==='mindmap')setMode('workflow');if(!d.elements||!d.edges)throw 0;snapshot();state=Object.assign(newDoc(),d);state.style=Object.assign(defaultStyle(),d.style||{});sel.clear();renderAll();fitPage();persist();toast(L('불러왔습니다'));}catch(e){toast(L('JSON 파일을 읽을 수 없습니다'));}ev.target.value='';};rd.readAsText(f);});
 function buildExportSVG(){const {w,h}=state.page;const out=svgEl('svg',{xmlns:NS,viewBox:`0 0 ${w} ${h}`,width:w,height:h});out.appendChild(svgEl('rect',{x:0,y:0,width:w,height:h,fill:'#FFFFFF'}));const fig=gFig.cloneNode(true);fig.removeAttribute('id');fig.querySelectorAll('.hit,[fill="transparent"]').forEach(x=>x.remove());fig.querySelectorAll('[data-id]').forEach(x=>{x.removeAttribute('data-id');x.removeAttribute('data-kind');});out.appendChild(fig);return '<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(out);}
 let dlCap=null;(async()=>{try{if(window.claude&&typeof window.claude.use==='function')dlCap=await window.claude.use('downloads');}catch(e){}})();
 async function download(blob,name){
   if(dlCap){try{await dlCap.save({filename:name,data:blob});toast(L('{name} 저장했습니다',{name}));}catch(e){if(!e||e.code!=='declined')toast(L('저장하지 못했습니다: ')+((e&&e.message)||L('알 수 없는 오류')));}return;}
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);toast(L('{name} 다운로드를 시작했습니다. 다운로드가 차단된 환경이면 "SVG 코드 복사"를 사용하세요.',{name}));}
-function exportPNG(){const s=buildExportSVG();const url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml;charset=utf-8'}));const img=new Image();img.onload=()=>{const sc=3;const c=document.createElement('canvas');c.width=state.page.w*sc;c.height=state.page.h*sc;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);c.toBlob(b=>{download(b,'figure.png');URL.revokeObjectURL(url);},'image/png');};img.onerror=()=>toast(L('PNG 변환에 실패했습니다'));img.src=url;}
+function exportPNG(s=buildExportSVG(),pw=state.page.w,ph=state.page.h,name='figure.png'){const url=URL.createObjectURL(new Blob([s],{type:'image/svg+xml;charset=utf-8'}));const img=new Image();img.onload=()=>{const sc=3;const c=document.createElement('canvas');c.width=pw*sc;c.height=ph*sc;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);c.toBlob(b=>{download(b,name);URL.revokeObjectURL(url);},'image/png');};img.onerror=()=>toast(L('PNG 변환에 실패했습니다'));img.src=url;}
 let toastT=null;function toast(msg){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';document.body.appendChild(t);}t.textContent=msg;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),3200);}
 
-$('#btn-undo').onclick=undo;$('#btn-redo').onclick=redo;$('#btn-lang').onclick=()=>setLang(lang==='en'?'ko':'en');
-$('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>${L('단축키')}</h3><div class="keys">
+$('#btn-undo').onclick=()=>mode==='mindmap'?mmUndo():undo();$('#btn-redo').onclick=()=>mode==='mindmap'?mmRedo():redo();$('#btn-lang').onclick=()=>setLang(lang==='en'?'ko':'en');
+$('#btn-keys').onclick=()=>{if(mode==='mindmap'){mmKeysDialog();return;}const bg=document.createElement('div');bg.className='modal-bg';bg.innerHTML=`<div class="modal"><h3>${L('단축키')}</h3><div class="keys">
 <kbd>V</kbd><span>${L('선택 · 이동')}</span><kbd>H</kbd><span>${L('화면 이동 (Space 누른 채 드래그도 가능)')}</span><kbd>R</kbd><span>${L('프로세스 노드')}</span><kbd>D</kbd><span>${L('판단(마름모) 노드')}</span><kbd>T</kbd><span>${L('텍스트')}</span><kbd>C</kbd><span>${L('연결선 (노드 → 노드 클릭)')}</span><kbd>P</kbd><span>${L('손그림 인식')}</span>
 <kbd>${L('Ctrl+클릭')}</kbd><span>${L('다중 선택 추가/해제')}</span><kbd>${L('Shift+클릭 (첫 상자 → 마지막 상자)')}</kbd><span>${L('그 사이 전체 선택')}</span><kbd>${L('드래그')}</kbd><span>${L('빈 곳에서 영역 선택')}</span><kbd>${L('Alt+드래그')}</kbd><span>${L('스냅 없이 자유 이동')}</span><kbd>${L('더블클릭')}</kbd><span>${L('텍스트 편집 (Enter 확정, Shift+Enter 줄바꿈)')}</span>
 <kbd>Ctrl+Z / Y</kbd><span>${L('실행 취소 / 다시 실행')}</span><kbd>Ctrl+C / V</kbd><span>${L('복사 / 붙여넣기')}</span><kbd>Ctrl+D</kbd><span>${L('복제')}</span><kbd>Ctrl+G</kbd><span>${L('그룹 (Shift로 해제)')}</span><kbd>Ctrl+A</kbd><span>${L('전체 선택')}</span><kbd>${L('방향키')}</kbd><span>${L('그리드 단위 이동 (Ctrl: 1px)')}</span><kbd>${L('Shift+방향키')}</kbd><span>${L('크기 조절 (→ ↑ 키움, ← ↓ 줄임)')}</span><kbd>Delete</kbd><span>${L('삭제')}</span><kbd>${L('Ctrl+휠')}</kbd><span>${L('확대/축소')}</span>
@@ -1284,6 +1323,7 @@ $('#btn-keys').onclick=()=>{const bg=document.createElement('div');bg.className=
 
 /* ---------- keyboard ---------- */
 window.addEventListener('keydown',ev=>{
+  if(mode==='mindmap'){mmKeydown(ev);return;}
   if(editing){if(editing.tools&&editing.tools.contains(ev.target))return;if(!editing.ta.contains(ev.target)){editing.ta.focus();if(ev.key==='Escape'){endEdit();}else if(ev.key==='Enter'&&!ev.shiftKey){ev.preventDefault();commitEdit();}}return;}
   const tag=(ev.target.tagName||'').toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select')return;
   const k=ev.key.toLowerCase();const mod=ev.ctrlKey||ev.metaKey;
@@ -1335,11 +1375,230 @@ window.addEventListener('message',ev=>{
   }catch(e){reply('error',{message:String((e&&e.message)||e)});}
 });
 
+/* ---------- mind map mode ---------- */
+// 마인드맵 모드: 워크플로우와 따로 저장되는 문서(mm). XMind식 양쪽 균형 배치 + MindNode식으로 점점 가늘어지는 곡선 가지.
+// 문서 형식: {root:{id,text,children[],collapsed,side('L'|'R', 1단계만),color,fs,bold}, layout, line, theme, font}
+let mode='workflow';try{if(localStorage.getItem('figureassist.mode')==='mindmap')mode='mindmap';}catch(e){}
+const mmStage=$('#mm-stage'),mmSvg=$('#mm-svg'),gMM=$('#mm-fig'),gMMov=$('#mm-ov'),mmInsp=$('#mm-insp');
+let mm=null,mmSel=new Set(),mmView={x:0,y:0,zoom:1},mmHist=[],mmFut=[],mmEdit=null,mmDrag=null,mmClip=null,mmLay=new Map(),mmLast=null,mmFitted=false;
+const MM_COLORS=['#2F6DB5','#DE7A1C','#3A8C4E','#C2477E','#6F52A6','#1F8C82','#D9A400','#C43C3C'];
+const MM_HINT='Tab: 하위 주제 · Enter: 같은 수준 주제 · 더블클릭·F2·바로 입력: 글자 편집 · 주제를 끌어 다른 주제에 놓으면 이동 · 빈 곳 드래그: 화면 이동';
+const mmUid=()=>'t'+Math.random().toString(36).slice(2,10);
+function mmTopic(text,children=[],o={}){return Object.assign({id:mmUid(),text,children,collapsed:false},o);}
+function mmNorm(d){d=Object.assign({layout:'balanced',line:'tapered',theme:'colorful',font:'helvetica'},d);const walk=t=>{t.id=t.id||mmUid();t.text=t.text==null?'':String(t.text);t.children=Array.isArray(t.children)?t.children:[];t.children.forEach(walk);};walk(d.root);
+  let r=0,l=0;for(const c of d.root.children){if(c.side!=='L'&&c.side!=='R'){c.side=r<=l?'R':'L';}c.side==='R'?r++:l++;}
+  const used=new Set();for(const c of d.root.children){if(c.ci==null||used.has(c.ci))c.ci=null;else used.add(c.ci);}for(const c of d.root.children)if(c.ci==null){let i=0;while(used.has(i))i++;c.ci=i;used.add(i);}return d;}
+// 1단계 주제의 가지 색 번호: 순서를 바꿔도 색이 유지되도록 주제에 저장한다
+function mmNextCi(){const used=new Set(mm.root.children.map(c=>c.ci));let i=0;while(used.has(i))i++;return i;}
+const MM_EXAMPLES={
+  blank(){return {root:mmTopic(TL('중심 주제','Central topic'),[1,2,3,4].map(i=>mmTopic(TL('주요 주제 ','Main topic ')+i)))};},
+  research(){const T=mmTopic;return {root:T(TL('연구 주제','Research topic'),[
+    T(TL('배경','Background'),[T(TL('선행 연구','Prior work')),T(TL('연구 공백','Research gap'))]),
+    T(TL('가설','Hypothesis'),[T(TL('H1: 처리군의 반응이 더 크다','H1: treatment increases response'))]),
+    T(TL('방법','Methods'),[T(TL('연구 설계','Study design')),T(TL('표본 (n = 120)','Samples (n = 120)')),T(TL('통계 분석','Statistical analysis'))]),
+    T(TL('데이터','Data'),[T(TL('수집','Collection')),T(TL('전처리','Preprocessing'))]),
+    T(TL('예상 결과','Expected results'),[T('Fig. 1'),T('Fig. 2'),T('Fig. 3')]),
+    T(TL('일정','Timeline'),[T(TL('1–3개월: 준비','Months 1–3: setup')),T(TL('4–9개월: 실험','Months 4–9: experiments')),T(TL('10–12개월: 논문 작성','Months 10–12: writing'))])])};},
+  project(){const T=mmTopic;return {root:T(TL('신규 서비스 기획','New service plan'),[
+    T(TL('목표','Goals'),[T(TL('사용자 1만 명','10k users')),T(TL('재방문율 40%','40% retention'))]),
+    T(TL('범위','Scope'),[T(TL('MVP 핵심 기능','MVP core features')),T(TL('이번 범위에서 제외','Out of scope'))]),
+    T(TL('팀','Team'),[T(TL('기획','Product')),T(TL('개발','Engineering')),T(TL('디자인','Design'))]),
+    T(TL('일정','Schedule'),[T(TL('Q1 설계','Q1 design')),T(TL('Q2 개발','Q2 build')),T(TL('Q3 출시','Q3 launch'))]),
+    T(TL('예산','Budget')),
+    T(TL('위험 요소','Risks'),[T(TL('일정 지연','Schedule slip')),T(TL('인력 부족','Staffing'))])])};}
+};
+function mmLoad(){let d=null;try{d=JSON.parse(localStorage.getItem('figureassist.mindmap.v1'));}catch(e){}mm=mmNorm(d&&d.root?d:MM_EXAMPLES.research());}
+function mmSer(){return JSON.stringify(mm,(k,v)=>k[0]==='_'?undefined:v);}
+function mmPersist(){try{localStorage.setItem('figureassist.mindmap.v1',mmSer());}catch(e){}}
+function mmWalk(t,fn,p=null,d=0){fn(t,p,d);for(const c of t.children)mmWalk(c,fn,t,d+1);}
+function mmFind(id){let r=null;mmWalk(mm.root,t=>{if(t.id===id)r=t;});return r;}
+function mmParentOf(id){let r=null;mmWalk(mm.root,(t,p)=>{if(t.id===id)r=p;});return r;}
+function mmContains(t,id){let f=false;mmWalk(t,x=>{if(x.id===id)f=true;});return f;}
+
+/* layout */
+const mmCtx=document.createElement('canvas').getContext('2d');
+const mmFamily=()=>(FONTS.find(f=>f.id===mm.font)||FONTS[0]).family;
+function mmMeasure(t,d){const fs=t.fs||(d===0?20:d===1?15:13),bold=t.bold!=null?t.bold:d<=1;mmCtx.font=`${bold?'bold ':''}${fs}px ${mmFamily()}`;const lines=(t.text||'').split('\n');
+  const tw=Math.max(...lines.map(l=>mmCtx.measureText(l||' ').width));const px=d===0?26:d===1?16:11,py=d===0?14:d===1?9:6;return {w:Math.max(d===0?110:44,Math.ceil(tw)+px*2),h:Math.ceil(lines.length*fs*1.3)+py*2,fs,bold,lines};}
+function mmSub(t,d){t._m=mmMeasure(t,d);if(t.collapsed||!t.children.length)return t._sh=t._m.h;const g=d===1?12:8;const s=t.children.reduce((a,c)=>a+mmSub(c,d+1),0)+g*(t.children.length-1);return t._sh=Math.max(t._m.h,s);}
+function mmColorAt(i){return mm.theme==='mono'?'#4A5361':MM_COLORS[(i||0)%MM_COLORS.length];}
+function mmPlace(t,d,s,edge,cy,pid,col){const m=t._m,c=t.color||col;const x=s>0?edge:edge-m.w;mmLay.set(t.id,Object.assign({t,depth:d,side:s,x,y:cy-m.h/2,cx:x+m.w/2,cy,parent:pid,color:c},m));
+  if(t.collapsed||!t.children.length)return;const g=d===1?12:8;const tot=t.children.reduce((a,k)=>a+k._sh,0)+g*(t.children.length-1);let y=cy-tot/2;const H=d===1?40:30;
+  for(const k of t.children){mmPlace(k,d+1,s,s>0?x+m.w+H:x-H,y+k._sh/2,t.id,c);y+=k._sh+g;}}
+function mmLayout(){mmLay=new Map();const R=mm.root;mmSub(R,0);const m=R._m;mmLay.set(R.id,Object.assign({t:R,depth:0,side:0,x:-m.w/2,y:-m.h/2,cx:0,cy:0,parent:null,color:'#23324A'},m));if(R.collapsed)return;
+  const kids=R.children,right=mm.layout==='right'?kids:kids.filter(c=>c.side!=='L'),left=mm.layout==='right'?[]:kids.filter(c=>c.side==='L');
+  for(const [arr,s] of [[right,1],[left,-1]]){const g=22;const tot=arr.reduce((a,c)=>a+c._sh,0)+g*Math.max(0,arr.length-1);let y=-tot/2;for(const c of arr){mmPlace(c,1,s,s*(m.w/2+64),y+c._sh/2,R.id,mmColorAt(c.ci));y+=c._sh+g;}}}
+
+/* rendering */
+function mmBranch(P,C){const s=C.side,x0=P.depth===0?P.cx+s*(P.w/2-12):(s>0?P.x+P.w:P.x),y0=P.cy,x1=s>0?C.x:C.x+C.w,y1=C.cy;const k=Math.max(18,Math.abs(x1-x0)*.55);
+  const B=t=>{const u=1-t;return {x:u*u*u*x0+3*u*u*t*(x0+s*k)+3*u*t*t*(x1-s*k)+t*t*t*x1,y:u*u*u*y0+3*u*u*t*y0+3*u*t*t*y1+t*t*t*y1};};
+  if(mm.line==='even'){return svgEl('path',{d:`M${R(x0)} ${R(y0)} C${R(x0+s*k)} ${R(y0)} ${R(x1-s*k)} ${R(y1)} ${R(x1)} ${R(y1)}`,fill:'none',stroke:C.color,'stroke-width':P.depth===0?2.4:P.depth===1?1.8:1.3,'stroke-linecap':'round'});}
+  const w0=P.depth===0?9:P.depth===1?4.2:2.6,w1=P.depth===0?2.8:P.depth===1?1.8:1.3,N=24,a=[],b=[];
+  for(let i=0;i<=N;i++){const t=i/N,p=B(t),q=B(Math.min(1,t+.01)),r=B(Math.max(0,t-.01));let dx=q.x-r.x,dy=q.y-r.y;const l=Math.hypot(dx,dy)||1;const w=(w0+(w1-w0)*Math.pow(t,.7))/2;a.push(`${R(p.x-dy/l*w)} ${R(p.y+dx/l*w)}`);b.push(`${R(p.x+dy/l*w)} ${R(p.y-dx/l*w)}`);}
+  return svgEl('path',{d:'M'+a.join(' L')+' L'+b.reverse().join(' L')+'Z',fill:C.color});}
+function mmNodeEl(L){const g=svgEl('g',{'data-mid':L.t.id,class:'mm-node'+(mmSel.has(L.t.id)?' sel':'')});const d=L.depth;
+  const fill=d===0?'#23324A':d===1?L.color:mixWhite(L.color,.86),ink=d<=1?'#FFFFFF':'#1A1A1A';
+  g.appendChild(svgEl('rect',{x:R(L.x),y:R(L.y),width:R(L.w),height:R(L.h),rx:d===0?L.h/2:d===1?8:6,fill}));
+  const lh=L.fs*1.3,n=L.lines.length;const tx=svgEl('text',{'font-family':mmFamily(),'font-size':L.fs,'font-weight':L.bold?'bold':'normal',fill:ink,'text-anchor':'middle'});
+  L.lines.forEach((ln,i)=>tx.appendChild(svgEl('tspan',{x:R(L.cx),y:R(L.cy-(n-1)/2*lh+i*lh+L.fs*.36)},[ln||' '])));g.appendChild(tx);
+  const t=L.t;if(d>0&&t.children.length){const ox=L.side>0?L.x+L.w+10:L.x-10;const tg=svgEl('g',{class:'mm-tog'+(t.collapsed?'':' exp'),'data-mm-tog':t.id});
+    tg.appendChild(svgEl('circle',{cx:R(ox),cy:R(L.cy),r:8,fill:t.collapsed?L.color:'#FFFFFF',stroke:L.color,'stroke-width':1.4}));
+    if(t.collapsed){let n2=0;mmWalk(t,()=>n2++);tg.appendChild(svgEl('text',{x:R(ox),y:R(L.cy+3.2),'font-size':9,'font-family':mmFamily(),'font-weight':'bold',fill:'#FFFFFF','text-anchor':'middle'},[String(n2-1)]));}
+    else tg.appendChild(svgEl('path',{d:`M${R(ox-4)} ${R(L.cy)}h8`,stroke:L.color,'stroke-width':1.6}));g.appendChild(tg);}
+  return g;}
+function mmRender(){mmLayout();gMM.textContent='';const br=svgEl('g'),nd=svgEl('g');gMM.append(br,nd);for(const L of mmLay.values()){if(L.parent)br.appendChild(mmBranch(mmLay.get(L.parent),L));nd.appendChild(mmNodeEl(L));}mmRenderOverlay();mmStatus();}
+function mmRenderOverlay(){gMMov.textContent='';const z=mmView.zoom,acc='var(--accent)';
+  for(const id of mmSel){const L=mmLay.get(id);if(L)gMMov.appendChild(svgEl('rect',{x:L.x-4,y:L.y-4,width:L.w+8,height:L.h+8,rx:(L.depth===0?L.h/2:8)+4,fill:'none',stroke:acc,'stroke-width':2/z,'pointer-events':'none'}));}
+  const D=mmDrag;if(D&&D.mode==='node'&&D.moved){const L=mmLay.get(D.id);
+    if(D.target){const T=mmLay.get(D.target);gMMov.appendChild(svgEl('rect',{x:T.x-5,y:T.y-5,width:T.w+10,height:T.h+10,rx:10,fill:acc,'fill-opacity':.12,stroke:acc,'stroke-width':2/z,'stroke-dasharray':`${5/z} ${3/z}`,'pointer-events':'none'}));}
+    const gh=svgEl('g',{opacity:.6,'pointer-events':'none'});gh.appendChild(svgEl('rect',{x:D.cur.x-L.w/2,y:D.cur.y-L.h/2,width:L.w,height:L.h,rx:8,fill:L.depth<=1?L.color:mixWhite(L.color,.8),stroke:acc,'stroke-width':1.5/z}));
+    gh.appendChild(svgEl('text',{x:D.cur.x,y:D.cur.y+L.fs*.36,'text-anchor':'middle','font-size':L.fs,'font-family':mmFamily(),fill:L.depth<=1?'#fff':'#1A1A1A'},[L.lines[0]||'']));gMMov.appendChild(gh);}}
+function mmStatus(){if(mode!=='mindmap')return;let n=0;mmWalk(mm.root,()=>n++);$('#st-sel').textContent=(mmSel.size?L('{n}개 선택',{n:mmSel.size})+' · ':'')+L('주제 {n}개',{n});$('#zoom-label').textContent=Math.round(mmView.zoom*100)+'%';}
+function mmUndoBtns(){$('#btn-undo').disabled=!mmHist.length;$('#btn-redo').disabled=!mmFut.length;}
+
+/* view */
+function mmApplyView(){const r=mmStage.getBoundingClientRect();if(r.width<1||r.height<1)return;mmSvg.setAttribute('viewBox',`${mmView.x} ${mmView.y} ${r.width/mmView.zoom} ${r.height/mmView.zoom}`);mmRenderOverlay();mmStatus();}
+function mmBBox(){let x1=1e9,y1=1e9,x2=-1e9,y2=-1e9;for(const L of mmLay.values()){x1=Math.min(x1,L.x-20);y1=Math.min(y1,L.y);x2=Math.max(x2,L.x+L.w+20);y2=Math.max(y2,L.y+L.h);}return {x:x1,y:y1,w:x2-x1,h:y2-y1};}
+function mmFit(){const r=mmStage.getBoundingClientRect();if(r.width<80||r.height<80){requestAnimationFrame(mmFit);return;}mmLayout();const b=mmBBox();const z=clamp(Math.min((r.width-80)/b.w,(r.height-80)/b.h,1.3),.15,3);mmView.zoom=z;mmView.x=b.x+b.w/2-r.width/z/2;mmView.y=b.y+b.h/2-r.height/z/2;mmFitted=true;mmApplyView();}
+function mmZoomAt(f,cx,cy){const r=mmStage.getBoundingClientRect();const nz=clamp(mmView.zoom*f,.15,5);const px=cx==null?r.width/2:cx,py=cy==null?r.height/2:cy;const wx=mmView.x+px/mmView.zoom,wy=mmView.y+py/mmView.zoom;mmView.zoom=nz;mmView.x=wx-px/nz;mmView.y=wy-py/nz;mmApplyView();if(mmEdit)mmPlaceEditor();}
+function mmToWorld(ev){const r=mmStage.getBoundingClientRect();return {x:mmView.x+(ev.clientX-r.left)/mmView.zoom,y:mmView.y+(ev.clientY-r.top)/mmView.zoom};}
+function mmEnsureVisible(id){const L=mmLay.get(id);if(!L)return;const r=mmStage.getBoundingClientRect(),z=mmView.zoom,m=40/z;const vw=r.width/z,vh=r.height/z;let {x,y}=mmView;
+  if(L.x-m<x)x=L.x-m;else if(L.x+L.w+m>x+vw)x=L.x+L.w+m-vw;if(L.y-m<y)y=L.y-m;else if(L.y+L.h+m>y+vh)y=L.y+L.h+m-vh;if(x!==mmView.x||y!==mmView.y){mmView.x=x;mmView.y=y;mmApplyView();}}
+
+/* history */
+function mmSnap(){mmHist.push(mmSer());if(mmHist.length>100)mmHist.shift();mmFut=[];}
+function mmChanged(){mmPersist();mmRender();mmRenderInsp();mmUndoBtns();}
+function mmMutate(fn){mmSnap();fn();mmChanged();}
+function mmUndo(){if(!mmHist.length)return;mmFut.push(mmSer());mm=JSON.parse(mmHist.pop());mmSel=new Set([...mmSel].filter(id=>mmFind(id)));mmChanged();}
+function mmRedo(){if(!mmFut.length)return;mmHist.push(mmSer());mm=JSON.parse(mmFut.pop());mmSel=new Set([...mmSel].filter(id=>mmFind(id)));mmChanged();}
+
+/* editing */
+function mmPlaceEditor(){const E=mmEdit;if(!E)return;const L=mmLay.get(E.id);if(!L)return;const r=mmStage.getBoundingClientRect(),z=mmView.zoom;
+  Object.assign(E.ed.style,{left:(L.x-mmView.x)*z+'px',top:(L.y-mmView.y)*z+'px',minWidth:Math.max(L.w*z,80)+'px',minHeight:L.h*z+'px',fontSize:L.fs*z+'px',fontWeight:L.bold?'bold':'normal',fontFamily:mmFamily(),padding:`${6*z}px ${10*z}px`});}
+function mmStartEdit(id,replace){mmCommit();const L=mmLay.get(id);if(!L)return;const ed=document.createElement('div');ed.className='edit-box mm-edit';ed.contentEditable='true';ed.innerText=replace?'':L.t.text;
+  mmStage.appendChild(ed);mmEdit={id,ed};mmPlaceEditor();ed.focus();if(!replace){const g=getSelection(),rg=document.createRange();rg.selectNodeContents(ed);g.removeAllRanges();g.addRange(rg);}
+  ed.addEventListener('keydown',e=>{e.stopPropagation();if(e.isComposing||e.keyCode===229)return;
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();mmCommit();}
+    else if(e.key==='Enter'){e.preventDefault();if(!document.execCommand('insertLineBreak'))document.execCommand('insertText',false,'\n');}
+    else if(e.key==='Tab'){e.preventDefault();mmCommit();mmAddChild(id);}
+    else if(e.key==='Escape'){e.preventDefault();mmCancelEdit();}});
+  ed.addEventListener('paste',e=>{e.preventDefault();document.execCommand('insertText',false,e.clipboardData.getData('text/plain')||'');});
+  ed.addEventListener('blur',()=>setTimeout(()=>{if(mmEdit&&mmEdit.ed===ed)mmCommit();},0));}
+function mmCancelEdit(){if(!mmEdit)return;mmEdit.ed.remove();mmEdit=null;}
+function mmCommit(){if(!mmEdit)return;const {id,ed}=mmEdit;mmEdit=null;const v=ed.innerText.replace(/\s+$/,'');ed.remove();const t=mmFind(id);if(t&&v&&v!==t.text)mmMutate(()=>{t.text=v;});}
+
+/* actions */
+function mmPick(){return [...mmSel].filter(id=>mmFind(id));}
+function mmSideFor(){let r=0,l=0;for(const c of mm.root.children){const n=(()=>{let k=0;mmWalk(c,()=>k++);return k;})();c.side==='L'?l+=n:r+=n;}return r<=l?'R':'L';}
+function mmAddChild(pid){const p=mmFind(pid||mm.root.id)||mm.root;const isRoot=p===mm.root;const t=mmTopic(isRoot?TL('주요 주제','Main topic'):TL('하위 주제','Subtopic'));
+  mmMutate(()=>{if(isRoot){t.side=mmSideFor();t.ci=mmNextCi();}p.collapsed=false;p.children.push(t);});mmSel=new Set([t.id]);mmRender();mmEnsureVisible(t.id);mmStartEdit(t.id);}
+function mmAddSibling(id){const p=mmParentOf(id);if(!p){mmAddChild(mm.root.id);return;}const cur=mmFind(id);const t=mmTopic(p===mm.root?TL('주요 주제','Main topic'):TL('하위 주제','Subtopic'));
+  mmMutate(()=>{if(p===mm.root){t.side=cur.side;t.ci=mmNextCi();}p.children.splice(p.children.indexOf(cur)+1,0,t);});mmSel=new Set([t.id]);mmRender();mmEnsureVisible(t.id);mmStartEdit(t.id);}
+function mmDelete(){const ids=mmPick().filter(id=>id!==mm.root.id);if(!ids.length)return;const p=mmParentOf(ids[0]);
+  mmMutate(()=>{for(const id of ids){const q=mmParentOf(id);if(q)q.children=q.children.filter(c=>c.id!==id);}});mmSel=new Set(p&&mmFind(p.id)?[p.id]:[]);mmRenderOverlay();mmRenderInsp();mmStatus();}
+function mmToggle(){const ids=mmPick().filter(id=>mmFind(id).children.length&&id!==mm.root.id);if(!ids.length)return;const to=!mmFind(ids[0]).collapsed;mmMutate(()=>ids.forEach(id=>mmFind(id).collapsed=to));}
+function mmMoveSib(id,dir){const p=id&&mmParentOf(id);if(!p)return;const t=mmFind(id);const same=p.children.filter(c=>p!==mm.root||mm.layout==='right'||c.side===t.side);const i=same.indexOf(t),o=same[i+dir];if(!o)return;
+  mmMutate(()=>{const a=p.children.indexOf(t),b=p.children.indexOf(o);p.children[a]=o;p.children[b]=t;});}
+function mmTop(){const ids=mmPick();return ids.filter(id=>!ids.some(o=>o!==id&&mmContains(mmFind(o),id)));}
+function mmFresh(t){const c=JSON.parse(JSON.stringify(t,(k,v)=>k[0]==='_'?undefined:v));mmWalk(c,x=>{x.id=mmUid();});return c;}
+function mmCopy(){const ids=mmTop();if(!ids.length)return false;mmClip=ids.map(id=>mmFresh(mmFind(id)));toast(L('주제 {n}개를 복사했습니다',{n:ids.length}));return true;}
+function mmPaste(){if(!mmClip)return false;const p=mmFind(mmPick()[0])||mm.root;const add=mmClip.map(mmFresh);
+  mmMutate(()=>{p.collapsed=false;for(const c of add){if(p===mm.root){c.side=mmSideFor();c.ci=mmNextCi();}else{delete c.side;delete c.ci;}p.children.push(c);}});mmSel=new Set(add.map(c=>c.id));mmRender();mmEnsureVisible(add[0].id);return true;}
+function mmDuplicate(){const ids=mmTop().filter(id=>id!==mm.root.id);if(!ids.length)return;const made=[];
+  mmMutate(()=>{for(const id of ids){const p=mmParentOf(id),t=mmFind(id),c=mmFresh(t);if(p===mm.root)c.ci=mmNextCi();p.children.splice(p.children.indexOf(t)+1,0,c);made.push(c.id);}});mmSel=new Set(made);mmRender();}
+function mmNav(k){const id=mmPick().pop()||mm.root.id;const L=mmLay.get(id);if(!L)return;const t=L.t;let nx=null;
+  const kids=s=>(t.collapsed?[]:t.children).filter(c=>mmLay.get(c.id)&&mmLay.get(c.id).side===s).sort((a,b)=>Math.abs(mmLay.get(a.id).cy-L.cy)-Math.abs(mmLay.get(b.id).cy-L.cy));
+  if(k==='arrowright')nx=(L.depth===0||L.side>0)?kids(1)[0]:mmLay.get(L.parent).t;
+  else if(k==='arrowleft')nx=(L.depth===0||L.side<0)?kids(-1)[0]:mmLay.get(L.parent).t;
+  else if(L.depth>0){const sib=mmLay.get(L.parent).t.children.filter(c=>mmLay.get(c.id)&&mmLay.get(c.id).side===L.side).sort((a,b)=>mmLay.get(a.id).cy-mmLay.get(b.id).cy);nx=sib[sib.indexOf(t)+(k==='arrowup'?-1:1)];}
+  if(nx){mmSel=new Set([nx.id]);mmRenderOverlay();mmRenderInsp();mmStatus();mmEnsureVisible(nx.id);}}
+function mmDrop(D,p){const t=mmFind(D.id),from=mmParentOf(D.id);if(!t||!from)return;
+  if(D.target){const T=mmFind(D.target);mmMutate(()=>{from.children=from.children.filter(c=>c!==t);if(T===mm.root){t.side=p.x<0?'L':'R';t.ci=mmNextCi();}else{delete t.side;delete t.ci;}T.collapsed=false;T.children.push(t);});return;}
+  // 빈 곳에 놓으면: 같은 부모 안에서 위아래 순서를 바꾸고, 1단계 주제는 왼쪽/오른쪽도 바꾼다
+  const side=from===mm.root&&mm.layout!=='right'?(p.x<0?'L':'R'):null;
+  mmMutate(()=>{from.children=from.children.filter(c=>c!==t);if(side)t.side=side;const same=from.children.filter(c=>!side||c.side===side).filter(c=>mmLay.get(c.id));
+    const before=same.find(c=>mmLay.get(c.id).cy>p.y);if(before)from.children.splice(from.children.indexOf(before),0,t);else{const last=same[same.length-1];from.children.splice(last?from.children.indexOf(last)+1:from.children.length,0,t);}});}
+
+/* pointer */
+mmSvg.addEventListener('pointerdown',ev=>{if(ev.button!==0&&ev.button!==1)return;mmCommit();const p=mmToWorld(ev);
+  const tg=ev.target.closest('[data-mm-tog]');if(tg&&ev.button===0){const t=mmFind(tg.dataset.mmTog);mmMutate(()=>{t.collapsed=!t.collapsed;});return;}
+  const g=ev.button===0&&ev.target.closest('[data-mid]');
+  if(g){const id=g.dataset.mid,now=performance.now();if(mmLast&&mmLast.id===id&&now-mmLast.t<450){mmLast=null;mmSel=new Set([id]);mmRenderOverlay();mmStartEdit(id);return;}mmLast={id,t:now};
+    if(ev.ctrlKey||ev.metaKey||ev.shiftKey){mmSel.has(id)?mmSel.delete(id):mmSel.add(id);mmRenderOverlay();mmRenderInsp();mmStatus();return;}
+    if(!mmSel.has(id))mmSel=new Set([id]);mmDrag={mode:'node',id,sp:p,cur:p,moved:false,target:null};mmSvg.setPointerCapture(ev.pointerId);mmRenderOverlay();mmRenderInsp();mmStatus();return;}
+  if(!ev.ctrlKey&&!ev.shiftKey&&!ev.metaKey)mmSel.clear();mmDrag={mode:'pan',sx:ev.clientX,sy:ev.clientY,vx:mmView.x,vy:mmView.y};mmStage.classList.add('panning');mmSvg.setPointerCapture(ev.pointerId);mmRenderOverlay();mmRenderInsp();mmStatus();});
+mmSvg.addEventListener('pointermove',ev=>{const D=mmDrag;if(!D)return;
+  if(D.mode==='pan'){mmView.x=D.vx-(ev.clientX-D.sx)/mmView.zoom;mmView.y=D.vy-(ev.clientY-D.sy)/mmView.zoom;mmApplyView();return;}
+  const p=mmToWorld(ev);if(!D.moved&&Math.hypot(p.x-D.sp.x,p.y-D.sp.y)*mmView.zoom<5)return;if(D.id===mm.root.id)return;D.moved=true;D.cur=p;mmStage.classList.add('moving');
+  const el=document.elementFromPoint(ev.clientX,ev.clientY);const g=el&&el.closest&&el.closest('[data-mid]');const tid=g&&g.dataset.mid;D.target=tid&&!mmContains(mmFind(D.id),tid)&&tid!==(mmParentOf(D.id)||{}).id?tid:null;mmRenderOverlay();});
+mmSvg.addEventListener('pointerup',ev=>{const D=mmDrag;mmDrag=null;mmStage.classList.remove('panning','moving');if(D&&D.mode==='node'&&D.moved)mmDrop(D,mmToWorld(ev));else mmRenderOverlay();});
+mmStage.addEventListener('wheel',ev=>{ev.preventDefault();if(ev.ctrlKey||ev.metaKey){const r=mmStage.getBoundingClientRect();mmZoomAt(Math.exp(-ev.deltaY*.0015),ev.clientX-r.left,ev.clientY-r.top);}else{mmView.x+=ev.deltaX/mmView.zoom;mmView.y+=ev.deltaY/mmView.zoom;mmApplyView();if(mmEdit)mmPlaceEditor();}},{passive:false});
+
+/* keyboard (워크플로우 단축키 처리기 맨 앞에서 호출) */
+function mmKeydown(ev){if(mmEdit)return;const tag=(ev.target.tagName||'').toLowerCase();if(tag==='input'||tag==='textarea'||tag==='select'||ev.target.isContentEditable)return;
+  const k=ev.key.toLowerCase(),mod=ev.ctrlKey||ev.metaKey,cur=mmPick().pop();
+  if(mod&&k==='z'){ev.preventDefault();ev.shiftKey?mmRedo():mmUndo();return;}
+  if(mod&&k==='y'){ev.preventDefault();mmRedo();return;}
+  if(mod&&k==='a'){ev.preventDefault();mmSel=new Set();mmWalk(mm.root,t=>mmSel.add(t.id));mmRenderOverlay();mmRenderInsp();mmStatus();return;}
+  if(mod&&k==='c'){if(mmCopy())ev.preventDefault();return;}
+  if(mod&&k==='x'){if(mmCopy()){ev.preventDefault();mmDelete();}return;}
+  if(mod&&k==='v'){if(mmPaste())ev.preventDefault();return;}
+  if(mod&&k==='d'){ev.preventDefault();mmDuplicate();return;}
+  if(mod&&(k==='/'||ev.code==='Slash')){ev.preventDefault();mmToggle();return;}
+  if(mod)return;
+  if(k==='tab'){ev.preventDefault();mmAddChild(cur||mm.root.id);return;}
+  if(k==='enter'){ev.preventDefault();cur?mmAddSibling(cur):mmAddChild(mm.root.id);return;}
+  if(k==='delete'||k==='backspace'){ev.preventDefault();mmDelete();return;}
+  if(k==='f2'||k===' '){if(cur){ev.preventDefault();mmStartEdit(cur);}return;}
+  if(k==='escape'){mmSel.clear();mmRenderOverlay();mmRenderInsp();mmStatus();return;}
+  if(ev.altKey&&(k==='arrowup'||k==='arrowdown')){ev.preventDefault();mmMoveSib(cur,k==='arrowup'?-1:1);return;}
+  if(k.startsWith('arrow')){ev.preventDefault();mmNav(k);return;}
+  if(cur&&mmSel.size===1&&!ev.altKey&&(ev.key.length===1||ev.key==='Process'))mmStartEdit(cur,true);}
+
+/* inspector + rail */
+function mmRenderInsp(){if(mode!=='mindmap')return;const seg=(key,opts)=>`<div class="seg">${opts.map(([v,t])=>`<button data-mm="${key}:${v}" class="${mm[key]===v?'on':''}">${L(t)}</button>`).join('')}</div>`;
+  const ids=mmPick(),t=ids.length?mmFind(ids[ids.length-1]):null,Lt=t&&mmLay.get(t.id);
+  let h=`<div class="sec"><h4>${L('마인드맵')}</h4>
+  <div class="fld"><label>${L('배치')}</label>${seg('layout',[['balanced','양쪽 균형'],['right','오른쪽으로']])}</div>
+  <div class="fld"><label>${L('가지 선')}</label>${seg('line',[['tapered','점점 가늘게'],['even','일정한 굵기']])}</div>
+  <div class="fld"><label>${L('색 구성')}</label>${seg('theme',[['colorful','컬러'],['mono','단색']])}</div>
+  <div class="fld"><label>${L('글꼴')}</label><select class="in" data-mm-font>${FONTS.map(f=>`<option value="${f.id}" ${mm.font===f.id?'selected':''}>${L(f.label)}</option>`).join('')}</select></div></div>`;
+  if(t){h+=`<div class="sec"><h4>${L('주제')}<span class="sub">${L('{n}개 선택',{n:ids.length})}</span></h4>
+  <div class="row"><button class="btn grow" data-mm="add-child">${L('하위 주제')} <small>Tab</small></button><button class="btn grow" data-mm="add-sib">${L('같은 수준')} <small>Enter</small></button></div>
+  <div class="row"><button class="btn grow" data-mm="toggle">${L('접기 / 펼치기')}</button><button class="btn grow danger" data-mm="delete" ${t===mm.root&&ids.length===1?'disabled':''}>${L('삭제')} <small>Del</small></button></div>
+  <div class="row"><div class="fld"><label>${L('글자 크기')}</label><input class="in" type="number" min="8" max="60" step="1" data-mm-fs value="${Lt?Lt.fs:14}"></div><div class="fld"><label>${L('스타일')}</label><button class="btn ${Lt&&Lt.bold?'on':''}" data-mm="bold"><b>B</b></button></div></div>
+  ${t!==mm.root?`<div class="fld"><label>${L('가지 색')}</label><div class="sw">${MM_COLORS.concat(['#4A5361']).map(c=>`<button data-mm="color:${c}" class="${t.color===c?'on':''}" style="background:${c}" title="${c}"></button>`).join('')}<button class="none ${t.color?'':'on'}" data-mm="color:" title="${L('자동')}"></button></div></div>`:''}</div>`;}
+  h+=`<div class="sec"><h4>${L('사용법')}</h4><p class="note">${L('<b>Tab</b> 하위 주제 · <b>Enter</b> 같은 수준 주제 · <b>Delete</b> 삭제<br>더블클릭·F2 또는 주제를 고른 채 바로 입력하면 글자를 고칩니다 (Shift+Enter 줄바꿈).<br>주제를 끌어 다른 주제 위에 놓으면 그 아래로 옮겨지고, 빈 곳에 놓으면 순서·방향이 바뀝니다.<br>방향키로 주제 사이를 이동하고, Alt+↑/↓로 순서를 바꿉니다. 가지 끝의 동그라미를 누르면 접히고 펼쳐집니다.')}</p></div>`;
+  mmInsp.innerHTML=h;}
+function mmAction(a){const ids=mmPick(),cur=ids[ids.length-1];
+  if(a.startsWith('layout:')||a.startsWith('line:')||a.startsWith('theme:')){const [k,v]=a.split(':');mmMutate(()=>{mm[k]=v;});requestAnimationFrame(mmFit);return;}
+  if(a==='add-child')mmAddChild(cur||mm.root.id);else if(a==='add-sib')cur?mmAddSibling(cur):mmAddChild(mm.root.id);else if(a==='delete')mmDelete();else if(a==='toggle')mmToggle();else if(a==='fit')mmFit();
+  else if(a==='bold'){const L0=mmLay.get(cur);const to=!(L0&&L0.bold);mmMutate(()=>ids.forEach(id=>{mmFind(id).bold=to;}));}
+  else if(a.startsWith('color:')){const c=a.slice(6);mmMutate(()=>ids.forEach(id=>{const t=mmFind(id);if(t!==mm.root){if(c)t.color=c;else delete t.color;}}));}}
+mmInsp.addEventListener('click',ev=>{const b=ev.target.closest('[data-mm]');if(b&&!b.disabled)mmAction(b.dataset.mm);});
+mmInsp.addEventListener('change',ev=>{const t=ev.target;if(t.matches('[data-mm-font]'))mmMutate(()=>{mm.font=t.value;});else if(t.matches('[data-mm-fs]')){const v=clamp(+t.value||14,8,60);mmMutate(()=>mmPick().forEach(id=>{mmFind(id).fs=v;}));}});
+$('#mm-rail').addEventListener('click',ev=>{const b=ev.target.closest('[data-mm]');if(b)mmAction(b.dataset.mm);});
+
+/* export · mode switch */
+function mmExportSVG(){mmLayout();mmRender();const b=mmBBox(),m=40,w=Math.ceil(b.w+m*2),h=Math.ceil(b.h+m*2),x=Math.floor(b.x-m),y=Math.floor(b.y-m);const out=svgEl('svg',{xmlns:NS,viewBox:`${x} ${y} ${w} ${h}`,width:w,height:h});
+  out.appendChild(svgEl('rect',{x,y,width:w,height:h,fill:'#FFFFFF'}));const fig=gMM.cloneNode(true);fig.removeAttribute('id');fig.querySelectorAll('.mm-tog.exp').forEach(e=>e.remove());fig.querySelectorAll('[data-mid],[data-mm-tog]').forEach(e=>{e.removeAttribute('data-mid');e.removeAttribute('data-mm-tog');e.removeAttribute('class');});
+  out.appendChild(fig);return {svg:'<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(out),w,h};}
+function mmLoadDoc(d,keepHist){if(!keepHist){mmHist=[];mmFut=[];}else mmSnap();mm=mmNorm(d);mmSel.clear();mmPersist();mmRender();mmRenderInsp();mmUndoBtns();requestAnimationFrame(mmFit);}
+function setMode(m,force){if(m===mode&&!force)return;if(editing)commitEdit();mmCommit();mode=m;try{localStorage.setItem('figureassist.mode',m);}catch(e){}
+  $('.app').classList.toggle('mm-on',m==='mindmap');$$('#modesw button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));closeMenus();
+  if(m==='mindmap'){if(!mm)mmLoad();mmRender();mmRenderInsp();mmUndoBtns();$('#st-hint').textContent=L(MM_HINT);requestAnimationFrame(()=>{mmFitted?mmApplyView():mmFit();});}
+  else{setTool(tool);renderAll();updateUndoButtons();requestAnimationFrame(applyView);}}
+$$('#modesw button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+window.addEventListener('resize',()=>{if(mode==='mindmap'){mmApplyView();if(mmEdit)mmPlaceEditor();}});
+function mmKeysDialog(){const bg=document.createElement('div');bg.className='modal-bg';const K=[['Tab','하위 주제 추가'],['Enter','같은 수준 주제 추가'],['F2 · Space','글자 편집 (바로 입력해도 됨)'],['Shift+Enter','편집 중 줄바꿈'],['Delete','주제 삭제'],['방향키','주제 사이 이동'],['Alt+↑ / ↓','순서 바꾸기'],['Ctrl+/','가지 접기 / 펼치기'],['Ctrl+클릭','여러 주제 선택'],['Ctrl+C / X / V','복사 / 잘라내기 / 붙여넣기'],['Ctrl+D','복제'],['Ctrl+Z / Y','실행 취소 / 다시 실행'],['드래그','주제 위에 놓기: 이동 · 빈 곳: 순서/방향'],['Ctrl+휠','확대/축소']];
+  bg.innerHTML=`<div class="modal"><h3>${L('마인드맵 단축키')}</h3><div class="keys">${K.map(([k,v])=>`<kbd>${L(k)}</kbd><span>${L(v)}</span>`).join('')}</div><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn" id="close-keys">${L('닫기')}</button></div></div>`;document.body.appendChild(bg);bg.addEventListener('click',e=>{if(e.target===bg||e.target.id==='close-keys')bg.remove();});}
+
 /* ---------- boot ---------- */
 (function boot(){
   let saved=null;try{saved=JSON.parse(localStorage.getItem('figureassist.doc.v3')||localStorage.getItem('figuregrid.doc.v2'));}catch(e){}
   if(saved&&saved.elements){state=Object.assign(newDoc(),saved);state.style=Object.assign(defaultStyle(),saved.style||{});}else state=TEMPLATES.rnaseq();
   applyStaticI18n();renderAll();requestAnimationFrame(fitPage);setTool('select');
+  if(mode==='mindmap')setMode('mindmap',true);
 })();
 })();
 </script>

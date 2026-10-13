@@ -197,6 +197,7 @@ id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위�
     { "id":"t2", "text":"주요 주제", "side":"R", "ci":0,   // side: 1단계만 "L"|"R", ci: 가지 색 번호
       "color":"#2F6DB5", "fs":24, "bold":false,            // 선택: 색·글자 크기·굵게 직접 지정
       "shape":"circle",                                    // 선택: "text"|"box"|"ellipse"|"circle"|"shadow" (중심 주제 기본은 ellipse)
+      "fill":"#FFFFFF",                                    // 선택: 중심 주제 바탕색 (기본은 노란색)
       "img":{ "src":"data:image/png;base64,...", "w":110, "h":80, "nw":480, "nh":350 },  // 선택: 붙인 그림(긴 변 480px 이하로 저장), w·h는 화면 크기
       "children":[ { "id":"t3", "text":"하위 주제", "children":[] } ] } ] } }
 ```

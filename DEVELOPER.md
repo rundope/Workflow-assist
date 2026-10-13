@@ -189,7 +189,8 @@ id는 문서 안에서만 유일하면 되는 문자열입니다. 좌표 단위�
 워크플로우 문서와 따로 저장됩니다. JSON 불러오기는 `root`가 있으면 마인드맵으로 판단해 화면을 바꿉니다.
 
 ```jsonc
-{ "layout":"balanced",      // "balanced"(양쪽) | "right"
+{ "style":"pastel",         // "classic" | "pastel" | "notebook" | "doodle" | "bubble" (MM_STYLES)
+  "layout":"balanced",      // "balanced"(양쪽) | "right"
   "line":"tapered",         // "tapered"(점점 가늘게) | "even"
   "theme":"colorful",       // "colorful" | "mono"
   "font":"helvetica",       // FONTS의 id
